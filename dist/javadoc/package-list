@@ -1,0 +1,14 @@
+medregistry.UI
+medregistry.data.DB
+medregistry.data.DB.DISEASE
+medregistry.data.DB.SQL
+medregistry.data.DB.attachment
+medregistry.data.DB.states
+medregistry.data.DiskDrive
+medregistry.data.Patient
+medregistry.data.PatientLog
+medregistry.data.migration
+medregistry.data.preparation
+medregistry.data.printing
+medregistry.data.search
+medregistry.utils
