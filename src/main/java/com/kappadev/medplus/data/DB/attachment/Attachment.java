@@ -6,11 +6,21 @@
 
 package com.kappadev.medplus.data.DB.attachment;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Tomasz
  */
-public class Attachment {
+@Entity
+@Table(name="Attachment")
+public class Attachment implements Serializable {
     private boolean selected;
     private long id;
     private long patient_id;
@@ -22,6 +32,9 @@ public class Attachment {
     /**
      * @return the id
      */
+    @Id
+    @Column(name="ID", nullable=false, unique=true, precision=11, scale=0)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -36,6 +49,7 @@ public class Attachment {
     /**
      * @return the patient_id
      */
+    @Column(name="PATIENT_ID", nullable=false)
     public long getPatient_id() {
         return patient_id;
     }
@@ -50,7 +64,7 @@ public class Attachment {
     public void setDiseaseId(long diseaseId){
         this.diseaseId = diseaseId;
     }
-    
+    @Column(name="DISEASE_ID", nullable=false, precision=9, scale=0)
     public long getDiseaseId(){
         return diseaseId;
     }
@@ -58,6 +72,7 @@ public class Attachment {
     /**
      * @return the contentType
      */
+    @Column(name="CONTENT_TYPE", length=20, nullable=true)
     public String getContentType() {
         return contentType;
     }
@@ -72,6 +87,7 @@ public class Attachment {
     /**
      * @return the blob
      */
+    @Column(name="BINARY_DATA", nullable=false)
     public byte[] getBlob() {
         return blob;
     }
@@ -86,6 +102,7 @@ public class Attachment {
     /**
      * @return the fileName
      */
+    @Column(name="FILE_NAME", nullable=false, length=50)
     public String getFileName() {
         return fileName;
     }

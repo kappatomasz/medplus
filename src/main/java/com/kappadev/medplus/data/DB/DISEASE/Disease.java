@@ -6,11 +6,21 @@
 
 package com.kappadev.medplus.data.DB.DISEASE;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author Tomasz
  */
-public class Disease {
+@Entity
+@Table(name = "Disease")
+public class Disease implements Serializable{
     private long id;
     private byte[] description;
     private String name;
@@ -18,6 +28,9 @@ public class Disease {
     /**
      * @return the id
      */
+    @Id
+    @Column(name = "ID", unique = true, nullable = false, precision = 9, scale=0)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -32,6 +45,7 @@ public class Disease {
     /**
      * @return the description
      */
+    @Column(name = "DESCRIPTION")
     public byte[] getDescription() {
         return description;
     }
@@ -47,6 +61,7 @@ public class Disease {
         this.name = name;
     }
     
+    @Column(name = "NAME", length=100, nullable=false)
     public String getName(){
         return name;
     }
