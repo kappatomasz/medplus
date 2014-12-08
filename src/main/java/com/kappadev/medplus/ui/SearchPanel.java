@@ -771,32 +771,58 @@ public class SearchPanel extends javax.swing.JFrame {
         }
         if(!flatNoTxtFld.getText().equals("")){
             patient.setFlat(flatNoTxtFld.getText());
+        }else{
+            patient.setFlat("");
         }
         if(!houseNoTxtFld.getText().equals("")){
             patient.setHouseNo(houseNoTxtFld.getText());
+        }else{
+            patient.setHouseNo("");
         }
         if(!nameTxtFld.getText().equals("")){
             patient.setName(nameTxtFld.getText());
+        }else{
+            patient.setName("");
         }
         if(!secondNameTxtFld.getText().equals("")){
             patient.setSecondName(secondNameTxtFld.getText());
+        }else{
+            patient.setSecondName("");
         }
-        patient.setState(((States)stateComboBox.getSelectedItem()).getId());
+        if(null != (States)stateComboBox.getSelectedItem()){
+            patient.setState(((States)stateComboBox.getSelectedItem()).getId());
+        }else{
+            patient.setState(0);
+        }
         if(!streetTxtFld.getText().equals("")){
             patient.setStreet(streetTxtFld.getText());
+        }else{
+            patient.setStreet("");
         }
         if(!surnameTxtFld.getText().equals("")){
             patient.setSurname(surnameTxtFld.getText());
+        }else{
+            patient.setSurname("");
         }
         if(!peselTxtFld.getText().equals("")){
             patient.setPesel_id(Long.valueOf(peselTxtFld.getText()));
         }
         if(!phoneTxtFld.getText().equals("")){
             patient.setPhone(phoneTxtFld.getText());
+        }else{
+            patient.setPhone("");
         }
         if(!postCodeTxtFld.getText().equals("")){
             patient.setPostCode(postCodeTxtFld.getText().replace("-", ""));
+        }else{
+            patient.setPostCode("");
         }
+        if((Disease)diseaseComboBox.getSelectedItem()!= null){
+            patient.setDiseaseId(((Disease)diseaseComboBox.getSelectedItem()).getId());
+        }else{
+            patient.setDiseaseId(0L);
+        }
+        
 
         try {
             patientListValues.clear();

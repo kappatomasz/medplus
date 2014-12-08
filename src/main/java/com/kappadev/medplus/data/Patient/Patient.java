@@ -204,11 +204,11 @@ public class Patient {
         this.selected = selected;
     }
     
-    public void setDiseaseId(Long diseaseId){
+    public void setDiseaseId(long diseaseId){
         this.disease_id = diseaseId;
     }
     
-    public Long getDiseaseId(){
+    public long getDiseaseId(){
         return disease_id;
     }
 }

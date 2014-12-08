@@ -127,16 +127,16 @@ public class DatabaseImpl implements Database{
             if (patient.getPesel_id()!= 0L){
                 where+="AND ID="+String.valueOf(patient.getPesel_id())+" ";
             } 
-            if (!"".equals(patient.getPhone()) && patient.getPhone()!= null ){
+            if (!"".equals(patient.getPhone())){
                 where+="AND PHONE='"+patient.getPhone()+"' ";
             }
             if (patient.getState()!=0){
                 where+="AND STATE_ID="+String.valueOf(patient.getState())+" ";
             }
-            if (!"".equals(patient.getStreet()) && patient.getStreet() != null){
+            if (!"".equals(patient.getStreet()) ){
                 where+="AND STREET='"+patient.getStreet()+"' ";
             }
-            if(patient.getDiseaseId()!= null || patient.getDiseaseId() != 0L){
+            if(0L != patient.getDiseaseId()){
                 where+="AND DISEASE_ID='"+patient.getDiseaseId()+"' ";
             }
             if(where.startsWith("AND")){
@@ -218,7 +218,7 @@ public class DatabaseImpl implements Database{
         if (!"".equals(patient.getStreet())){
                 updateFields+=", STREET=\'"+patient.getStreet()+"\' ";
         }
-        if(patient.getDiseaseId()!= null || patient.getDiseaseId() != 0L){
+        if(patient.getDiseaseId() != 0L){
                 updateFields+=", DISEASE_ID=\'"+patient.getDiseaseId()+"\' ";
         }
         if(updateFields.startsWith(",")){

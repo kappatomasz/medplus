@@ -545,7 +545,7 @@ public class PatientPanel extends javax.swing.JFrame {
         newPatient.setDiseaseId(disease.getId());
         
         long max = 0L;
-        if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP)){
+        if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()){
             peselError.setText(PESEL_ERROR_TXT);
             peselError.setVisible(true);
             peselIdTxtFld.setBackground(Color.red);
