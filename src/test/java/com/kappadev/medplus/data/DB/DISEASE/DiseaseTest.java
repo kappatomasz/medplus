@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.data.DB.DISEASE;
 
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

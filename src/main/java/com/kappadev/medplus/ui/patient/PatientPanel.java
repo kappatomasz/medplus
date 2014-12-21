@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui.patient;
 
 import java.awt.Color;
@@ -16,11 +15,11 @@ import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.RegistryPanel;
 import com.kappadev.medplus.ui.SearchPanel;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.States;
-import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.utils.ConvertUtils;
 
 /**
@@ -28,22 +27,22 @@ import com.kappadev.medplus.utils.ConvertUtils;
  * @author Tomasz
  */
 public class PatientPanel extends javax.swing.JFrame {
-        List<States> states;
-        Database db; 
-        Patient patient;
-        List<Disease> diseases;
-        MessagePopUp peselError;
-        MessagePopUp patientAdded;
-        MessagePopUp patientEdit;
-        MessagePopUp otherError;
-        private static final String PESEL_ERROR_TXT = "Proszę wypełnić pole poprawnym numerem PESEL. W Polu wymagane jest 11 cyfr ";
-        private static final String PESEL_REG_EXP = "^\\d{11}$";
-        private static final String PATIENT_ADDED = "Dodano pacjenta o numerze PESEL: ";
-        private static final String PATIENT_SAVED = "Zapisano zmiany dla pacjenta o numerze PESEL: ";
-        private static final String PATIENT_NOT_ADDED_ERROR = "Nie udało się dodać pacjenta: ";
-        private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
-        
-        
+
+    List<States> states;
+    Database db;
+    Patient patient;
+    List<Disease> diseases;
+    MessagePopUp peselError;
+    MessagePopUp patientAdded;
+    MessagePopUp patientEdit;
+    MessagePopUp otherError;
+    private static final String PESEL_ERROR_TXT = "Proszę wypełnić pole poprawnym numerem PESEL. W Polu wymagane jest 11 cyfr ";
+    private static final String PESEL_REG_EXP = "^\\d{11}$";
+    private static final String PATIENT_ADDED = "Dodano pacjenta o numerze PESEL: ";
+    private static final String PATIENT_SAVED = "Zapisano zmiany dla pacjenta o numerze PESEL: ";
+    private static final String PATIENT_NOT_ADDED_ERROR = "Nie udało się dodać pacjenta: ";
+    private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
+
     /**
      * Creates new form PatientPanel
      */
@@ -57,25 +56,25 @@ public class PatientPanel extends javax.swing.JFrame {
         patientAdded = new MessagePopUp();
         patientEdit = new MessagePopUp();
         Connection conn = db.openConnection();
-            try {
-                states = db.getStates(conn);
-                diseases = db.getAllDiseases(conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
-            }
+        try {
+            states = db.getStates(conn);
+            diseases = db.getAllDiseases(conn);
+        } catch (SQLException ex) {
+            Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
+        }
         stateComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
-        for(States state : states){
-           comboBoxModel.addElement(state); 
+        for (States state : states) {
+            comboBoxModel.addElement(state);
         }
         stateComboBox.setModel(comboBoxModel);
         DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for(Disease disease : diseases){
+        for (Disease disease : diseases) {
             diseaseComboBoxModel.addElement(disease);
         }
         diseaseComboBox.setModel(diseaseComboBoxModel);
     }
-    
+
     public PatientPanel(Patient patient) {
         initComponents();
         clearFields();
@@ -84,28 +83,28 @@ public class PatientPanel extends javax.swing.JFrame {
         this.patient = patient;
         infoLbl.setText("");
         Connection conn = db.openConnection();
-            try {
-                states = db.getStates(conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
-            }
+        try {
+            states = db.getStates(conn);
+        } catch (SQLException ex) {
+            Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
+        }
         stateComboBox.removeAllItems();
         diseaseComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
-        for(States state : states){
-           comboBoxModel.addElement(state); 
+        for (States state : states) {
+            comboBoxModel.addElement(state);
         }
         stateComboBox.setModel(comboBoxModel);
         fillPatientFields(patient);
         diseaseComboBox.removeAllItems();
         DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for(Disease disease : diseases){
+        for (Disease disease : diseases) {
             diseaseComboBoxModel.addElement(disease);
         }
         diseaseComboBox.setModel(diseaseComboBoxModel);
-        
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -476,13 +475,13 @@ public class PatientPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-       clearFields();
+        clearFields();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-       RegistryPanel rp = new RegistryPanel();
-       rp.setVisible(true);
-       this.dispose();
+        RegistryPanel rp = new RegistryPanel();
+        rp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
@@ -496,12 +495,12 @@ public class PatientPanel extends javax.swing.JFrame {
         String postCode = postCodeTxtFld.getText().replace("-", "");
         String phone = phoneTxtFld.getText();
         Long peselId = 0L;
-        if(!peselIdTxtFld.getText().equals("")){
-           peselId = Long.valueOf(peselIdTxtFld.getText());
+        if (!peselIdTxtFld.getText().equals("")) {
+            peselId = Long.valueOf(peselIdTxtFld.getText());
         };
-        States state = (States)stateComboBox.getSelectedItem();
-        Disease disease = (Disease)diseaseComboBox.getSelectedItem();
-        if(patient!=null){
+        States state = (States) stateComboBox.getSelectedItem();
+        Disease disease = (Disease) diseaseComboBox.getSelectedItem();
+        if (patient != null) {
             patient.setCity(city);
             patient.setFlat(flat);
             patient.setHouseNo(house);
@@ -510,53 +509,53 @@ public class PatientPanel extends javax.swing.JFrame {
             patient.setPhone(phone);
             patient.setPostCode(postCode);
             patient.setSecondName(sName);
-            patient.setState(state.getId());
+            patient.setState(state);
             patient.setStreet(street);
             patient.setSurname(surname);
-            patient.setDiseaseId(disease.getId());
+            patient.setDiseaseId(disease);
             Connection conn = db.openConnection();
             try {
                 db.editPatient(conn, patient);
-                patientEdit.setText(PATIENT_SAVED+String.valueOf(peselId));
+                patientEdit.setText(PATIENT_SAVED + String.valueOf(peselId));
                 patientEdit.setVisible(true);
                 boolean result = patientEdit.getStateResult();
-                    if(result){
-                        SearchPanel sp = new SearchPanel();
-                        sp.setVisible(true);
-                        this.dispose();
-                    }
+                if (result) {
+                    SearchPanel sp = new SearchPanel();
+                    sp.setVisible(true);
+                    this.dispose();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-        Patient newPatient = new Patient();
-        
-        newPatient.setCity(city);
-        newPatient.setFlat(flat);
-        newPatient.setHouseNo(house);
-        newPatient.setName(name);
-        newPatient.setPesel_id(peselId);
-        newPatient.setPhone(phone);
-        newPatient.setPostCode(postCode);
-        newPatient.setSecondName(sName);
-        newPatient.setState(state.getId());
-        newPatient.setStreet(street);
-        newPatient.setSurname(surname);
-        newPatient.setDiseaseId(disease.getId());
-        
-        long max = 0L;
-        if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()){
-            peselError.setText(PESEL_ERROR_TXT);
-            peselError.setVisible(true);
-            peselIdTxtFld.setBackground(Color.red);
-        }else{
-            Connection conn = db.openConnection();
+        } else {
+            Patient newPatient = new Patient();
+
+            newPatient.setCity(city);
+            newPatient.setFlat(flat);
+            newPatient.setHouseNo(house);
+            newPatient.setName(name);
+            newPatient.setPesel_id(peselId);
+            newPatient.setPhone(phone);
+            newPatient.setPostCode(postCode);
+            newPatient.setSecondName(sName);
+            newPatient.setState(state);
+            newPatient.setStreet(street);
+            newPatient.setSurname(surname);
+            newPatient.setDiseaseId(disease);
+
+            long max = 0L;
+            if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
+                peselError.setText(PESEL_ERROR_TXT);
+                peselError.setVisible(true);
+                peselIdTxtFld.setBackground(Color.red);
+            } else {
+                Connection conn = db.openConnection();
                 try {
                     db.addPatient(conn, newPatient);
-                    patientAdded.setText(PATIENT_ADDED+String.valueOf(peselId));
+                    patientAdded.setText(PATIENT_ADDED + String.valueOf(peselId));
                     patientAdded.setVisible(true);
                     boolean result = patientAdded.getStateResult();
-                    if(result){
+                    if (result) {
                         SearchPanel sp = new SearchPanel();
                         sp.setVisible(true);
                         this.dispose();
@@ -566,8 +565,8 @@ public class PatientPanel extends javax.swing.JFrame {
                     otherError.setVisible(true);
                     Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
         }
-       }
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void houseNoTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_houseNoTxtFldActionPerformed
@@ -587,7 +586,7 @@ public class PatientPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnMouseEntered
 
     private void backBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseEntered
-         infoLbl.setText("Powrót do poprzedniego ekranu");
+        infoLbl.setText("Powrót do poprzedniego ekranu");
     }//GEN-LAST:event_backBtnMouseEntered
 
     private void clearBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBtnMouseExited
@@ -605,8 +604,8 @@ public class PatientPanel extends javax.swing.JFrame {
     private void phoneTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTxtFldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneTxtFldActionPerformed
-    
-    private void clearFields(){
+
+    private void clearFields() {
         nameTxtFld.setText("");
         secondNameTxtFld.setText("");
         surnameTxtFld.setText("");
@@ -616,9 +615,10 @@ public class PatientPanel extends javax.swing.JFrame {
         cityTxtFld.setText("");
         postCodeTxtFld.setText("");
         phoneTxtFld.setText("");
-        peselIdTxtFld.setText(""); 
+        peselIdTxtFld.setText("");
     }
-    private void fillPatientFields(Patient patient){
+
+    private void fillPatientFields(Patient patient) {
         nameTxtFld.setText(patient.getName());
         secondNameTxtFld.setText(patient.getSecondName());
         surnameTxtFld.setText(patient.getSurname());
@@ -628,11 +628,11 @@ public class PatientPanel extends javax.swing.JFrame {
         cityTxtFld.setText(patient.getCity());
         postCodeTxtFld.setText(ConvertUtils.convertPostCode(patient.getPostCode()));
         phoneTxtFld.setText(patient.getPhone());
-        peselIdTxtFld.setText(String.valueOf(patient.getPesel_id())); 
+        peselIdTxtFld.setText(String.valueOf(patient.getPesel_id()));
         stateComboBox.setSelectedItem(ConvertUtils.convertStatesListToMap(states).get(patient.getState()));
-        diseaseComboBox.setSelectedItem(ConvertUtils.convertDiseasesListToMap(diseases).get(patient.getDiseaseId()));
+        diseaseComboBox.setSelectedItem(ConvertUtils.convertDiseasesListToMap(diseases).get(patient.getDisease()));
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;

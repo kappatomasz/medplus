@@ -34,11 +34,11 @@ import javax.print.PrintService;
 import javax.swing.JFileChooser;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.SearchPanel;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.attachment.Attachment;
-import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.data.printing.PrintingManager;
@@ -100,7 +100,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
         try {
             Connection conn = db.openConnection();
             attachmentList = db.getAttachmentsForPatientId(conn, patient.getPesel_id());
-            disease = db.getDiseaseById(conn, patient.getDiseaseId());
+            disease = db.getDiseaseById(conn, patient.getDisease());
             patientLog = db.getPatientLogByPeselId(conn, patient.getPesel_id());
             conn.close();
         } catch (SQLException ex) {
@@ -535,7 +535,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
             attachment.setBlob(selectedFileByteArray);
             attachment.setContentType("");
             attachment.setFileName(selectedFile.getName());
-            attachment.setPatient_id(patient.getPesel_id());
+            attachment.setPatient(patient);
             status = db.addAttachment(conn, attachment);
             attachmentList = db.getAttachmentsForPatientId(conn, patient.getPesel_id());
             attachmentlistModel = new AttachmentTableModel(attachmentList);

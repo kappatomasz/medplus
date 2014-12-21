@@ -15,11 +15,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.States;
-import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -790,9 +790,7 @@ public class SearchPanel extends javax.swing.JFrame {
             patient.setSecondName("");
         }
         if(null != (States)stateComboBox.getSelectedItem()){
-            patient.setState(((States)stateComboBox.getSelectedItem()).getId());
-        }else{
-            patient.setState(0);
+            patient.setState(((States)stateComboBox.getSelectedItem()));
         }
         if(!streetTxtFld.getText().equals("")){
             patient.setStreet(streetTxtFld.getText());
@@ -818,12 +816,9 @@ public class SearchPanel extends javax.swing.JFrame {
             patient.setPostCode("");
         }
         if((Disease)diseaseComboBox.getSelectedItem()!= null){
-            patient.setDiseaseId(((Disease)diseaseComboBox.getSelectedItem()).getId());
-        }else{
-            patient.setDiseaseId(0L);
+            patient.setDiseaseId(((Disease)diseaseComboBox.getSelectedItem()));
         }
-        
-
+       
         try {
             patientListValues.clear();
             patientListValues = db.getFilteredPatients(conn, patient);

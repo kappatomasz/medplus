@@ -17,11 +17,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.SQL.SqlStatements;
 import com.kappadev.medplus.data.DB.attachment.Attachment;
 import com.kappadev.medplus.data.DB.states.States;
-import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
 import com.kappadev.medplus.utils.ConvertUtils;
 
@@ -279,7 +279,7 @@ public class DatabaseImpl implements Database{
          while(rs.next()){
              Attachment attachment = new Attachment();
              attachment.setId(rs.getLong(1));
-             attachment.setPatient_id(rs.getLong(2));
+             attachment.setPatient(rs.getLong(2));
              attachment.setContentType(rs.getString(3));
              attachment.setBlob(rs.getBytes(4));
              attachment.setFileName(rs.getString(5));

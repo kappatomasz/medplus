@@ -3,28 +3,67 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.kappadev.medplus.data.Patient.entity;
 
-package com.kappadev.medplus.data.Patient;
-
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.states.States;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 /**
  *
  * @author Tomasz
  */
+@Entity
+@Table(name = "Patient")
 public class Patient {
-    private String name;
-    private String secondName;
-    private String surname;
-    private String street;
-    private String houseNo;
-    private String flat;
-    private String city;
-    private String postCode;
-    private int state;
+
+    @Id
+    @Column(name = "peselId", precision = 11, scale = 0, unique = true, nullable = false)
     private long pesel_id; //THIS IS ID IN DATABASE
+
+    @Column(name = "name", nullable = true, length = 100)
+    private String name;
+
+    @Column(name = "secondName", nullable = true, length = 100)
+    private String secondName;
+
+    @Column(name = "surname", nullable = true, length = 100)
+    private String surname;
+
+    @Column(name = "street", nullable = true, length = 200)
+    private String street;
+
+    @Column(name = "houseNo", nullable = true, length = 10)
+    private String houseNo;
+
+    @Column(name = "flat", nullable = true, length = 10)
+    private String flat;
+
+    @Column(name = "city", nullable = true, length = 100)
+    private String city;
+
+    @Column(name = "postCode", nullable = true, length = 6)
+    private String postCode;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "state", referencedColumnName = "Id")
+    private States state;
+
+    @Column(name = "phone", length = 50, nullable = true)
     private String phone;
+
     private boolean selected;
-    private Long disease_id;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "disease", referencedColumnName = "Id")
+    private Disease disease;
+
     /**
      * @return the name
      */
@@ -140,14 +179,14 @@ public class Patient {
     /**
      * @return the state
      */
-    public int getState() {
+    public States getState() {
         return state;
     }
 
     /**
      * @param state the state to set
      */
-    public void setState(int state) {
+    public void setState(States state) {
         this.state = state;
     }
 
@@ -178,8 +217,9 @@ public class Patient {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name);
         sb.append(" ");
@@ -203,12 +243,12 @@ public class Patient {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
-    public void setDiseaseId(long diseaseId){
-        this.disease_id = diseaseId;
+
+    public void setDiseaseId(Disease disease) {
+        this.disease = disease;
     }
-    
-    public long getDiseaseId(){
-        return disease_id;
+
+    public Disease getDisease() {
+        return disease;
     }
 }

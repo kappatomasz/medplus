@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JEditorPane;
 import com.kappadev.medplus.ui.RegistryPanel;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 

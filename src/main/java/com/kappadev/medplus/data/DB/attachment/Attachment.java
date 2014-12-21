@@ -3,15 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.data.DB.attachment;
 
+import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -19,22 +23,37 @@ import javax.persistence.Table;
  * @author Tomasz
  */
 @Entity
-@Table(name="Attachment")
+@Table(name = "Attachment")
 public class Attachment implements Serializable {
+
     private boolean selected;
+
+    @Id
+    @Column(name = "Id", nullable = false, unique = true, precision = 11, scale = 0)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long patient_id;
-    private long diseaseId;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "patient", referencedColumnName = "peselId")
+    private Patient patient;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "disease", referencedColumnName = "Id")
+    private Disease disease;
+
+    @Column(name = "contentType", nullable = true, length = 50)
     private String contentType;
+
+    @Lob
+    @Column(name = "content", nullable = true)
     private byte[] blob;
+
+    @Column(name = "fileName", nullable = true)
     private String fileName;
 
     /**
      * @return the id
      */
-    @Id
-    @Column(name="ID", nullable=false, unique=true, precision=11, scale=0)
-    @GeneratedValue(strategy=GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -47,32 +66,30 @@ public class Attachment implements Serializable {
     }
 
     /**
-     * @return the patient_id
+     * @return the patient
      */
-    @Column(name="PATIENT_ID", nullable=false)
-    public long getPatient_id() {
-        return patient_id;
+    public Patient getPatient() {
+        return patient;
     }
 
     /**
-     * @param patient_id the patient_id to set
+     * @param patient
      */
-    public void setPatient_id(long patient_id) {
-        this.patient_id = patient_id;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
-    
-    public void setDiseaseId(long diseaseId){
-        this.diseaseId = diseaseId;
+
+    public void setDisease(Disease disease) {
+        this.disease = disease;
     }
-    @Column(name="DISEASE_ID", nullable=false, precision=9, scale=0)
-    public long getDiseaseId(){
-        return diseaseId;
+
+    public Disease getDisease() {
+        return disease;
     }
 
     /**
      * @return the contentType
      */
-    @Column(name="CONTENT_TYPE", length=20, nullable=true)
     public String getContentType() {
         return contentType;
     }
@@ -87,7 +104,6 @@ public class Attachment implements Serializable {
     /**
      * @return the blob
      */
-    @Column(name="BINARY_DATA", nullable=false)
     public byte[] getBlob() {
         return blob;
     }
@@ -102,7 +118,6 @@ public class Attachment implements Serializable {
     /**
      * @return the fileName
      */
-    @Column(name="FILE_NAME", nullable=false, length=50)
     public String getFileName() {
         return fileName;
     }
@@ -113,9 +128,9 @@ public class Attachment implements Serializable {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(fileName);
         return sb.toString();

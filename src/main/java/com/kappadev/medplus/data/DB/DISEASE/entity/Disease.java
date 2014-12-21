@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package com.kappadev.medplus.data.DB.DISEASE;
+package com.kappadev.medplus.data.DB.DISEASE.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -12,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -20,17 +20,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Disease")
-public class Disease implements Serializable{
+public class Disease implements Serializable {
+
+    @Id
+    @Column(name = "Id", unique = true, nullable = false, precision = 9, scale = 0)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Lob
+    @Column(name = "description", nullable = true)
     private byte[] description;
+
+    @Column(name = "name", length = 500, nullable = false)
     private String name;
 
     /**
      * @return the id
      */
-    @Id
-    @Column(name = "ID", unique = true, nullable = false, precision = 9, scale=0)
-    @GeneratedValue(strategy= GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -45,7 +51,6 @@ public class Disease implements Serializable{
     /**
      * @return the description
      */
-    @Column(name = "DESCRIPTION")
     public byte[] getDescription() {
         return description;
     }
@@ -56,18 +61,17 @@ public class Disease implements Serializable{
     public void setDescription(byte[] description) {
         this.description = description;
     }
-    
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
-    
-    @Column(name = "NAME", length=100, nullable=false)
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

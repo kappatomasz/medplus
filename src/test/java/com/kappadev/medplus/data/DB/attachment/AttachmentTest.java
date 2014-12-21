@@ -86,7 +86,7 @@ public class AttachmentTest {
         System.out.println("setPatient_id");
         long patient_id = 0L;
         Attachment instance = new Attachment();
-        instance.setPatient_id(patient_id);
+        instance.setPatient(patient_id);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -6,6 +6,7 @@
 
 package com.kappadev.medplus.data.Patient;
 
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import java.util.List;
 
 /**

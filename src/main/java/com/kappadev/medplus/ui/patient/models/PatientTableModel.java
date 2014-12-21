@@ -3,36 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui.patient.models;
 
-
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
-import com.kappadev.medplus.data.DB.DISEASE.Disease;
-import com.kappadev.medplus.data.DB.Database;
-import com.kappadev.medplus.data.DB.DatabaseImpl;
-import com.kappadev.medplus.data.DB.states.States;
-import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.Patient.PatientTableObject;
 
 /**
  *
  * @author Tomasz
  */
-public class PatientTableModel extends AbstractTableModel{
-    
+public class PatientTableModel extends AbstractTableModel {
+
     private Object[][] data;
     private PatientTableObject pto;
     private List<Patient> patientList;
-    
-    public PatientTableModel(List<Patient> patientList){
-       this.patientList = patientList;     
+
+    public PatientTableModel(List<Patient> patientList) {
+        this.patientList = patientList;
     }
 
     @Override
@@ -42,14 +32,14 @@ public class PatientTableModel extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 12;
+        return 11;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object value = "??";
         Patient patient = patientList.get(rowIndex);
-        switch(columnIndex){
+        switch (columnIndex) {
             case 0:
                 value = patient.isSelected();
                 break;
@@ -74,50 +64,48 @@ public class PatientTableModel extends AbstractTableModel{
             case 7:
                 value = patient.getFlat();
                 break;
-            case 8: 
+            case 8:
                 value = patient.getCity();
                 break;
             case 9:
                 value = patient.getPostCode();
                 break;
             case 10:
-                value = getState(patient.getState());
+                value = patient.getState();
                 break;
             case 11:
                 value = patient.getPhone();
                 break;
-            case 12:
-                value = getDisease(patient.getDiseaseId());
             default:
                 throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
-                        columnIndex);    
+                        columnIndex);
         }
         return value;
     }
+
     @Override
-    public boolean isCellEditable(int row, int col) { 
+    public boolean isCellEditable(int row, int col) {
         boolean status = false;
-        switch(col){
+        switch (col) {
             case 0:
-                 status = true; 
-                 break;
+                status = true;
+                break;
             default:
                 status = false;
-        }    
-       return status;
+        }
+        return status;
     }
+
     @Override
     public void setValueAt(Object value, int row, int col) {
         Patient patient = patientList.get(row);
-        patient.setSelected((Boolean)value);
+        patient.setSelected((Boolean) value);
         fireTableCellUpdated(row, col);
     }
 
-
-    
     @Override
-    public Class getColumnClass(int c){
-         Class<?> clazz;
+    public Class getColumnClass(int c) {
+        Class<?> clazz;
         switch (c) {
             case 0:
                 clazz = Boolean.class;
@@ -151,23 +139,21 @@ public class PatientTableModel extends AbstractTableModel{
                 break;
             case 10:
                 clazz = String.class;
-                break;    
+                break;
             case 11:
                 clazz = String.class;
-                break;   
-            case 12:
-                clazz = String.class;
+                break;
             default:
                 throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
                         c);
         }
         return clazz;
     }
-    
+
     @Override
     public String getColumnName(int column) {
-        String  columnName ="";
-        switch(column){
+        String columnName = "";
+        switch (column) {
             case 0:
                 columnName = "Zaznacz";
                 break;
@@ -192,7 +178,7 @@ public class PatientTableModel extends AbstractTableModel{
             case 7:
                 columnName = "Nr mieszkania";
                 break;
-            case 8: 
+            case 8:
                 columnName = "Miasto";
                 break;
             case 9:
@@ -204,58 +190,13 @@ public class PatientTableModel extends AbstractTableModel{
             case 11:
                 columnName = "Telefon";
                 break;
-            case 12:
-                columnName = "Choroba";
             default:
                 throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
-                        column);    
-            }
-         return columnName;
+                        column);
+        }
+        return columnName;
     }
 
-    private String getDisease(long id){
-        Database db = new DatabaseImpl();
-        Connection conn = db.openConnection();
-        List<Disease> diseases = null;
-        try {
-            diseases = db.getAllDiseases(conn);
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String name="";
-        if(diseases != null){
-            for(Disease disease : diseases){
-                if(disease.getId() == id){
-                    name = disease.getName();
-                    break;
-                }
-            }
-        }
-        return name;
-    }
-    
-    private String getState(int id){
-        Database db = new DatabaseImpl();
-        Connection conn = db.openConnection();
-        List<States> states = null;
-        try {
-            states = db.getStates(conn);
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String name="";
-        if(states != null){
-            for(States state : states){
-                if(state.getId() == id){
-                    name = state.getName();
-                    break;
-                }
-            }
-        }
-        return name;
-    }
-    
-    
     /**
      * @return the data
      */
@@ -269,25 +210,25 @@ public class PatientTableModel extends AbstractTableModel{
     public void setData(Object[][] data) {
         this.data = data;
     }
-    
-    public Patient getSelectedPatient(int row){
-       
+
+    public Patient getSelectedPatient(int row) {
+
         Patient patient = patientList.get(row);
-       
+
         return patient;
     }
-    
-    public List<Patient> getSelectedPatientList(int[] rows){
+
+    public List<Patient> getSelectedPatientList(int[] rows) {
         List<Patient> selectedPatientList = new ArrayList<Patient>();
-        for(int i=0; i<rows.length; i++){
+        for (int i = 0; i < rows.length; i++) {
             selectedPatientList.add(patientList.get(rows[i]));
         }
         return selectedPatientList;
     }
-    
-    public List<Long> getSelectedPatientsIds(int[] rows){
+
+    public List<Long> getSelectedPatientsIds(int[] rows) {
         List<Long> selectedPatientsIds = new ArrayList<Long>();
-        for(int i=0; i<rows.length; i++){
+        for (int i = 0; i < rows.length; i++) {
             selectedPatientsIds.add(patientList.get(rows[i]).getPesel_id());
         }
         return selectedPatientsIds;
