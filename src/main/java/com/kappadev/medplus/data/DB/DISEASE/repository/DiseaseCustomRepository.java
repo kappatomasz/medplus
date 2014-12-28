@@ -14,6 +14,6 @@ import com.kappadev.medplus.data.Patient.entity.Patient;
  */
 public interface DiseaseCustomRepository {
 
-    public void addDiseaseToPatient(Disease disease, Patient patient);
+    public void setDiseaseToPatient(Disease disease, Patient patient);
 
 }

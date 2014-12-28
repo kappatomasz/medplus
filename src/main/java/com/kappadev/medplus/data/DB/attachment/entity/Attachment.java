@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.attachment;
+package com.kappadev.medplus.data.DB.attachment.entity;
 
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.Patient.entity.Patient;

@@ -9,7 +9,7 @@ package com.kappadev.medplus.ui.patientLog.models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import com.kappadev.medplus.data.DB.attachment.Attachment;
+import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
 import com.kappadev.medplus.data.Patient.PatientTableObject;
 
 /**

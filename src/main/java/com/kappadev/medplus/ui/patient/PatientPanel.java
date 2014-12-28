@@ -18,7 +18,7 @@ import com.kappadev.medplus.ui.SearchPanel;
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
-import com.kappadev.medplus.data.DB.states.States;
+import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.utils.ConvertUtils;
 
@@ -512,7 +512,7 @@ public class PatientPanel extends javax.swing.JFrame {
             patient.setState(state);
             patient.setStreet(street);
             patient.setSurname(surname);
-            patient.setDiseaseId(disease);
+            patient.setDisease(disease);
             Connection conn = db.openConnection();
             try {
                 db.editPatient(conn, patient);
@@ -541,7 +541,7 @@ public class PatientPanel extends javax.swing.JFrame {
             newPatient.setState(state);
             newPatient.setStreet(street);
             newPatient.setSurname(surname);
-            newPatient.setDiseaseId(disease);
+            newPatient.setDisease(disease);
 
             long max = 0L;
             if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
@@ -628,7 +628,7 @@ public class PatientPanel extends javax.swing.JFrame {
         cityTxtFld.setText(patient.getCity());
         postCodeTxtFld.setText(ConvertUtils.convertPostCode(patient.getPostCode()));
         phoneTxtFld.setText(patient.getPhone());
-        peselIdTxtFld.setText(String.valueOf(patient.getPesel_id()));
+        peselIdTxtFld.setText(String.valueOf(patient.getId()));
         stateComboBox.setSelectedItem(ConvertUtils.convertStatesListToMap(states).get(patient.getState()));
         diseaseComboBox.setSelectedItem(ConvertUtils.convertDiseasesListToMap(diseases).get(patient.getDisease()));
     }

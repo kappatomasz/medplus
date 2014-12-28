@@ -6,11 +6,13 @@
 package com.kappadev.medplus.data.Patient.entity;
 
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
-import com.kappadev.medplus.data.DB.states.States;
+import com.kappadev.medplus.data.DB.states.entity.States;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -21,11 +23,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Patient")
-public class Patient {
+public class Patient implements Serializable {
 
     @Id
-    @Column(name = "peselId", precision = 11, scale = 0, unique = true, nullable = false)
-    private long pesel_id; //THIS IS ID IN DATABASE
+    @Column(name = "Id", precision = 11, scale = 0, unique = true, nullable = false)
+    private long id; //THIS IS ID IN DATABASE
 
     @Column(name = "name", nullable = true, length = 100)
     private String name;
@@ -60,8 +62,8 @@ public class Patient {
 
     private boolean selected;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "disease", referencedColumnName = "Id")
+    @OneToMany
+    @JoinColumn(name = "disease", referencedColumnName = "Id")
     private Disease disease;
 
     /**
@@ -193,15 +195,15 @@ public class Patient {
     /**
      * @return the pesel_id
      */
-    public long getPesel_id() {
-        return pesel_id;
+    public long getId() {
+        return id;
     }
 
     /**
      * @param pesel_id the pesel_id to set
      */
     public void setPesel_id(long pesel_id) {
-        this.pesel_id = pesel_id;
+        this.id = pesel_id;
     }
 
     /**
@@ -226,7 +228,7 @@ public class Patient {
         sb.append(surname);
         sb.append(" ");
         sb.append("PESEL: ");
-        sb.append(pesel_id);
+        sb.append(id);
         return sb.toString();
     }
 
@@ -244,7 +246,7 @@ public class Patient {
         this.selected = selected;
     }
 
-    public void setDiseaseId(Disease disease) {
+    public void setDisease(Disease disease) {
         this.disease = disease;
     }
 

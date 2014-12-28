@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.data.DB.attachment;
 
+import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -3,24 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui.disease;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JEditorPane;
 import com.kappadev.medplus.ui.RegistryPanel;
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
-import com.kappadev.medplus.data.DB.Database;
-import com.kappadev.medplus.data.DB.DatabaseImpl;
+import com.kappadev.medplus.data.DB.DISEASE.repository.DiseaseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Tomasz
  */
 public class DiseasesPanel extends javax.swing.JFrame {
+
+    @Autowired
+    private DiseaseRepository diseaseRepository;
 
     /**
      * Creates new form DiseasesPanel
@@ -168,24 +166,18 @@ public class DiseasesPanel extends javax.swing.JFrame {
         rp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
-    
-    private void setEditorPaneText(String text, JEditorPane pane){
+
+    private void setEditorPaneText(String text, JEditorPane pane) {
         pane.setText(text);
     }
-    
-    private void saveDisease(String diseaseDesc, String diseaseName){
-        Database db = new DatabaseImpl();
-        Connection conn = db.openConnection();
+
+    private void saveDisease(String diseaseDesc, String diseaseName) {
         Disease disease = new Disease();
-        disease.setDescription(disDescription.getText().getBytes());
-        disease.setName(disName.getText());
-        try {
-            db.addDisease(conn, disease);
-        } catch (SQLException ex) {
-            Logger.getLogger(DiseasesPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        disease.setDescription(diseaseDesc.getBytes());
+        disease.setName(diseaseName);
+        diseaseRepository.save(disease);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;

@@ -4,8 +4,6 @@ import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,8 +16,10 @@ import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
-import com.kappadev.medplus.data.DB.states.States;
+import com.kappadev.medplus.data.DB.states.entity.States;
+import com.kappadev.medplus.data.DB.states.service.StatesService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,20 +36,23 @@ public class SearchPanel extends javax.swing.JFrame {
     /**
      * Creates new form SearchPanel
      */
-    private  List<States> states;
+    private  Iterable<States> states;
     private  List<Patient> patientListValues;
     private  List<Long> selectedPatientsIds;
     private  List<Disease> diseases;
     private  Database db; 
     private MessagePopUp popUp;
+    
+    @Autowired
+    private StatesService statesService;
+    
     public SearchPanel() {
         initComponents();
         db = new DatabaseImpl();
         infoLbl.setText("");
         clearFields();
-        Connection conn = db.openConnection();
             try {
-                states = db.getStates(conn);
+                states = statesService.getAllStates();
                 patientListValues = db.getAllPatients(conn);
                 diseases = db.getAllDiseases(conn);
                 db.closeConnection(conn);
@@ -816,7 +819,7 @@ public class SearchPanel extends javax.swing.JFrame {
             patient.setPostCode("");
         }
         if((Disease)diseaseComboBox.getSelectedItem()!= null){
-            patient.setDiseaseId(((Disease)diseaseComboBox.getSelectedItem()));
+            patient.setDisease(((Disease)diseaseComboBox.getSelectedItem()));
         }
        
         try {

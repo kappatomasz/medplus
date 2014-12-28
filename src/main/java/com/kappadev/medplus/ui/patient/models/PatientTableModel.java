@@ -44,7 +44,7 @@ public class PatientTableModel extends AbstractTableModel {
                 value = patient.isSelected();
                 break;
             case 1:
-                value = patient.getPesel_id();
+                value = patient.getId();
                 break;
             case 2:
                 value = patient.getName();
@@ -229,7 +229,7 @@ public class PatientTableModel extends AbstractTableModel {
     public List<Long> getSelectedPatientsIds(int[] rows) {
         List<Long> selectedPatientsIds = new ArrayList<Long>();
         for (int i = 0; i < rows.length; i++) {
-            selectedPatientsIds.add(patientList.get(rows[i]).getPesel_id());
+            selectedPatientsIds.add(patientList.get(rows[i]).getId());
         }
         return selectedPatientsIds;
     }

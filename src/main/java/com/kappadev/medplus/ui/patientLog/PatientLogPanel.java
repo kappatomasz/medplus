@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui.patientLog;
 
 import com.kappadev.medplus.ui.patientLog.models.AttachmentTableModel;
@@ -19,10 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -35,16 +30,18 @@ import javax.swing.JFileChooser;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.SearchPanel;
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
-import com.kappadev.medplus.data.DB.Database;
-import com.kappadev.medplus.data.DB.DatabaseImpl;
-import com.kappadev.medplus.data.DB.attachment.Attachment;
+import com.kappadev.medplus.data.DB.DISEASE.repository.DiseaseRepository;
+import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
+import com.kappadev.medplus.data.DB.attachment.repository.AttachmentRepository;
 import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.PatientLog.PatientLog;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
+import com.kappadev.medplus.data.PatientLog.repository.PatientLogRepository;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.data.printing.PrintingManager;
 import com.kappadev.medplus.data.printing.PrintingManagerImpl;
 import com.kappadev.medplus.utils.FileCheckThread;
 import com.kappadev.medplus.utils.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -57,7 +54,6 @@ public class PatientLogPanel extends javax.swing.JFrame {
      */
     private Patient patient;
     private Disease disease;
-    private Database db;
     private AttachmentTableModel attachmentlistModel;
     private List<Attachment> attachmentList;
     private PatientLog patientLog;
@@ -68,17 +64,26 @@ public class PatientLogPanel extends javax.swing.JFrame {
     private Future<Boolean> task;
     private FileCheckThread fileCheckThread;
     private File tmpDir;
-    
-    private static final String OPEN_FILE_DIALOG_COMPLETE="Plik został zapisany w: ";
-    private static final String DELETE_ATTACHMENT="Czy aby napewno chcesz usunąć ten załącznik ?";
+
+    @Autowired
+    private AttachmentRepository attachmentRepository;
+
+    @Autowired
+    private DiseaseRepository diseaseRepository;
+
+    @Autowired
+    private PatientLogRepository patientLogRepository;
+
+    private static final String OPEN_FILE_DIALOG_COMPLETE = "Plik został zapisany w: ";
+    private static final String DELETE_ATTACHMENT = "Czy aby napewno chcesz usunąć ten załącznik ?";
     private static final int CANCEL_NOT_VISIBLE = 63;
     private static final String TMP_DIR = "tmp";
-    
+
     public PatientLogPanel(Patient patient) {
         initComponents();
-        tmpDir = new File(FileUtils.getCurrentWorkingPath()+File.separatorChar+"tmp");
-        if(!tmpDir.exists()){
-            tmpDir.mkdirs(); 
+        tmpDir = new File(FileUtils.getCurrentWorkingPath() + File.separatorChar + "tmp");
+        if (!tmpDir.exists()) {
+            tmpDir.mkdirs();
         }
         this.patient = patient;
         infoLbl.setText("");
@@ -86,27 +91,21 @@ public class PatientLogPanel extends javax.swing.JFrame {
         fileCheckThread = new FileCheckThread();
         nameLbl.setText(patient.getName());
         surnameLbl.setText(patient.getSurname());
-        peselLbl.setText(String.valueOf(patient.getPesel_id()));
+        peselLbl.setText(String.valueOf(patient.getId()));
         openBtn.setEnabled(false);
         printingManager = new PrintingManagerImpl();
         warning = new MessagePopUp();
-        db = new DatabaseImpl();
         openFileDialogComplete = new MessagePopUp();
         openFileDialogComplete.getCancel().setVisible(false);
-        if(DataMigrationConstants.DATA_MIGRATION_WINDOWS != FileUtils.getOperatingSystemName()){
+        if (DataMigrationConstants.DATA_MIGRATION_WINDOWS != FileUtils.getOperatingSystemName()) {
             openBtn.setEnabled(false);
         }
         attachmentList = new ArrayList<>();
-        try {
-            Connection conn = db.openConnection();
-            attachmentList = db.getAttachmentsForPatientId(conn, patient.getPesel_id());
-            disease = db.getDiseaseById(conn, patient.getDisease());
-            patientLog = db.getPatientLogByPeselId(conn, patient.getPesel_id());
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(patientLog!= null){
+        attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
+        disease = patient.getDisease();
+        patientLog = patientLogRepository.findPatientLogByPatientId(new Long(patient.getId()));
+
+        if (patientLog != null) {
             descriptionTxtField.setText(patientLog.getNote());
         }
         attachmentlistModel = new AttachmentTableModel(attachmentList);
@@ -487,92 +486,64 @@ public class PatientLogPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        List<Long> selectedAttachments = attachmentlistModel.getSelectedAttachmentIds(attachmentsList.getSelectedRows());
+        List<Attachment> selectedAttachments = attachmentlistModel.getSelectedAttachmentList(attachmentsList.getSelectedRows());
         warning.setText(DELETE_ATTACHMENT);
         warning.setVisible(true);
         boolean result = warning.getStateResult();
-        if(result){
-            try{
-                try (Connection conn = db.openConnection()) {
-                    db.removeAttachment(conn, selectedAttachments);
-                    attachmentList = db.getAttachmentsForPatientId(conn, patient.getPesel_id());
-                    attachmentlistModel = new AttachmentTableModel(attachmentList);
-                    attachmentsList.setModel(attachmentlistModel);
-                }
-            }catch(SQLException ex){
-                Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (result) {
+            attachmentRepository.delete(selectedAttachments);
+            attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
+            attachmentlistModel = new AttachmentTableModel(attachmentList);
+            attachmentsList.setModel(attachmentlistModel);
+
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void addNewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewBtnActionPerformed
-        db = new DatabaseImpl();
         JFileChooser jFileChooser = new JFileChooser();
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        jFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")+File.separatorChar+"Desktop"));
+        jFileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + File.separatorChar + "Desktop"));
         int result = jFileChooser.showOpenDialog(this);
         File selectedFile = null;
-        if(result == JFileChooser.APPROVE_OPTION){
+        if (result == JFileChooser.APPROVE_OPTION) {
             selectedFile = jFileChooser.getSelectedFile();
         }
         Attachment attachment = new Attachment();
-        Connection conn = db.openConnection();
-        boolean status = false;
-        long max = 0L;
         try {
-            PreparedStatement selectMax = conn.prepareStatement("SELECT MAX(ID)+1 FROM ATTACHMENTS");
-            ResultSet rs = selectMax.executeQuery();
-            while(rs.next()){
-                max = rs.getLong(1);
-            }
-            if(max == 0L){
-                max = 1L;
-            }
-            attachment.setId(max);
-            byte[] selectedFileByteArray = new byte[(int)selectedFile.length()];
+            byte[] selectedFileByteArray = new byte[(int) selectedFile.length()];
             DataInputStream dataIs = new DataInputStream(new FileInputStream(selectedFile));
-            dataIs.readFully(selectedFileByteArray);    
+            dataIs.readFully(selectedFileByteArray);
             attachment.setBlob(selectedFileByteArray);
             attachment.setContentType("");
             attachment.setFileName(selectedFile.getName());
             attachment.setPatient(patient);
-            status = db.addAttachment(conn, attachment);
-            attachmentList = db.getAttachmentsForPatientId(conn, patient.getPesel_id());
+            attachmentRepository.save(attachment);
+            attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
             attachmentlistModel = new AttachmentTableModel(attachmentList);
-            attachmentsList.setModel(attachmentlistModel);
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         AttachmentTableModel listModel = new AttachmentTableModel(attachmentList);
-        attachmentsList.setModel(listModel);  
+        attachmentsList.setModel(listModel);
     }//GEN-LAST:event_addNewBtnActionPerformed
 
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
-       SearchPanel sp = new SearchPanel();
-       sp.setVisible(true);
-       this.dispose();
+        SearchPanel sp = new SearchPanel();
+        sp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-       Connection conn = db.openConnection();
-       
-       patientLog.setNote(descriptionTxtField.getText());
-        try {
-            db.updatePatientLog(conn, patientLog.getPeselId(), patientLog.getNote());
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        patientLog.setNote(descriptionTxtField.getText());
+        patientLogRepository.save(patientLog);
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
         int selectedRow = attachmentsList.getSelectedRow();
         Attachment attachment = attachmentlistModel.getSelectedAttachment(selectedRow);
-        File file = new File(tmpDir.getAbsolutePath()+File.separator+attachment.getFileName());
+        File file = new File(tmpDir.getAbsolutePath() + File.separator + attachment.getFileName());
         FileOutputStream fos;
         FileTime lastModified;
         try {
@@ -581,25 +552,23 @@ public class PatientLogPanel extends javax.swing.JFrame {
             fos.close();
             lastModified = Files.getLastModifiedTime(Paths.get(file.getAbsolutePath()));
             Desktop.getDesktop().open(file);
-            
+
             MessagePopUp message = new MessagePopUp();
             message.setText("Czy zakończyłeś edycję dokumentu ?");
             message.setVisible(true);
             boolean isFileNotOpen = message.getStateResult();
-            if(isFileNotOpen){
-              if(lastModified!=null){
-                  if(Files.getLastModifiedTime(Paths.get(file.getAbsolutePath())).compareTo(lastModified)>1 && 
-                          Files.readAllBytes(Paths.get(file.getAbsolutePath())) != attachment.getBlob()){
-                     Connection conn = db.openConnection();
-                     db.updateAttachment(conn, attachment.getId(), attachment.getBlob());  
-                  }
-              }  
+            if (isFileNotOpen) {
+                if (lastModified != null) {
+                    if (Files.getLastModifiedTime(Paths.get(file.getAbsolutePath())).compareTo(lastModified) > 1
+                            && Files.readAllBytes(Paths.get(file.getAbsolutePath())) != attachment.getBlob()) {
+                        attachmentRepository.save(attachment);
+                    }
+                }
             }
-        } catch (IOException | SQLException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
 //        JFileChooser jFileChooser = new JFileChooser();
 //        jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 //        jFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -621,25 +590,25 @@ public class PatientLogPanel extends javax.swing.JFrame {
 //        } catch (IOException ex) {
 //            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        
+
     }//GEN-LAST:event_openBtnActionPerformed
 
     private void printAttachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printAttachActionPerformed
-       if(attachmentsList.getSelectedRows().length>0){
-           List<Attachment> attachments = attachmentlistModel.getSelectedAttachmentList(attachmentsList.getSelectedRows());
-           PrintService[] printServices = printingManager.getPrintServices();
-           PrinterSelection printerSelection = new PrinterSelection(printServices);
-           printerSelection.setVisible(true);
-           PrintService selectedPrintService = printerSelection.getSelectedPrinter();
-           for(Attachment attachment : attachments){
-              File file = FileUtils.blobToFile(attachment.getBlob(), tmpDir.getAbsolutePath()+File.separator+attachment.getFileName());
-              printingManager.printDocument(file, selectedPrintService); 
-           }
-       }
+        if (attachmentsList.getSelectedRows().length > 0) {
+            List<Attachment> attachments = attachmentlistModel.getSelectedAttachmentList(attachmentsList.getSelectedRows());
+            PrintService[] printServices = printingManager.getPrintServices();
+            PrinterSelection printerSelection = new PrinterSelection(printServices);
+            printerSelection.setVisible(true);
+            PrintService selectedPrintService = printerSelection.getSelectedPrinter();
+            for (Attachment attachment : attachments) {
+                File file = FileUtils.blobToFile(attachment.getBlob(), tmpDir.getAbsolutePath() + File.separator + attachment.getFileName());
+                printingManager.printDocument(file, selectedPrintService);
+            }
+        }
     }//GEN-LAST:event_printAttachActionPerformed
 
     private void attachmentsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_attachmentsListMouseClicked
-        if(attachmentsList.getSelectedRows().length==1){
+        if (attachmentsList.getSelectedRows().length == 1) {
             openBtn.setEnabled(true);
         }
     }//GEN-LAST:event_attachmentsListMouseClicked
@@ -660,20 +629,20 @@ public class PatientLogPanel extends javax.swing.JFrame {
         PrinterSelection printerSelection = new PrinterSelection(printServices);
         printerSelection.setVisible(true);
         PrintService selectedPrintService = printerSelection.getSelectedPrinter();
-        for(Attachment attachment : attachmentList){
-           File file = FileUtils.blobToFile(attachment.getBlob(), tmpDir.getAbsolutePath()+File.separatorChar+attachment.getFileName());
-           printingManager.printDocument(file,selectedPrintService); 
+        for (Attachment attachment : attachmentList) {
+            File file = FileUtils.blobToFile(attachment.getBlob(), tmpDir.getAbsolutePath() + File.separatorChar + attachment.getFileName());
+            printingManager.printDocument(file, selectedPrintService);
         }
-        File filePrint = FileUtils.blobToFile(descriptionData, tmpDir.getAbsolutePath()+File.separatorChar+"opis.txt");
+        File filePrint = FileUtils.blobToFile(descriptionData, tmpDir.getAbsolutePath() + File.separatorChar + "opis.txt");
         printingManager.printDocument(filePrint, selectedPrintService);
     }//GEN-LAST:event_printAllBtnActionPerformed
 
     private void saveBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseEntered
-      infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Zapisz historię pacjenta"));
+        infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Zapisz historię pacjenta"));
     }//GEN-LAST:event_saveBtnMouseEntered
 
     private void closeBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseEntered
-       infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Zamknij historię pacjenta i powróć do poprzedniego ekranu"));
+        infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Zamknij historię pacjenta i powróć do poprzedniego ekranu"));
     }//GEN-LAST:event_closeBtnMouseEntered
 
     private void printAllBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printAllBtnMouseEntered
@@ -681,15 +650,15 @@ public class PatientLogPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_printAllBtnMouseEntered
 
     private void printAttachMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_printAttachMouseEntered
-       infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Drukuj zaznaczony załącznik"));
+        infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Drukuj zaznaczony załącznik"));
     }//GEN-LAST:event_printAttachMouseEntered
 
     private void addNewBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewBtnMouseEntered
-       infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Dodaj nowy załącznik"));
+        infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Dodaj nowy załącznik"));
     }//GEN-LAST:event_addNewBtnMouseEntered
 
     private void deleteBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseEntered
-       infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Usuń załącznik"));
+        infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Usuń załącznik"));
     }//GEN-LAST:event_deleteBtnMouseEntered
 
     private void openBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openBtnMouseEntered
@@ -736,8 +705,8 @@ public class PatientLogPanel extends javax.swing.JFrame {
         TextTools textToolsWindow = new TextTools(this);
         textToolsWindow.setVisible(true);
     }//GEN-LAST:event_textToolBtnActionPerformed
-    
-    public javax.swing.JTextPane getDescriptionTxtField(){
+
+    public javax.swing.JTextPane getDescriptionTxtField() {
         return descriptionTxtField;
     }
 

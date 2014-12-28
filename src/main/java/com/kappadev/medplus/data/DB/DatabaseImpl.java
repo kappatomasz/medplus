@@ -19,10 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
 import com.kappadev.medplus.data.DB.SQL.SqlStatements;
-import com.kappadev.medplus.data.DB.attachment.Attachment;
-import com.kappadev.medplus.data.DB.states.States;
+import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
+import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.PatientLog.PatientLog;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import com.kappadev.medplus.utils.ConvertUtils;
 
 /**
@@ -124,8 +124,8 @@ public class DatabaseImpl implements Database{
             if (!"".equals(patient.getPostCode()) && patient.getPostCode() != null){
                 where+="AND POST_CODE="+patient.getPostCode()+" ";
             } 
-            if (patient.getPesel_id()!= 0L){
-                where+="AND ID="+String.valueOf(patient.getPesel_id())+" ";
+            if (patient.getId()!= 0L){
+                where+="AND ID="+String.valueOf(patient.getId())+" ";
             } 
             if (!"".equals(patient.getPhone())){
                 where+="AND PHONE='"+patient.getPhone()+"' ";
@@ -167,7 +167,7 @@ public class DatabaseImpl implements Database{
     @Override
     public boolean addPatient(Connection conn, Patient patient) throws SQLException {
         PreparedStatement statement = conn.prepareStatement(SqlStatements.ADD_NEW_PATIENT); 
-                statement.setLong(1, patient.getPesel_id());
+                statement.setLong(1, patient.getId());
                 statement.setString(2, patient.getName());
                 statement.setString(3, patient.getSecondName());
                 statement.setString(4, patient.getSurname());
@@ -206,8 +206,8 @@ public class DatabaseImpl implements Database{
         if (!"".equals(patient.getPostCode())){
                 updateFields+=", POST_CODE=\'"+patient.getPostCode()+"\' ";
         }
-        if (patient.getPesel_id()!= 0L){
-                updateFields+=", ID="+String.valueOf(patient.getPesel_id())+" ";
+        if (patient.getId()!= 0L){
+                updateFields+=", ID="+String.valueOf(patient.getId())+" ";
         }
         if (!"".equals(patient.getPhone())){
                 updateFields+=", PHONE=\'"+patient.getPhone()+"\' ";
@@ -224,7 +224,7 @@ public class DatabaseImpl implements Database{
         if(updateFields.startsWith(",")){
                 updateFields = updateFields.substring(1);
         }
-            String query = "UPDATE PATIENTS SET "+updateFields+"WHERE ID="+String.valueOf(patient.getPesel_id());
+            String query = "UPDATE PATIENTS SET "+updateFields+"WHERE ID="+String.valueOf(patient.getId());
         PreparedStatement statement = conn.prepareStatement(query);
         return statement.executeUpdate();
     }
@@ -307,13 +307,13 @@ public class DatabaseImpl implements Database{
         }
     }
 
-    @Override
-    public boolean addDisease(Connection conn, Disease disease) throws SQLException {
-         PreparedStatement statement = conn.prepareStatement(SqlStatements.ADD_DISEASE);
-         statement.setBytes(1, disease.getDescription());
-         statement.setString(2, disease.getName());
-         return statement.execute();
-    }
+//    @Override
+//    public boolean addDisease(Connection conn, Disease disease) throws SQLException {
+//         PreparedStatement statement = conn.prepareStatement(SqlStatements.ADD_DISEASE);
+//         statement.setBytes(1, disease.getDescription());
+//         statement.setString(2, disease.getName());
+//         return statement.execute();
+//    }
 
     @Override
     public boolean removeDiseaseWithId(Connection conn, List<Long> ids) throws SQLException {
@@ -372,7 +372,7 @@ public class DatabaseImpl implements Database{
     public boolean setDiseaseToPatientId(Connection conn, Disease disease, Patient patient) throws SQLException {
         PreparedStatement statement = conn.prepareStatement(SqlStatements.SET_DISEASE_TO_PATIENT_ID);
         statement.setLong(1, disease.getId());
-        statement.setLong(2, patient.getPesel_id());
+        statement.setLong(2, patient.getId());
         return statement.execute();
     }
 
