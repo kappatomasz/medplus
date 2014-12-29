@@ -5,10 +5,12 @@
  */
 package com.kappadev.medplus.data.Patient.repository;
 
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import com.kappadev.medplus.data.Patient.entity.Patient;
+
 /**
- *
  * @author tburzynski
  */
 public interface PatientCustomRepository {
-    
+    public void setDiseaseToPatient(Disease disease, Patient patient);
 }
