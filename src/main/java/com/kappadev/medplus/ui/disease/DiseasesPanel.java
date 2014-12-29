@@ -7,8 +7,8 @@ package com.kappadev.medplus.ui.disease;
 
 import javax.swing.JEditorPane;
 import com.kappadev.medplus.ui.RegistryPanel;
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
-import com.kappadev.medplus.data.DB.DISEASE.repository.DiseaseRepository;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.repository.DiseaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

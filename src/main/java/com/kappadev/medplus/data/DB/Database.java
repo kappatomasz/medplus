@@ -9,11 +9,9 @@ package com.kappadev.medplus.data.DB;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
-import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 
 /**
  *

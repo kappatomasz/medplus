@@ -6,10 +6,8 @@
 
 package com.kappadev.medplus.utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.states.entity.States;
 
 /**

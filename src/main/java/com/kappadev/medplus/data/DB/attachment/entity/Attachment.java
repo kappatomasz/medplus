@@ -5,7 +5,7 @@
  */
 package com.kappadev.medplus.data.DB.attachment.entity;
 
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import java.io.Serializable;
 import javax.persistence.Column;

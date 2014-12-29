@@ -15,7 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.RegistryPanel;
 import com.kappadev.medplus.ui.SearchPanel;
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.entity.States;
