@@ -5,13 +5,15 @@
  */
 package com.kappadev.medplus.ui.calendar.renderer;
 
-import java.awt.Component;
-import java.util.List;
-import javax.swing.JList;
-import javax.swing.JTable;
+
+
+import com.kappadev.medplus.data.DB.event.Event;
+
+import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 
-import com.kappadev.medplus.data.Event.Event;
+import java.awt.Component;
+import java.util.List;
 
 /**
  *
