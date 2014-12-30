@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.DISEASE.repository;
+package com.kappadev.medplus.data.DB.disease.repository;
 
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import org.springframework.data.repository.CrudRepository;
 
 /**

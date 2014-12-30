@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.DISEASE;
+package com.kappadev.medplus.data.DB.disease;
 
-import com.kappadev.medplus.data.DB.DISEASE.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

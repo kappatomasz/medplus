@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.DISEASE.entity;
+package com.kappadev.medplus.data.DB.disease.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
