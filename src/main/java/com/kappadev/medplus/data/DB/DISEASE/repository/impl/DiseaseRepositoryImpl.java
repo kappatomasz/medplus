@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.disease.repository.impl;
+package com.kappadev.medplus.data.DB.DISEASE.repository.impl;
 
-import com.kappadev.medplus.data.DB.disease.repository.DiseaseCustomRepository;
+import com.kappadev.medplus.data.DB.DISEASE.repository.DiseaseCustomRepository;
 
 /**
  * @author tburzynski
