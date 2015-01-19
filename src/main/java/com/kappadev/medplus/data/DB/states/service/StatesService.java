@@ -6,6 +6,7 @@
 package com.kappadev.medplus.data.DB.states.service;
 
 import com.kappadev.medplus.data.DB.states.entity.States;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,6 @@ import com.kappadev.medplus.data.DB.states.entity.States;
  */
 public interface StatesService {
     
-    public Iterable<States> getAllStates();
+    public List<States> getAllStates();
     
 }

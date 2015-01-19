@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.ui.calendar.models;
+package com.kappadev.medplus.ui.calendar.renderer;
 
 /**
  *
  * @author tburzynski
  */
-public class DayTableModel {
+public class HourListRenderer {
     
 }

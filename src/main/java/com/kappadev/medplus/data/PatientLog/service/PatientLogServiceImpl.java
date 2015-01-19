@@ -2,6 +2,7 @@ package com.kappadev.medplus.data.PatientLog.service;
 
 import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import com.kappadev.medplus.data.PatientLog.repository.PatientLogRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,7 @@ public class PatientLogServiceImpl implements PatientLogService {
     }
 
     @Override
-    public Iterable<PatientLog> getAllPatientsLogs() {
+    public List<PatientLog> getAllPatientsLogs() {
         return patientLogRepository.findAll();
     }
 

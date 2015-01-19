@@ -5,6 +5,11 @@
  */
 package com.kappadev.medplus.ui.calendar;
 
+import com.kappadev.medplus.ui.calendar.models.MonthTableModel;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  *
  * @author tburzynski
@@ -24,7 +29,11 @@ public class CalendarPanel extends javax.swing.JFrame {
     }
     
     private void initMonthView(){
-        
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendarTable.setModel(new MonthTableModel(calendar.get(Calendar.MONTH), date));
+                
     }
     
     private void initWeekView(){

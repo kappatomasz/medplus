@@ -5,13 +5,10 @@
  */
 package com.kappadev.medplus.data.Patient.repository;
 
-import com.kappadev.medplus.data.Patient.entity.Patient;
-import org.springframework.data.repository.CrudRepository;
-
 /**
  *
  * @author tburzynski
  */
-public interface PatientRepository extends CrudRepository<Patient, Long>, PatientCustomRepository{
-    
+public interface PatientRepository extends PatientCustomRepository{
+  
 }

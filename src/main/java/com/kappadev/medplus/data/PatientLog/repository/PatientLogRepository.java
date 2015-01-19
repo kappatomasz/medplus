@@ -6,13 +6,13 @@
 package com.kappadev.medplus.data.PatientLog.repository;
 
 import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author tburzynski
  */
-public interface PatientLogRepository extends CrudRepository<PatientLog, Long> {
+public interface PatientLogRepository extends JpaRepository<PatientLog, Long> {
 
     public PatientLog findPatientLogByPatientId(Long patientId);
 }

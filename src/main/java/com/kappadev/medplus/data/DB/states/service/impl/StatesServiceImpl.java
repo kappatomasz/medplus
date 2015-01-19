@@ -8,6 +8,7 @@ package com.kappadev.medplus.data.DB.states.service.impl;
 import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.DB.states.repository.StatesRepository;
 import com.kappadev.medplus.data.DB.states.service.StatesService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class StatesServiceImpl implements StatesService{
     private StatesRepository statesRepository;
 
     @Override
-    public Iterable<States> getAllStates() {
+    public List<States> getAllStates() {
         return statesRepository.findAll();
     }
 

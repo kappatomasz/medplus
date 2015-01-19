@@ -6,6 +6,7 @@
 package com.kappadev.medplus.data.Patient.service;
 
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import java.util.List;
 
 /**
  *
@@ -13,13 +14,15 @@ import com.kappadev.medplus.data.Patient.entity.Patient;
  */
 public interface PatientService {
 
-    public Iterable<Patient> getAllPatients();
+    public List<Patient> getAllPatients();
     
     public void savePatient(Patient patient);
     
-    public void deletePatient(Patient patient);
+    public void removePatient(Patient patient);
     
     public Patient getPatientById(Long id);
     
-    public void deletePatientList(Iterable<Patient> patientList);
+    public void removePatientList(Iterable<Patient> patientList);
+    
+    public List<Patient> getFilteredPatients(Patient patient);
 }

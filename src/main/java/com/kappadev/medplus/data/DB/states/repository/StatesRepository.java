@@ -6,12 +6,12 @@
 package com.kappadev.medplus.data.DB.states.repository;
 
 import com.kappadev.medplus.data.DB.states.entity.States;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author tburzynski
  */
-public interface StatesRepository extends CrudRepository<States, Long>{
+public interface StatesRepository extends JpaRepository<States, Long>{
     
 }

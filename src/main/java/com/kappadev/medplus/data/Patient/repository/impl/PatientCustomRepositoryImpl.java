@@ -17,7 +17,7 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author tburzynski
  */
-public class PatientCustomRepositoryImpl implements PatientCustomRepository{
+public class PatientCustomRepositoryImpl implements PatientCustomRepository {
 
     @Autowired
     EntityManagerFactory entityManagerFactory;
@@ -32,5 +32,5 @@ public class PatientCustomRepositoryImpl implements PatientCustomRepository{
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-    
+
 }

@@ -19,14 +19,18 @@ public class PatientTableModel extends AbstractTableModel {
 
     private Object[][] data;
     private PatientTableObject pto;
+    private Iterable<Patient> patientIterable;
     private List<Patient> patientList;
 
-    public PatientTableModel(List<Patient> patientList) {
-        this.patientList = patientList;
+    public PatientTableModel(Iterable<Patient> patientIterable) {
+        this.patientIterable = patientIterable;
+        for(Patient patient : patientIterable){
+            patientList.add(patient);
+        }
     }
 
     @Override
-    public int getRowCount() {
+    public int getRowCount() {   
         return patientList.size();
     }
 

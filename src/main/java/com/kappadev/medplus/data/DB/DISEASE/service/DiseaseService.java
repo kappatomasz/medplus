@@ -1,6 +1,7 @@
-package com.kappadev.medplus.data.DB.disease.service;
+package com.kappadev.medplus.data.DB.DISEASE.service;
 
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import java.util.List;
 
 public interface DiseaseService {
 
@@ -8,7 +9,7 @@ public interface DiseaseService {
 
     public void removeDisease(Disease disease);
 
-    public Iterable<Disease> getAllDiseases();
+    public List<Disease> getAllDiseases();
 
     public Disease getDiseaseWithId(Long id);
 }

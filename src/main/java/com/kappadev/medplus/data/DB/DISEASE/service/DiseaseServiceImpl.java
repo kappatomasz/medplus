@@ -1,7 +1,8 @@
-package com.kappadev.medplus.data.DB.disease.service;
+package com.kappadev.medplus.data.DB.DISEASE.service;
 
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.disease.repository.DiseaseRepository;
+import com.kappadev.medplus.data.DB.DISEASE.repository.DiseaseRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class DiseaseServiceImpl implements DiseaseService {
     }
 
     @Override
-    public Iterable<Disease> getAllDiseases() {
+    public List<Disease> getAllDiseases() {
         return diseaseRepository.findAll();
     }
 

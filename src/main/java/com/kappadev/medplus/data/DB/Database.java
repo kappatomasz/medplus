@@ -20,12 +20,12 @@ import com.kappadev.medplus.data.Patient.entity.Patient;
 public interface Database {
     public Connection openConnection();
     public boolean closeConnection(Connection conn) throws SQLException;
-    public Patient getPatientById(Connection conn, long id) throws SQLException;
-    public List<Patient> getAllPatients(Connection conn) throws SQLException;
-    public List<Patient> getFilteredPatients(Connection conn, Patient patient) throws SQLException;
-    public boolean addPatient(Connection conn, Patient patient) throws SQLException;
-    public int editPatient(Connection conn, Patient patient) throws SQLException;
-    public boolean removePatients(Connection conn, List<Long>ids) throws SQLException;
+//    public Patient getPatientById(Connection conn, long id) throws SQLException;
+//    public List<Patient> getAllPatients(Connection conn) throws SQLException;
+//    public List<Patient> getFilteredPatients(Connection conn, Patient patient) throws SQLException;
+//    public boolean addPatient(Connection conn, Patient patient) throws SQLException;
+//    public int editPatient(Connection conn, Patient patient) throws SQLException;
+//    public boolean removePatients(Connection conn, List<Long>ids) throws SQLException;
 //    public boolean addAttachment(Connection conn, Attachment attachment) throws SQLException;
 //    public List<Attachment> getAttachmentsForPatientId(Connection conn, long id) throws SQLException;
 //    public boolean removeAttachment(Connection conn, List<Long> ids) throws SQLException;

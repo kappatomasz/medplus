@@ -1,5 +1,6 @@
 package com.kappadev.medplus.ui;
 
+import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
 import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
@@ -19,6 +20,8 @@ import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.DB.states.service.StatesService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import com.kappadev.medplus.data.Patient.service.PatientService;
+import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /*
@@ -26,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Tomasz
@@ -36,53 +38,58 @@ public class SearchPanel extends javax.swing.JFrame {
     /**
      * Creates new form SearchPanel
      */
-    private  Iterable<States> states;
-    private  List<Patient> patientListValues;
-    private  List<Long> selectedPatientsIds;
-    private  List<Disease> diseases;
-    private  Database db; 
+    private List<States> states;
+    private List<Patient> patientListValues;
+    private List<Patient> selectedPatients;
+    private Iterable<Disease> diseases;
+    private Database db;
     private MessagePopUp popUp;
-    
+
     @Autowired
     private StatesService statesService;
+
+    @Autowired
+    private PatientService patientService;
     
+    @Autowired
+    private PatientLogService patientLogService;
+
+    @Autowired
+    private DiseaseService diseaseService;
+
     public SearchPanel() {
         initComponents();
         db = new DatabaseImpl();
         infoLbl.setText("");
         clearFields();
-            try {
-                states = statesService.getAllStates();
-                patientListValues = db.getAllPatients(conn);
-                diseases = db.getAllDiseases(conn);
-                db.closeConnection(conn);
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "", ex);
-            }
+        states = statesService.getAllStates();
+        patientListValues = patientService.getAllPatients();
+        diseases = diseaseService.getAllDiseases();
+
         stateComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
-        for(States state : states){
-           comboBoxModel.addElement(state); 
+        for (States state : states) {
+            comboBoxModel.addElement(state);
         }
-        stateComboBox.setModel(comboBoxModel); 
+        stateComboBox.setModel(comboBoxModel);
         deleteBtn.setEnabled(false);
         patientList.setModel(new PatientTableModel(patientListValues));
         popUp = new MessagePopUp();
-        
+
         DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for(Disease disease : diseases){
+        for (Disease disease : diseases) {
             diseaseComboBoxModel.addElement(disease);
         }
         diseaseComboBox.setModel(diseaseComboBoxModel);
-        
+
         removeColumnsFromTable();
-        
-        AutoSuggest surnameTxtFldAutoSuggest = new AutoSuggest(surnameTxtFld, this, null, 
-                Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f){
+
+        AutoSuggest surnameTxtFldAutoSuggest = new AutoSuggest(surnameTxtFld, this, null,
+                Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
                     @Override
-                    boolean wordTyped(String typedWord){
+                    boolean wordTyped(String typedWord) {
                         Set<String> dict = new HashSet<>();
-                        for(Patient patient : patientListValues){
+                        for (Patient patient : patientListValues) {
                             dict.add(patient.getSurname());
                         }
                         setDictionary(new ArrayList<>(dict));
@@ -90,46 +97,46 @@ public class SearchPanel extends javax.swing.JFrame {
                     }
                 };
         AutoSuggest streetTxtFldAutoSuggest = new AutoSuggest(streetTxtFld, this, null, Color.WHITE.brighter(),
-            Color.BLUE, Color.RED, 1.0f){
-               @Override
-                    boolean wordTyped(String typedWord){
+                Color.BLUE, Color.RED, 1.0f) {
+                    @Override
+                    boolean wordTyped(String typedWord) {
                         Set<String> dict = new HashSet<>();
-                        for(Patient patient : patientListValues){
+                        for (Patient patient : patientListValues) {
                             dict.add(patient.getStreet());
                         }
                         setDictionary(new ArrayList<>(dict));
                         return super.wordTyped(typedWord);
                     }
-            };
-        
-        AutoSuggest cityAutoSuggest = new AutoSuggest(cityTxtFld, this, 
-                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f){
-                   @Override
-                    boolean wordTyped(String typedWord){
+                };
+
+        AutoSuggest cityAutoSuggest = new AutoSuggest(cityTxtFld, this,
+                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
+                    @Override
+                    boolean wordTyped(String typedWord) {
                         Set<String> dict = new HashSet<>();
-                        for(Patient patient : patientListValues){
+                        for (Patient patient : patientListValues) {
                             dict.add(patient.getCity());
                         }
-                        setDictionary(new ArrayList<String>(dict));
+                        setDictionary(new ArrayList<>(dict));
                         return super.wordTyped(typedWord);
-                    } 
+                    }
                 };
-        
-        AutoSuggest postCodeAutoSuggest = new AutoSuggest(postCodeTxtFld, this, 
-                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f){
-                   @Override
-                    boolean wordTyped(String typedWord){
+
+        AutoSuggest postCodeAutoSuggest = new AutoSuggest(postCodeTxtFld, this,
+                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
+                    @Override
+                    boolean wordTyped(String typedWord) {
                         Set<String> dict = new HashSet<>();
-                        for(Patient patient : patientListValues){
+                        for (Patient patient : patientListValues) {
                             dict.add(patient.getPostCode());
                         }
-                        setDictionary(new ArrayList<String>(dict));
+                        setDictionary(new ArrayList<>(dict));
                         return super.wordTyped(typedWord);
-                    } 
+                    }
                 };
-        
+
         openBtn.setEnabled(false);
-        
+
     }
 
     /**
@@ -656,22 +663,17 @@ public class SearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        PatientTableModel model = (PatientTableModel)patientList.getModel();
-        
+        PatientTableModel model = (PatientTableModel) patientList.getModel();
+
         int[] selectedRows = patientList.getSelectedRows();
-//        int[] convertedSelectedRows = new int[selectedRows.length];
-//        
-//        for(int i=0; i<selectedRows.length; i++){
-//            convertedSelectedRows[i] = patientList.convertRowIndexToModel(selectedRows[i]);
-//        }
-        
-        selectedPatientsIds = model.getSelectedPatientsIds(selectedRows);
+
+        selectedPatients = model.getSelectedPatientList(selectedRows);
         String popUpMsg = "";
-        if(selectedPatientsIds.size()==1){
-            popUpMsg= "Czy aby napewno chcesz usunąć "
+        if (selectedPatients.size() == 1) {
+            popUpMsg = "Czy aby napewno chcesz usunąć "
                     + "tego pacjenta i jego historię choroby ?";
-           
-        }else if(selectedPatientsIds.size()>1){
+
+        } else if (selectedPatients.size() > 1) {
             popUpMsg = "Czy aby napewno chcesz usunąć "
                     + "zaznaczonych pacjentów i ich historię choroby ?";
         }
@@ -679,17 +681,13 @@ public class SearchPanel extends javax.swing.JFrame {
         popUp.pack();
         popUp.setVisible(true);
         boolean confirmed = popUp.getStateResult();
-        if(confirmed){
-            Connection conn = db.openConnection();
-                try {
-                    db.removePatientLogWithPeselId(conn, selectedPatientsIds);
-                    db.removePatients(conn, selectedPatientsIds);
-                    patientListValues = db.getAllPatients(conn);
-                    patientList.setModel(new PatientTableModel(patientListValues));
-                    removeColumnsFromTable();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        if (confirmed) {
+//            patientLogService.removePatientLog(selectedPatientsIds);
+            patientService.removePatientList(selectedPatients);
+            patientListValues = patientService.getAllPatients();
+            patientList.setModel(new PatientTableModel(patientListValues));
+            removeColumnsFromTable();
+
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
@@ -708,14 +706,14 @@ public class SearchPanel extends javax.swing.JFrame {
 
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
         Patient selectedPatient = getSelectedPatient();
-        if(selectedPatient.isSelected()){
+        if (selectedPatient.isSelected()) {
             openBtn.setEnabled(true);
             deleteBtn.setEnabled(true);
-        }else{
-             openBtn.setEnabled(false); 
-             deleteBtn.setEnabled(false);
+        } else {
+            openBtn.setEnabled(false);
+            deleteBtn.setEnabled(false);
         }
-                           
+
     }//GEN-LAST:event_patientListMouseClicked
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -769,59 +767,59 @@ public class SearchPanel extends javax.swing.JFrame {
         db = new DatabaseImpl();
         Connection conn = db.openConnection();
         Patient patient = new Patient();
-        if(!cityTxtFld.getText().equals("")){
+        if (!cityTxtFld.getText().equals("")) {
             patient.setCity(cityTxtFld.getText());
         }
-        if(!flatNoTxtFld.getText().equals("")){
+        if (!flatNoTxtFld.getText().equals("")) {
             patient.setFlat(flatNoTxtFld.getText());
-        }else{
+        } else {
             patient.setFlat("");
         }
-        if(!houseNoTxtFld.getText().equals("")){
+        if (!houseNoTxtFld.getText().equals("")) {
             patient.setHouseNo(houseNoTxtFld.getText());
-        }else{
+        } else {
             patient.setHouseNo("");
         }
-        if(!nameTxtFld.getText().equals("")){
+        if (!nameTxtFld.getText().equals("")) {
             patient.setName(nameTxtFld.getText());
-        }else{
+        } else {
             patient.setName("");
         }
-        if(!secondNameTxtFld.getText().equals("")){
+        if (!secondNameTxtFld.getText().equals("")) {
             patient.setSecondName(secondNameTxtFld.getText());
-        }else{
+        } else {
             patient.setSecondName("");
         }
-        if(null != (States)stateComboBox.getSelectedItem()){
-            patient.setState(((States)stateComboBox.getSelectedItem()));
+        if (null != (States) stateComboBox.getSelectedItem()) {
+            patient.setState(((States) stateComboBox.getSelectedItem()));
         }
-        if(!streetTxtFld.getText().equals("")){
+        if (!streetTxtFld.getText().equals("")) {
             patient.setStreet(streetTxtFld.getText());
-        }else{
+        } else {
             patient.setStreet("");
         }
-        if(!surnameTxtFld.getText().equals("")){
+        if (!surnameTxtFld.getText().equals("")) {
             patient.setSurname(surnameTxtFld.getText());
-        }else{
+        } else {
             patient.setSurname("");
         }
-        if(!peselTxtFld.getText().equals("")){
+        if (!peselTxtFld.getText().equals("")) {
             patient.setPesel_id(Long.valueOf(peselTxtFld.getText()));
         }
-        if(!phoneTxtFld.getText().equals("")){
+        if (!phoneTxtFld.getText().equals("")) {
             patient.setPhone(phoneTxtFld.getText());
-        }else{
+        } else {
             patient.setPhone("");
         }
-        if(!postCodeTxtFld.getText().equals("")){
+        if (!postCodeTxtFld.getText().equals("")) {
             patient.setPostCode(postCodeTxtFld.getText().replace("-", ""));
-        }else{
+        } else {
             patient.setPostCode("");
         }
-        if((Disease)diseaseComboBox.getSelectedItem()!= null){
-            patient.setDisease(((Disease)diseaseComboBox.getSelectedItem()));
+        if ((Disease) diseaseComboBox.getSelectedItem() != null) {
+            patient.setDisease(((Disease) diseaseComboBox.getSelectedItem()));
         }
-       
+
         try {
             patientListValues.clear();
             patientListValues = db.getFilteredPatients(conn, patient);
@@ -865,7 +863,7 @@ public class SearchPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_houseNoTxtFldActionPerformed
 
-    private void removeColumnsFromTable(){
+    private void removeColumnsFromTable() {
         patientList.removeColumn(patientList.getColumnModel().getColumn(3));
         patientList.removeColumn(patientList.getColumnModel().getColumn(4));
         patientList.removeColumn(patientList.getColumnModel().getColumn(4));
@@ -875,8 +873,8 @@ public class SearchPanel extends javax.swing.JFrame {
         patientList.validate();
         patientList.repaint();
     }
-    
-    private void clearFields(){
+
+    private void clearFields() {
         nameTxtFld.setText("");
         secondNameTxtFld.setText("");
         surnameTxtFld.setText("");
@@ -886,11 +884,11 @@ public class SearchPanel extends javax.swing.JFrame {
         cityTxtFld.setText("");
         postCodeTxtFld.setText("");
         phoneTxtFld.setText("");
-        peselTxtFld.setText(""); 
+        peselTxtFld.setText("");
     }
-    
-    private Patient getSelectedPatient(){
-        PatientTableModel model = (PatientTableModel)patientList.getModel();
+
+    private Patient getSelectedPatient() {
+        PatientTableModel model = (PatientTableModel) patientList.getModel();
         int selectedRow = patientList.getSelectedRow();
         int convertedRowIndex = patientList.convertRowIndexToModel(selectedRow);
         Patient selectedPatient = model.getSelectedPatient(convertedRowIndex);

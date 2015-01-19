@@ -7,10 +7,14 @@ package com.kappadev.medplus.data.Patient.repository;
 
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**
  * @author tburzynski
  */
-public interface PatientCustomRepository {
+public interface PatientCustomRepository extends JpaRepository<Patient, Long>, JpaSpecificationExecutor<Patient> {
+
     public void setDiseaseToPatient(Disease disease, Patient patient);
+
 }
