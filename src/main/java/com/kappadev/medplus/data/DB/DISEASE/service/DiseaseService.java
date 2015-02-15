@@ -4,6 +4,8 @@ import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import java.util.List;
 
 public interface DiseaseService {
+    
+    public void updateDisease(Disease disease);
 
     public void saveDisease(Disease disease);
 

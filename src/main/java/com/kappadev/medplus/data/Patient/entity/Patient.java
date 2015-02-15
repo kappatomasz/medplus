@@ -5,14 +5,14 @@
  */
 package com.kappadev.medplus.data.Patient.entity;
 
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.states.entity.States;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -27,7 +27,7 @@ public class Patient implements Serializable {
 
     @Id
     @Column(name = "Id", precision = 11, scale = 0, unique = true, nullable = false)
-    private long id; //THIS IS ID IN DATABASE
+    private Long id; //THIS IS ID IN DATABASE
 
     @Column(name = "name", nullable = true, length = 100)
     private String name;
@@ -62,9 +62,9 @@ public class Patient implements Serializable {
 
     private boolean selected;
 
-    @OneToMany
-    @JoinColumn(name = "disease", referencedColumnName = "Id")
-    private Disease disease;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "patientLogId", referencedColumnName = "Id")
+    private PatientLog patientLog;
 
     /**
      * @return the name
@@ -195,14 +195,14 @@ public class Patient implements Serializable {
     /**
      * @return the pesel_id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param pesel_id the pesel_id to set
      */
-    public void setPesel_id(long pesel_id) {
+    public void setId(Long pesel_id) {
         this.id = pesel_id;
     }
 
@@ -245,12 +245,18 @@ public class Patient implements Serializable {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-
-    public void setDisease(Disease disease) {
-        this.disease = disease;
+    
+    /**
+     * @return the patientLog
+     */
+    public PatientLog getPatientLog() {
+        return patientLog;
     }
 
-    public Disease getDisease() {
-        return disease;
+    /**
+     * @param patientLog the patientLog to set
+     */
+    public void setPatientLog(PatientLog patientLog) {
+        this.patientLog = patientLog;
     }
 }

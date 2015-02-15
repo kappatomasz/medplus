@@ -1,28 +1,22 @@
 package com.kappadev.medplus.ui;
 
-import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
 import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.Database;
-import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.DB.states.service.StatesService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.Patient.service.PatientService;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Tomasz
  */
+@Component
 public class SearchPanel extends javax.swing.JFrame {
 
     /**
@@ -41,8 +36,7 @@ public class SearchPanel extends javax.swing.JFrame {
     private List<States> states;
     private List<Patient> patientListValues;
     private List<Patient> selectedPatients;
-    private Iterable<Disease> diseases;
-    private Database db;
+    private List<PatientLog> selectedPatientLogs;
     private MessagePopUp popUp;
 
     @Autowired
@@ -50,22 +44,17 @@ public class SearchPanel extends javax.swing.JFrame {
 
     @Autowired
     private PatientService patientService;
-    
+
     @Autowired
     private PatientLogService patientLogService;
 
-    @Autowired
-    private DiseaseService diseaseService;
-
     public SearchPanel() {
         initComponents();
-        db = new DatabaseImpl();
         infoLbl.setText("");
         clearFields();
         states = statesService.getAllStates();
         patientListValues = patientService.getAllPatients();
-        diseases = diseaseService.getAllDiseases();
-
+      
         stateComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
         for (States state : states) {
@@ -75,13 +64,6 @@ public class SearchPanel extends javax.swing.JFrame {
         deleteBtn.setEnabled(false);
         patientList.setModel(new PatientTableModel(patientListValues));
         popUp = new MessagePopUp();
-
-        DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for (Disease disease : diseases) {
-            diseaseComboBoxModel.addElement(disease);
-        }
-        diseaseComboBox.setModel(diseaseComboBoxModel);
-
         removeColumnsFromTable();
 
         AutoSuggest surnameTxtFldAutoSuggest = new AutoSuggest(surnameTxtFld, this, null,
@@ -161,9 +143,7 @@ public class SearchPanel extends javax.swing.JFrame {
         backBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        diseaseComboBox = new javax.swing.JComboBox();
         stateComboBox = new javax.swing.JComboBox();
-        jLabel15 = new javax.swing.JLabel();
         phoneTxtFld = new javax.swing.JTextField();
         postCodeTxtFld = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -330,14 +310,6 @@ public class SearchPanel extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         jLabel10.setText("województwo");
 
-        diseaseComboBox.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
-        diseaseComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        diseaseComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                diseaseComboBoxActionPerformed(evt);
-            }
-        });
-
         stateComboBox.setFont(new java.awt.Font("DejaVu Sans", 0, 12)); // NOI18N
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         stateComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -345,9 +317,6 @@ public class SearchPanel extends javax.swing.JFrame {
                 stateComboBoxActionPerformed(evt);
             }
         });
-
-        jLabel15.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        jLabel15.setText("choroba");
 
         phoneTxtFld.setFont(new java.awt.Font("DejaVu Sans", 0, 13)); // NOI18N
         phoneTxtFld.setText("jTextField1");
@@ -427,13 +396,9 @@ public class SearchPanel extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(36, 36, 36)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(stateComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(diseaseComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(stateComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(phoneLbl)
                                 .addGap(84, 84, 84)
@@ -527,11 +492,7 @@ public class SearchPanel extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(diseaseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addContainerGap())
+                .addGap(38, 38, 38))
         );
 
         openBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
@@ -664,10 +625,11 @@ public class SearchPanel extends javax.swing.JFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         PatientTableModel model = (PatientTableModel) patientList.getModel();
-
+        
         int[] selectedRows = patientList.getSelectedRows();
 
         selectedPatients = model.getSelectedPatientList(selectedRows);
+        selectedPatientLogs = model.getSelectedPatientPatiemtLogs(selectedRows);
         String popUpMsg = "";
         if (selectedPatients.size() == 1) {
             popUpMsg = "Czy aby napewno chcesz usunąć "
@@ -682,7 +644,7 @@ public class SearchPanel extends javax.swing.JFrame {
         popUp.setVisible(true);
         boolean confirmed = popUp.getStateResult();
         if (confirmed) {
-//            patientLogService.removePatientLog(selectedPatientsIds);
+            patientLogService.removePatientLogList(selectedPatientLogs);
             patientService.removePatientList(selectedPatients);
             patientListValues = patientService.getAllPatients();
             patientList.setModel(new PatientTableModel(patientListValues));
@@ -764,8 +726,6 @@ public class SearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteBtnMouseExited
 
     private void findBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBtnActionPerformed
-        db = new DatabaseImpl();
-        Connection conn = db.openConnection();
         Patient patient = new Patient();
         if (!cityTxtFld.getText().equals("")) {
             patient.setCity(cityTxtFld.getText());
@@ -804,7 +764,7 @@ public class SearchPanel extends javax.swing.JFrame {
             patient.setSurname("");
         }
         if (!peselTxtFld.getText().equals("")) {
-            patient.setPesel_id(Long.valueOf(peselTxtFld.getText()));
+            patient.setId(Long.valueOf(peselTxtFld.getText()));
         }
         if (!phoneTxtFld.getText().equals("")) {
             patient.setPhone(phoneTxtFld.getText());
@@ -816,19 +776,11 @@ public class SearchPanel extends javax.swing.JFrame {
         } else {
             patient.setPostCode("");
         }
-        if ((Disease) diseaseComboBox.getSelectedItem() != null) {
-            patient.setDisease(((Disease) diseaseComboBox.getSelectedItem()));
-        }
-
-        try {
-            patientListValues.clear();
-            patientListValues = db.getFilteredPatients(conn, patient);
-            patientList.removeAll();
-            patientList.setModel(new PatientTableModel(patientListValues));
-            removeColumnsFromTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        patientListValues = patientService.getFilteredPatients(patient);
+        patientList.removeAll();
+        patientList.setModel(new PatientTableModel(patientListValues));
+        removeColumnsFromTable();
     }//GEN-LAST:event_findBtnActionPerformed
 
     private void findBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_findBtnMouseEntered
@@ -854,10 +806,6 @@ public class SearchPanel extends javax.swing.JFrame {
     private void stateComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_stateComboBoxActionPerformed
-
-    private void diseaseComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diseaseComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_diseaseComboBoxActionPerformed
 
     private void houseNoTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_houseNoTxtFldActionPerformed
         // TODO add your handling code here:
@@ -901,7 +849,6 @@ public class SearchPanel extends javax.swing.JFrame {
     private javax.swing.JTextField cityTxtFld;
     private javax.swing.JButton clearBtn;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JComboBox diseaseComboBox;
     private javax.swing.JButton editButton;
     private javax.swing.JButton findBtn;
     private javax.swing.JTextField flatNoTxtFld;
@@ -912,7 +859,6 @@ public class SearchPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

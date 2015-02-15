@@ -31,17 +31,17 @@ public interface Database {
 //    public boolean removeAttachment(Connection conn, List<Long> ids) throws SQLException;
 //    public boolean updateAttachment(Connection conn, Long id, byte[] blob) throws SQLException;
 //    public boolean addDisease(Connection conn, Disease disease) throws SQLException;
-    public boolean updateDiseaseById(Connection conn, Disease disease) throws SQLException;
-    public boolean removeDisease(Connection conn, List<Long> ids) throws SQLException;
-    public List<Disease> getAllDiseases(Connection conn) throws SQLException;
-    public Disease getDiseaseById(Connection conn, long id) throws SQLException;
-    public boolean setDiseaseToPatientId(Connection conn, Disease disease, Patient patient) throws SQLException;
-    public boolean addPatientLog(Connection conn, Long peselId) throws SQLException;
+//    public boolean updateDiseaseById(Connection conn, Disease disease) throws SQLException;
+//    public boolean removeDisease(Connection conn, List<Long> ids) throws SQLException;
+//    public List<Disease> getAllDiseases(Connection conn) throws SQLException;
+//    public Disease getDiseaseById(Connection conn, long id) throws SQLException;
+//    public boolean setDiseaseToPatientId(Connection conn, Disease disease, Patient patient) throws SQLException;
+//    public boolean addPatientLog(Connection conn, Long peselId) throws SQLException;
 //    public boolean updatePatientLog(Connection conn, Long id, String note) throws SQLException;
 //    public boolean removePatientLog(Connection conn, List<Long> ids) throws SQLException;
 //    public PatientLog getPatientLogByPeselId(Connection conn, Long id) throws SQLException;
 //    public boolean removePatientLogWithPeselId(Connection con, List<Long> id) throws SQLException;
-    public List<States> getStates(Connection conn) throws SQLException;
-    public boolean removeDiseaseWithId(Connection conn, List<Long> id) throws SQLException;
+//    public List<States> getStates(Connection conn) throws SQLException;
+//    public boolean removeDiseaseWithId(Connection conn, List<Long> id) throws SQLException;
     public boolean makeInstallation(Connection conn, String sql) throws SQLException;
 }

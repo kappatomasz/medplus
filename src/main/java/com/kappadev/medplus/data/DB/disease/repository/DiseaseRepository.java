@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kappadev.medplus.data.DB.DISEASE.repository;
+package com.kappadev.medplus.data.DB.disease.repository;
 
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author tburzynski
  */
-public interface DiseaseRepository extends JpaRepository<Disease, Long>, DiseaseCustomRepository{
-    
+public interface DiseaseRepository extends JpaRepository<Disease, Long> {
+
 }

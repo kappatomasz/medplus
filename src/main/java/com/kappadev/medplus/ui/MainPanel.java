@@ -13,11 +13,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.kappadev.medplus.data.preparation.Installation;
 import com.kappadev.medplus.utils.FileUtils;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
+@Component
 public class MainPanel extends javax.swing.JFrame {
 
     /**

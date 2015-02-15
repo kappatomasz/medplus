@@ -9,18 +9,9 @@ package com.kappadev.medplus.data.DB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.SQL.SqlStatements;
-import com.kappadev.medplus.data.DB.states.entity.States;
-import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 
 /**
  *
@@ -243,19 +234,19 @@ public class DatabaseImpl implements Database{
 //        return statement.execute();
 //    }
 
-    @Override
-    public List<States> getStates(Connection conn) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_STATES);
-        ResultSet rs = statement.executeQuery();
-        List<States> statesList = new ArrayList<>();
-        while(rs.next()){
-            States state = new States();
-            state.setId(rs.getInt(1));
-            state.setName(rs.getString(2));
-            statesList.add(state);  
-        }
-        return statesList;
-    }
+//    @Override
+//    public List<States> getStates(Connection conn) throws SQLException {
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_STATES);
+//        ResultSet rs = statement.executeQuery();
+//        List<States> statesList = new ArrayList<>();
+//        while(rs.next()){
+//            States state = new States();
+//            state.setId(rs.getInt(1));
+//            state.setName(rs.getString(2));
+//            statesList.add(state);  
+//        }
+//        return statesList;
+//    }
 
 //    @Override
 //    public boolean addAttachment(Connection conn, Attachment attachment) throws SQLException {
@@ -312,20 +303,20 @@ public class DatabaseImpl implements Database{
 //         return statement.execute();
 //    }
 
-    @Override
-    public boolean removeDiseaseWithId(Connection conn, List<Long> ids) throws SQLException {
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<ids.size(); i++){
-            sb.append(ids.get(i));
-            if(i+1<ids.size()){
-                sb.append(",");
-            }
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.REMOVE_DISEASE_BY_ID);
-        statement.setString(1, sb.toString());
-        return statement.execute();
-    }
+//    @Override
+//    public boolean removeDiseaseWithId(Connection conn, List<Long> ids) throws SQLException {
+//        StringBuilder sb = new StringBuilder();
+//        for(int i=0;i<ids.size(); i++){
+//            sb.append(ids.get(i));
+//            if(i+1<ids.size()){
+//                sb.append(",");
+//            }
+//        }
+//        
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.REMOVE_DISEASE_BY_ID);
+//        statement.setString(1, sb.toString());
+//        return statement.execute();
+//    }
 
     @Override
     public boolean makeInstallation(Connection conn, String sql) throws SQLException {
@@ -341,87 +332,87 @@ public class DatabaseImpl implements Database{
 //         return statement.execute();
 //    }
 
-    @Override
-    public boolean updateDiseaseById(Connection conn, Disease disease) throws SQLException {
-       PreparedStatement statement = conn.prepareStatement(SqlStatements.UPDATE_DISEASE_BY_ID);
-         statement.setBytes(1, disease.getDescription());
-         statement.setString(2, disease.getName());
-         statement.setLong(3, disease.getId());
-         return statement.execute();
-    }
+//    @Override
+//    public boolean updateDiseaseById(Connection conn, Disease disease) throws SQLException {
+//       PreparedStatement statement = conn.prepareStatement(SqlStatements.UPDATE_DISEASE_BY_ID);
+//         statement.setBytes(1, disease.getDescription());
+//         statement.setString(2, disease.getName());
+//         statement.setLong(3, disease.getId());
+//         return statement.execute();
+//    }
 
-    @Override
-    public boolean removeDisease(Connection conn, List<Long> ids) throws SQLException {
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<ids.size(); i++){
-            sb.append(ids.get(i));
-            if(i+1<ids.size()){
-                sb.append(",");
-            }
-        }
-        
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.REMOVE_DISEASE_BY_ID);
-        statement.setString(1, sb.toString());
-        return statement.execute();
-    }
+//    @Override
+//    public boolean removeDisease(Connection conn, List<Long> ids) throws SQLException {
+//        StringBuilder sb = new StringBuilder();
+//        for(int i=0;i<ids.size(); i++){
+//            sb.append(ids.get(i));
+//            if(i+1<ids.size()){
+//                sb.append(",");
+//            }
+//        }
+//        
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.REMOVE_DISEASE_BY_ID);
+//        statement.setString(1, sb.toString());
+//        return statement.execute();
+//    }
 
-    @Override
-    public boolean setDiseaseToPatientId(Connection conn, Disease disease, Patient patient) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.SET_DISEASE_TO_PATIENT_ID);
-        statement.setLong(1, disease.getId());
-        statement.setLong(2, patient.getId());
-        return statement.execute();
-    }
+//    @Override
+//    public boolean setDiseaseToPatientId(Connection conn, Disease disease, Patient patient) throws SQLException {
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.SET_DISEASE_TO_PATIENT_ID);
+//        statement.setLong(1, disease.getId());
+//        statement.setLong(2, patient.getId());
+//        return statement.execute();
+//    }
 
-    @Override
-    public List<Disease> getAllDiseases(Connection conn) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_ALL_DISEASES);
-        ResultSet rs = statement.executeQuery();
-        List<Disease> diseases= new ArrayList<>();
-        Disease disease = new Disease();
-        while(rs.next()){
-            disease.setId(rs.getLong("ID"));
-            disease.setName(rs.getString("NAME"));
-            disease.setDescription(rs.getBytes("DESCRIPTION"));
-            diseases.add(disease);
-        }
-        return diseases;
-    }
+//    @Override
+//    public List<Disease> getAllDiseases(Connection conn) throws SQLException {
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_ALL_DISEASES);
+//        ResultSet rs = statement.executeQuery();
+//        List<Disease> diseases= new ArrayList<>();
+//        Disease disease = new Disease();
+//        while(rs.next()){
+//            disease.setId(rs.getLong("ID"));
+//            disease.setName(rs.getString("NAME"));
+//            disease.setDescription(rs.getBytes("DESCRIPTION"));
+//            diseases.add(disease);
+//        }
+//        return diseases;
+//    }
 
-    @Override
-    public Disease getDiseaseById(Connection conn, long id) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_DISEASE_BY_ID);
-        statement.setLong(1, id);
-        ResultSet rs = statement.executeQuery();
-        Disease disease = new Disease();
-        while(rs.next()){
-            disease.setId(rs.getLong("ID"));
-            disease.setName(rs.getString("NAME"));
-            disease.setDescription(rs.getBytes("DESCRIPTION"));     
-        }
-        return disease;
-    }
+//    @Override
+//    public Disease getDiseaseById(Connection conn, long id) throws SQLException {
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.GET_DISEASE_BY_ID);
+//        statement.setLong(1, id);
+//        ResultSet rs = statement.executeQuery();
+//        Disease disease = new Disease();
+//        while(rs.next()){
+//            disease.setId(rs.getLong("ID"));
+//            disease.setName(rs.getString("NAME"));
+//            disease.setDescription(rs.getBytes("DESCRIPTION"));     
+//        }
+//        return disease;
+//    }
 
-    @Override
-    public boolean addPatientLog(Connection conn, Long peselId) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("SELECT MAX(ID)+1 FROM PATIENT_LOG");
-        ResultSet rs = ps.executeQuery();
-        long maxId = 0;
-        while(rs.next()){
-           maxId = rs.getLong(1);
-        }
-        PatientLog patientLog = new PatientLog();
-        patientLog.setModificationDate(new Date());
-        patientLog.setPeselId(peselId);
-        patientLog.setId(maxId);
-        patientLog.setNote("");
-        PreparedStatement statement = conn.prepareStatement(SqlStatements.ADD_PATIENT_LOG);
-         statement.setLong(1, patientLog.getId());
-         statement.setLong(2, patientLog.getPeselId());
-         statement.setString(3, patientLog.getNote());
-         statement.setDate(4, new java.sql.Date(patientLog.getModificationDate().getTime()));
-         return statement.execute();
-    }
+//    @Override
+//    public boolean addPatientLog(Connection conn, Long peselId) throws SQLException {
+//        PreparedStatement ps = conn.prepareStatement("SELECT MAX(ID)+1 FROM PATIENT_LOG");
+//        ResultSet rs = ps.executeQuery();
+//        long maxId = 0;
+//        while(rs.next()){
+//           maxId = rs.getLong(1);
+//        }
+//        PatientLog patientLog = new PatientLog();
+//        patientLog.setModificationDate(new Date());
+//        patientLog.setPeselId(peselId);
+//        patientLog.setId(maxId);
+//        patientLog.setNote("");
+//        PreparedStatement statement = conn.prepareStatement(SqlStatements.ADD_PATIENT_LOG);
+//         statement.setLong(1, patientLog.getId());
+//         statement.setLong(2, patientLog.getPeselId());
+//         statement.setString(3, patientLog.getNote());
+//         statement.setDate(4, new java.sql.Date(patientLog.getModificationDate().getTime()));
+//         return statement.execute();
+//    }
 
 //    @Override
 //    public boolean updatePatientLog(Connection conn, Long id, String note) throws SQLException {

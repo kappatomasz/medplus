@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.cityIsLike;
-import static com.kappadev.medplus.data.Patient.PatientSpecifications.diseaseIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.flatNoIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.houseNoIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.idIsLike;
@@ -25,6 +24,7 @@ import static com.kappadev.medplus.data.Patient.PatientSpecifications.secondName
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.stateIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.streetIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.surnameIsLike;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
@@ -61,14 +61,14 @@ public class PatientServiceImpl implements PatientService {
 
     @Transactional
     @Override
-    public void removePatientList(Iterable<Patient> patientList) {
+    public void removePatientList(List<Patient> patientList) {
         patientRepository.delete(patientList);
     }
 
     @Override
     public List<Patient> getFilteredPatients(Patient patient) {
         return patientRepository.findAll(where(cityIsLike(patient.getCity()))
-                .or(diseaseIsLike(patient.getDisease().toString()))
+//TODO fix this                .or(diseaseIsLike(patient.getDisease().toString()))
                 .or(flatNoIsLike(patient.getFlat()))
                 .or(houseNoIsLike(patient.getHouseNo()))
                 .or(idIsLike(Long.toString(patient.getId())))
@@ -80,5 +80,19 @@ public class PatientServiceImpl implements PatientService {
                 .or(streetIsLike(patient.getStreet()))
                 .or(surnameIsLike(patient.getSurname()))
         );
+    }
+
+    @Transactional
+    @Override
+    public void addPatientLogToPatient(PatientLog patientLog, Patient patient) {
+        Patient pat = patientRepository.findOne(patient.getId());
+        pat.setPatientLog(patientLog);
+        patientRepository.save(pat);
+    }
+
+    @Override
+    public PatientLog getPatientLogByPatientId(Long id) {
+        Patient pat = patientRepository.findOne(id);
+        return pat.getPatientLog();
     }
 }

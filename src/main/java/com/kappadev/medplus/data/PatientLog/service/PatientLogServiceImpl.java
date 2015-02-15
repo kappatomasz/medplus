@@ -1,11 +1,14 @@
 package com.kappadev.medplus.data.PatientLog.service;
 
+import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import com.kappadev.medplus.data.PatientLog.repository.PatientLogRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class PatientLogServiceImpl implements PatientLogService {
 
     @Autowired
@@ -17,6 +20,7 @@ public class PatientLogServiceImpl implements PatientLogService {
         patientLogRepository.save(patientLog);
     }
 
+    @Transactional
     @Override
     public void removePatientLog(PatientLog patientLog) {
         patientLogRepository.delete(patientLog);
@@ -27,8 +31,27 @@ public class PatientLogServiceImpl implements PatientLogService {
         return patientLogRepository.findAll();
     }
 
+    @Transactional
     @Override
-    public PatientLog getPatientLogWithPatientId(Long id) {
-        return patientLogRepository.findOne(id);
+    public void updatePatientLog(PatientLog patientLog) {
+        PatientLog pLog = patientLogRepository.findOne(patientLog.getId());
+        pLog.setModificationDate(patientLog.getModificationDate());
+        pLog.setNote(patientLog.getNote());
+        pLog.setDiseasesList(patientLog.getDiseaseList());
+        patientLogRepository.save(pLog);
+    }
+    
+    @Transactional
+    @Override
+    public void addDiseaseToPatientLog(List<Disease> diseaseList, PatientLog patientLog) {
+        PatientLog pLog = patientLogRepository.findOne(patientLog.getId());
+        pLog.setDiseasesList(diseaseList);
+        patientLogRepository.save(pLog);
+    }
+
+    @Transactional
+    @Override
+    public void removePatientLogList(List<PatientLog> patientLog) {
+        patientLogRepository.delete(patientLog);
     }
 }

@@ -13,9 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -31,14 +31,14 @@ public class Attachment implements Serializable {
     @Id
     @Column(name = "Id", nullable = false, unique = true, precision = 11, scale = 0)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "patient", referencedColumnName = "peselId")
+    @JoinColumn(name = "patient", referencedColumnName = "Id")
     private Patient patient;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "disease", referencedColumnName = "Id")
+    @JoinColumn(name = "disease", referencedColumnName = "Id")
     private Disease disease;
 
     @Column(name = "contentType", nullable = true, length = 50)
@@ -54,14 +54,14 @@ public class Attachment implements Serializable {
     /**
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

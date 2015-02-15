@@ -42,11 +42,13 @@ import com.kappadev.medplus.data.printing.PrintingManagerImpl;
 import com.kappadev.medplus.utils.FileCheckThread;
 import com.kappadev.medplus.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
+@Component
 public class PatientLogPanel extends javax.swing.JFrame {
 
     /**
@@ -102,7 +104,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
         }
         attachmentList = new ArrayList<>();
         attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
-        disease = patient.getDisease();
+//        disease = patientLog.getDisease();
         patientLog = patientLogRepository.findPatientLogByPatientId(new Long(patient.getId()));
 
         if (patientLog != null) {
@@ -568,29 +570,6 @@ public class PatientLogPanel extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-//        JFileChooser jFileChooser = new JFileChooser();
-//        jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//        jFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        int result = jFileChooser.showOpenDialog(this);
-//        File selectedDir = null;
-//        if(result == JFileChooser.APPROVE_OPTION){
-//            selectedDir = jFileChooser.getSelectedFile();
-//        }
-//        try {
-//            File file = new File(selectedDir.getAbsolutePath()+"/"+attachment.getFileName());
-//            FileOutputStream fos = new FileOutputStream(file);
-//            fos.write(attachment.getBlob());
-//            fos.close();
-//            openFileDialogComplete.setText(OPEN_FILE_DIALOG_COMPLETE+" "+file.getAbsolutePath());
-//            openFileDialogComplete.pack();
-//            openFileDialogComplete.setVisible(true);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
     }//GEN-LAST:event_openBtnActionPerformed
 
     private void printAttachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printAttachActionPerformed

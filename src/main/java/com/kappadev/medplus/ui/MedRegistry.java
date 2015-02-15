@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
-public class MedRegistry {
+@Component
+public class MedRegistry implements CommandLineRunner {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    @Override
+    public void run(String... strings) throws Exception {
         MainPanel main = new MainPanel();
         main.setVisible(true);
-        
     }
-    
+
 }

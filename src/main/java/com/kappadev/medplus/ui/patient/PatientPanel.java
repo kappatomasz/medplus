@@ -6,11 +6,7 @@
 package com.kappadev.medplus.ui.patient;
 
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.RegistryPanel;
@@ -19,13 +15,21 @@ import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.entity.States;
+import com.kappadev.medplus.data.DB.states.service.StatesService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import com.kappadev.medplus.data.Patient.service.PatientService;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
+import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
 import com.kappadev.medplus.utils.ConvertUtils;
+import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
+@Component
 public class PatientPanel extends javax.swing.JFrame {
 
     List<States> states;
@@ -43,6 +47,15 @@ public class PatientPanel extends javax.swing.JFrame {
     private static final String PATIENT_NOT_ADDED_ERROR = "Nie udało się dodać pacjenta: ";
     private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
 
+    @Autowired
+    private StatesService statesService;
+
+    @Autowired
+    private PatientService patientService;
+    
+    @Autowired
+    private PatientLogService patientLogService;
+
     /**
      * Creates new form PatientPanel
      */
@@ -55,13 +68,9 @@ public class PatientPanel extends javax.swing.JFrame {
         otherError = new MessagePopUp();
         patientAdded = new MessagePopUp();
         patientEdit = new MessagePopUp();
-        Connection conn = db.openConnection();
-        try {
-            states = db.getStates(conn);
-            diseases = db.getAllDiseases(conn);
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
-        }
+        //TODO nullpointer ??
+        states = statesService.getAllStates();
+
         stateComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
         for (States state : states) {
@@ -72,36 +81,24 @@ public class PatientPanel extends javax.swing.JFrame {
         for (Disease disease : diseases) {
             diseaseComboBoxModel.addElement(disease);
         }
-        diseaseComboBox.setModel(diseaseComboBoxModel);
     }
 
     public PatientPanel(Patient patient) {
         initComponents();
         clearFields();
-        db = new DatabaseImpl();
         patientEdit = new MessagePopUp();
         this.patient = patient;
         infoLbl.setText("");
-        Connection conn = db.openConnection();
-        try {
-            states = db.getStates(conn);
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, "GETTING STATES FAILED: ", ex);
-        }
+        states = statesService.getAllStates();
+
         stateComboBox.removeAllItems();
-        diseaseComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
         for (States state : states) {
             comboBoxModel.addElement(state);
         }
         stateComboBox.setModel(comboBoxModel);
         fillPatientFields(patient);
-        diseaseComboBox.removeAllItems();
-        DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for (Disease disease : diseases) {
-            diseaseComboBoxModel.addElement(disease);
-        }
-        diseaseComboBox.setModel(diseaseComboBoxModel);
+       
 
     }
 
@@ -129,8 +126,6 @@ public class PatientPanel extends javax.swing.JFrame {
         phoneTxtFld = new javax.swing.JTextField();
         stateComboBox = new javax.swing.JComboBox();
         peselIdTxtFld = new javax.swing.JTextField();
-        diseaseComboBox = new javax.swing.JComboBox();
-        peselIdLbl1 = new javax.swing.JLabel();
         peselIdLbl = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -196,12 +191,6 @@ public class PatientPanel extends javax.swing.JFrame {
 
         peselIdTxtFld.setText("jTextField1");
 
-        diseaseComboBox.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        diseaseComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        peselIdLbl1.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
-        peselIdLbl1.setText("Choroba");
-
         peselIdLbl.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
         peselIdLbl.setText("PESEL");
 
@@ -239,23 +228,19 @@ public class PatientPanel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel10)
-                                .addComponent(jLabel12)
-                                .addComponent(peselIdLbl)
-                                .addComponent(jLabel4))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(peselIdLbl1)
-                            .addGap(121, 121, 121)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel12)
+                            .addComponent(peselIdLbl)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(156, 156, 156)))
@@ -270,7 +255,6 @@ public class PatientPanel extends javax.swing.JFrame {
                     .addComponent(secondNameTxtFld)
                     .addComponent(surnameTxtFld)
                     .addComponent(phoneTxtFld)
-                    .addComponent(diseaseComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cityTxtFld, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -321,11 +305,7 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(peselIdTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peselIdLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(diseaseComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(peselIdLbl1))
-                .addContainerGap())
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         saveBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
@@ -499,34 +479,31 @@ public class PatientPanel extends javax.swing.JFrame {
             peselId = Long.valueOf(peselIdTxtFld.getText());
         };
         States state = (States) stateComboBox.getSelectedItem();
-        Disease disease = (Disease) diseaseComboBox.getSelectedItem();
+//        Disease disease = (Disease) diseaseComboBox.getSelectedItem();
         if (patient != null) {
             patient.setCity(city);
             patient.setFlat(flat);
             patient.setHouseNo(house);
             patient.setName(name);
-            patient.setPesel_id(peselId);
+            patient.setId(peselId);
             patient.setPhone(phone);
             patient.setPostCode(postCode);
             patient.setSecondName(sName);
             patient.setState(state);
             patient.setStreet(street);
             patient.setSurname(surname);
-            patient.setDisease(disease);
-            Connection conn = db.openConnection();
-            try {
-                db.editPatient(conn, patient);
-                patientEdit.setText(PATIENT_SAVED + String.valueOf(peselId));
-                patientEdit.setVisible(true);
-                boolean result = patientEdit.getStateResult();
-                if (result) {
-                    SearchPanel sp = new SearchPanel();
-                    sp.setVisible(true);
-                    this.dispose();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, null, ex);
+            patient.setPatientLog(patient.getPatientLog());
+            patientService.savePatient(patient);
+            //TODO add this functionality correctly
+            patientEdit.setText(PATIENT_SAVED + String.valueOf(peselId));
+            patientEdit.setVisible(true);
+            boolean result = patientEdit.getStateResult();
+            if (result) {
+                SearchPanel sp = new SearchPanel();
+                sp.setVisible(true);
+                this.dispose();
             }
+
         } else {
             Patient newPatient = new Patient();
 
@@ -534,37 +511,34 @@ public class PatientPanel extends javax.swing.JFrame {
             newPatient.setFlat(flat);
             newPatient.setHouseNo(house);
             newPatient.setName(name);
-            newPatient.setPesel_id(peselId);
+            newPatient.setId(peselId);
             newPatient.setPhone(phone);
             newPatient.setPostCode(postCode);
             newPatient.setSecondName(sName);
             newPatient.setState(state);
             newPatient.setStreet(street);
             newPatient.setSurname(surname);
-            newPatient.setDisease(disease);
+            
+            PatientLog newPatientLog = new PatientLog();
+            newPatientLog.setModificationDate(new Date());
+            
 
-            long max = 0L;
             if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
                 peselError.setText(PESEL_ERROR_TXT);
                 peselError.setVisible(true);
                 peselIdTxtFld.setBackground(Color.red);
             } else {
-                Connection conn = db.openConnection();
-                try {
-                    db.addPatient(conn, newPatient);
-                    patientAdded.setText(PATIENT_ADDED + String.valueOf(peselId));
-                    patientAdded.setVisible(true);
-                    boolean result = patientAdded.getStateResult();
-                    if (result) {
-                        SearchPanel sp = new SearchPanel();
-                        sp.setVisible(true);
-                        this.dispose();
-                    }
-                } catch (SQLException ex) {
-                    otherError.setText(PATIENT_NOT_ADDED_ERROR);
-                    otherError.setVisible(true);
-                    Logger.getLogger(PatientPanel.class.getName()).log(Level.SEVERE, null, ex);
+                patientService.savePatient(patient);
+                //TODO add this functionality correctly
+                patientAdded.setText(PATIENT_ADDED + String.valueOf(peselId));
+                patientAdded.setVisible(true);
+                boolean result = patientAdded.getStateResult();
+                if (result) {
+                    SearchPanel sp = new SearchPanel();
+                    sp.setVisible(true);
+                    this.dispose();
                 }
+
             }
         }
     }//GEN-LAST:event_saveBtnActionPerformed
@@ -630,15 +604,13 @@ public class PatientPanel extends javax.swing.JFrame {
         phoneTxtFld.setText(patient.getPhone());
         peselIdTxtFld.setText(String.valueOf(patient.getId()));
         stateComboBox.setSelectedItem(ConvertUtils.convertStatesListToMap(states).get(patient.getState()));
-        diseaseComboBox.setSelectedItem(ConvertUtils.convertDiseasesListToMap(diseases).get(patient.getDisease()));
-    }
+   }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField cityTxtFld;
     private javax.swing.JButton clearBtn;
-    private javax.swing.JComboBox diseaseComboBox;
     private javax.swing.JTextField flatTxtFld;
     private javax.swing.JTextField houseNoTxtFld;
     private javax.swing.JLabel infoLbl;
@@ -660,7 +632,6 @@ public class PatientPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTextField nameTxtFld;
     private javax.swing.JLabel peselIdLbl;
-    private javax.swing.JLabel peselIdLbl1;
     private javax.swing.JTextField peselIdTxtFld;
     private javax.swing.JTextField phoneTxtFld;
     private javax.swing.JTextField postCodeTxtFld;

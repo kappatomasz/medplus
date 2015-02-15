@@ -25,7 +25,7 @@ public class Disease implements Serializable {
     @Id
     @Column(name = "Id", unique = true, nullable = false, precision = 9, scale = 0)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Lob
     @Column(name = "description", nullable = true)
@@ -37,14 +37,14 @@ public class Disease implements Serializable {
     /**
      * @return the id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

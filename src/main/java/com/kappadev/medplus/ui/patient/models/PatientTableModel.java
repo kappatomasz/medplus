@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.Patient.PatientTableObject;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 
 /**
  *
@@ -236,5 +237,13 @@ public class PatientTableModel extends AbstractTableModel {
             selectedPatientsIds.add(patientList.get(rows[i]).getId());
         }
         return selectedPatientsIds;
+    }
+    
+    public List<PatientLog> getSelectedPatientPatiemtLogs(int[] rows){
+        List<PatientLog> selectedPatientPatientLogs = new ArrayList<PatientLog>();
+        for (int i = 0; i < rows.length; i++) {
+            selectedPatientPatientLogs.add(patientList.get(rows[i]).getPatientLog());
+        }
+        return selectedPatientPatientLogs;
     }
 }
