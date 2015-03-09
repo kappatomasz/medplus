@@ -14,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +21,7 @@ import javax.persistence.Table;
  * @author Tomasz
  */
 @Entity
-@Table(name = "Patient")
+@Table(name = "PATIENT")
 public class Patient implements Serializable {
 
     @Id
@@ -53,8 +52,8 @@ public class Patient implements Serializable {
     @Column(name = "postCode", nullable = true, length = 6)
     private String postCode;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "state", referencedColumnName = "Id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "stateId")
     private States state;
 
     @Column(name = "phone", length = 50, nullable = true)
@@ -63,9 +62,9 @@ public class Patient implements Serializable {
     private boolean selected;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "patientLogId", referencedColumnName = "Id")
+    @JoinColumn(name = "patientLogId")
     private PatientLog patientLog;
-
+ 
     /**
      * @return the name
      */

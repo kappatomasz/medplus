@@ -27,17 +27,17 @@ public class MainPanel extends javax.swing.JFrame {
      */
     public MainPanel() {
         initComponents();
-        Installation install = new Installation();
+//        Installation install = new Installation();
         infoLbl.setText("");
-        boolean installed = install.checkTablesInstalled();
-        if(!installed){
-            try {
-                
-                install.makeInstallation();
-            } catch (IOException ex) {
-                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        boolean installed = install.checkTablesInstalled();
+//        if(!installed){
+//            try {
+//                
+//                install.makeInstallation();
+//            } catch (IOException ex) {
+//                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
     /**

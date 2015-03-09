@@ -5,10 +5,13 @@
  */
 package com.kappadev.medplus.data.DB.states.entity;
 
+import com.kappadev.medplus.data.Patient.entity.Patient;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +28,9 @@ public class States implements Serializable {
 
     @Column(name = "name", unique = true, nullable = false, length = 255)
     private String name;
+    
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "state")
+    private Patient patient;
 
     /**
      * @return the id
@@ -57,5 +63,19 @@ public class States implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * @return the patient
+     */
+    public Patient getPatient() {
+        return patient;
+    }
+
+    /**
+     * @param patient the patient to set
+     */
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

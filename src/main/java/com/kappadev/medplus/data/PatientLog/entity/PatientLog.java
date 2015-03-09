@@ -6,7 +6,9 @@
 
 package com.kappadev.medplus.data.PatientLog.entity;
 
+import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +19,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -35,9 +36,8 @@ public class PatientLog implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "disease", referencedColumnName = "Id", nullable = true)
-    private List<Disease> diseaseList;
+    @OneToMany(mappedBy = "patientLog")
+    private List<Disease2PatientLog> disease2PatientLogList;
     
     @Column(name = "note", nullable = true)
     private String note;
@@ -45,8 +45,11 @@ public class PatientLog implements Serializable {
     @Column(name = "modificationDate", nullable = false)
     private Date modificationDate; 
     
-    @OneToOne(mappedBy = "patientLog")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "patientLog")
     private Patient patient;
+    
+    @OneToMany(mappedBy = "patientLog")
+    private List<Attachment> attachmentList;
     
     public PatientLog(){
         
@@ -77,20 +80,6 @@ public class PatientLog implements Serializable {
     }
 
     /**
-     * @return the disease
-     */
-    public List<Disease> getDiseaseList() {
-        return diseaseList;
-    }
-
-    /**
-     * @param disease the disease to set
-     */
-    public void setDiseasesList(List<Disease> diseaseList) {
-        this.diseaseList = diseaseList;
-    }
-
-    /**
      * @return the patient
      */
     public Patient getPatient() {
@@ -102,6 +91,34 @@ public class PatientLog implements Serializable {
      */
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    /**
+     * @return the attachmentList
+     */
+    public List<Attachment> getAttachmentList() {
+        return attachmentList;
+    }
+
+    /**
+     * @param attachmentList the attachmentList to set
+     */
+    public void setAttachmentList(List<Attachment> attachmentList) {
+        this.attachmentList = attachmentList;
+    }
+
+    /**
+     * @return the disease2PatientLogList
+     */
+    public List<Disease2PatientLog> getDisease2PatientLogList() {
+        return disease2PatientLogList;
+    }
+
+    /**
+     * @param disease2PatientLogList the disease2PatientLogList to set
+     */
+    public void setDisease2PatientLogList(List<Disease2PatientLog> disease2PatientLogList) {
+        this.disease2PatientLogList = disease2PatientLogList;
     }
 
 }

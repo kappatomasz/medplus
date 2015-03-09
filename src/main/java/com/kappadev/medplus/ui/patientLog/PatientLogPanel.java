@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.ui.patientLog;
 
+import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
 import com.kappadev.medplus.ui.patientLog.models.AttachmentTableModel;
 import com.kappadev.medplus.ui.textTool.TextTools;
 import com.kappadev.medplus.ui.printer.PrinterSelection;
@@ -30,12 +31,11 @@ import javax.swing.JFileChooser;
 import com.kappadev.medplus.ui.MessagePopUp;
 import com.kappadev.medplus.ui.SearchPanel;
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.disease.repository.DiseaseRepository;
 import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
-import com.kappadev.medplus.data.DB.attachment.repository.AttachmentRepository;
+import com.kappadev.medplus.data.DB.attachment.service.AttachmentService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
-import com.kappadev.medplus.data.PatientLog.repository.PatientLogRepository;
+import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.data.printing.PrintingManager;
 import com.kappadev.medplus.data.printing.PrintingManagerImpl;
@@ -68,19 +68,23 @@ public class PatientLogPanel extends javax.swing.JFrame {
     private File tmpDir;
 
     @Autowired
-    private AttachmentRepository attachmentRepository;
+    private AttachmentService attachmentService;
 
     @Autowired
-    private DiseaseRepository diseaseRepository;
+    private DiseaseService diseaseService;
 
     @Autowired
-    private PatientLogRepository patientLogRepository;
+    private PatientLogService patientLogService;
 
     private static final String OPEN_FILE_DIALOG_COMPLETE = "Plik został zapisany w: ";
     private static final String DELETE_ATTACHMENT = "Czy aby napewno chcesz usunąć ten załącznik ?";
     private static final int CANCEL_NOT_VISIBLE = 63;
     private static final String TMP_DIR = "tmp";
-
+    
+    public PatientLogPanel(){
+        
+    }
+    
     public PatientLogPanel(Patient patient) {
         initComponents();
         tmpDir = new File(FileUtils.getCurrentWorkingPath() + File.separatorChar + "tmp");
@@ -103,9 +107,9 @@ public class PatientLogPanel extends javax.swing.JFrame {
             openBtn.setEnabled(false);
         }
         attachmentList = new ArrayList<>();
-        attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
+        attachmentList = attachmentService.getAttachmentListByPatientLogId(patient.getId());
 //        disease = patientLog.getDisease();
-        patientLog = patientLogRepository.findPatientLogByPatientId(new Long(patient.getId()));
+//        patientLog = patientLogService.(new Long(patient.getId()));
 
         if (patientLog != null) {
             descriptionTxtField.setText(patientLog.getNote());
@@ -493,8 +497,8 @@ public class PatientLogPanel extends javax.swing.JFrame {
         warning.setVisible(true);
         boolean result = warning.getStateResult();
         if (result) {
-            attachmentRepository.delete(selectedAttachments);
-            attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
+            attachmentService.removeAttachmentList(selectedAttachments);
+            attachmentList = attachmentService.getAttachmentListByPatientLogId(patient.getId());
             attachmentlistModel = new AttachmentTableModel(attachmentList);
             attachmentsList.setModel(attachmentlistModel);
 
@@ -518,9 +522,9 @@ public class PatientLogPanel extends javax.swing.JFrame {
             attachment.setBlob(selectedFileByteArray);
             attachment.setContentType("");
             attachment.setFileName(selectedFile.getName());
-            attachment.setPatient(patient);
-            attachmentRepository.save(attachment);
-            attachmentList = attachmentRepository.findAllAttachmentsByPatientId(patient.getId());
+            attachment.setPatientLog(patientLog);
+            attachmentService.saveAttachment(attachment);
+            attachmentList = attachmentService.getAttachmentListByPatientLogId(patient.getId());
             attachmentlistModel = new AttachmentTableModel(attachmentList);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PatientLogPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -539,7 +543,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         patientLog.setNote(descriptionTxtField.getText());
-        patientLogRepository.save(patientLog);
+        patientLogService.savePatientLog(patientLog);
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
@@ -563,7 +567,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
                 if (lastModified != null) {
                     if (Files.getLastModifiedTime(Paths.get(file.getAbsolutePath())).compareTo(lastModified) > 1
                             && Files.readAllBytes(Paths.get(file.getAbsolutePath())) != attachment.getBlob()) {
-                        attachmentRepository.save(attachment);
+                        attachmentService.saveAttachment(attachment);
                     }
                 }
             }

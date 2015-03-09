@@ -12,8 +12,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
  *
  * @author tburzynski
  */
-@Configuration
-@EnableAutoConfiguration
+
 public class MedPlusConfiguration {
 
 }

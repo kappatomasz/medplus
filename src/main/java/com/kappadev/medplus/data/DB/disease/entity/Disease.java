@@ -5,13 +5,16 @@
  */
 package com.kappadev.medplus.data.DB.disease.entity;
 
+import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -33,7 +36,10 @@ public class Disease implements Serializable {
 
     @Column(name = "name", length = 500, nullable = false)
     private String name;
-
+    
+    @OneToMany(mappedBy = "disease")
+    private List<Disease2PatientLog> disease2PatientLog;
+    
     /**
      * @return the id
      */
@@ -73,5 +79,19 @@ public class Disease implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    /**
+     * @return the disease2PatientLog
+     */
+    public List<Disease2PatientLog> getDisease2PatientLogList() {
+        return disease2PatientLog;
+    }
+
+    /**
+     * @param disease2PatientLog the disease2PatientLog to set
+     */
+    public void setDisease2PatientLogList(List<Disease2PatientLog> disease2PatientLog) {
+        this.disease2PatientLog = disease2PatientLog;
     }
 }

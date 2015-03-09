@@ -168,7 +168,7 @@ public class RegistryPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        SearchPanel sPanel = new SearchPanel();
+        SearchPanel sPanel = new SearchPanel(true);
         sPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_searchBtnActionPerformed
@@ -180,7 +180,7 @@ public class RegistryPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void addNewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewBtnActionPerformed
-        PatientPanel pp = new PatientPanel();
+        PatientPanel pp = new PatientPanel(true);
         pp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addNewBtnActionPerformed

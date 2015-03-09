@@ -20,18 +20,15 @@ public class PatientTableModel extends AbstractTableModel {
 
     private Object[][] data;
     private PatientTableObject pto;
-    private Iterable<Patient> patientIterable;
-    private List<Patient> patientList;
 
-    public PatientTableModel(Iterable<Patient> patientIterable) {
-        this.patientIterable = patientIterable;
-        for(Patient patient : patientIterable){
-            patientList.add(patient);
-        }
+    private final List<Patient> patientList;
+
+    public PatientTableModel(List<Patient> patientList) {
+        this.patientList = patientList;
     }
 
     @Override
-    public int getRowCount() {   
+    public int getRowCount() {
         return patientList.size();
     }
 
@@ -238,8 +235,8 @@ public class PatientTableModel extends AbstractTableModel {
         }
         return selectedPatientsIds;
     }
-    
-    public List<PatientLog> getSelectedPatientPatiemtLogs(int[] rows){
+
+    public List<PatientLog> getSelectedPatientPatiemtLogs(int[] rows) {
         List<PatientLog> selectedPatientPatientLogs = new ArrayList<PatientLog>();
         for (int i = 0; i < rows.length; i++) {
             selectedPatientPatientLogs.add(patientList.get(rows[i]).getPatientLog());

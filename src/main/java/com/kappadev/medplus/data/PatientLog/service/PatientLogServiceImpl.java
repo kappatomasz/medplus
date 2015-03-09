@@ -37,15 +37,6 @@ public class PatientLogServiceImpl implements PatientLogService {
         PatientLog pLog = patientLogRepository.findOne(patientLog.getId());
         pLog.setModificationDate(patientLog.getModificationDate());
         pLog.setNote(patientLog.getNote());
-        pLog.setDiseasesList(patientLog.getDiseaseList());
-        patientLogRepository.save(pLog);
-    }
-    
-    @Transactional
-    @Override
-    public void addDiseaseToPatientLog(List<Disease> diseaseList, PatientLog patientLog) {
-        PatientLog pLog = patientLogRepository.findOne(patientLog.getId());
-        pLog.setDiseasesList(diseaseList);
         patientLogRepository.save(pLog);
     }
 

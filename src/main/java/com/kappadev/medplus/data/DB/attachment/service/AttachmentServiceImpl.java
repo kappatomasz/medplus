@@ -24,11 +24,17 @@ public class AttachmentServiceImpl implements AttachmentService {
     public void removeAttachment(Attachment attachment) {
         attachmentRepository.delete(attachment);
     }
+    
+    @Transactional
+    @Override
+    public void removeAttachmentList(List<Attachment> attachmentList){
+        attachmentRepository.delete(attachmentList);
+    }
 
     @Transactional
     @Override
-    public List<Attachment> getAttachmentListByPatientId(Long id) {
-        return attachmentRepository.findAllAttachmentsByPatientId(id);
+    public List<Attachment> getAttachmentListByPatientLogId(Long id) {
+        return attachmentRepository.findAllAttachmentsByPatientLogId(id);
     }
 
     @Transactional
@@ -36,9 +42,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     public void updateAttachment(Attachment attachment) {
         Attachment atch = attachmentRepository.findOne(attachment.getId());
         atch.setBlob(attachment.getBlob());
-        atch.setDisease(attachment.getDisease());
         atch.setFileName(attachment.getFileName());
-        atch.setPatient(attachment.getPatient());
         atch.setContentType(attachment.getContentType());
         attachmentRepository.save(atch);
     }

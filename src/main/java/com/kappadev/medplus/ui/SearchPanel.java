@@ -3,12 +3,7 @@ package com.kappadev.medplus.ui;
 import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.data.DB.states.entity.States;
 import com.kappadev.medplus.data.DB.states.service.StatesService;
 import com.kappadev.medplus.data.Patient.entity.Patient;
@@ -47,75 +42,79 @@ public class SearchPanel extends javax.swing.JFrame {
 
     @Autowired
     private PatientLogService patientLogService;
-
-    public SearchPanel() {
+    
+    public SearchPanel(){
+        
+    }
+    
+    public SearchPanel(boolean init) {
         initComponents();
         infoLbl.setText("");
         clearFields();
-        states = statesService.getAllStates();
-        patientListValues = patientService.getAllPatients();
+//        states = statesService.getAllStates();
+//        patientListValues = patientService.getAllPatients();
       
         stateComboBox.removeAllItems();
-        DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
-        for (States state : states) {
-            comboBoxModel.addElement(state);
-        }
-        stateComboBox.setModel(comboBoxModel);
+//        DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
+//        for (States state : states) {
+//            comboBoxModel.addElement(state);
+//        }
+//        stateComboBox.setModel(comboBoxModel);
         deleteBtn.setEnabled(false);
-        patientList.setModel(new PatientTableModel(patientListValues));
+//        patientList.setModel(new PatientTableModel(patientListValues));
         popUp = new MessagePopUp();
-        removeColumnsFromTable();
+//        removeColumnsFromTable();
 
-        AutoSuggest surnameTxtFldAutoSuggest = new AutoSuggest(surnameTxtFld, this, null,
-                Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
-                    @Override
-                    boolean wordTyped(String typedWord) {
-                        Set<String> dict = new HashSet<>();
-                        for (Patient patient : patientListValues) {
-                            dict.add(patient.getSurname());
-                        }
-                        setDictionary(new ArrayList<>(dict));
-                        return super.wordTyped(typedWord);
-                    }
-                };
-        AutoSuggest streetTxtFldAutoSuggest = new AutoSuggest(streetTxtFld, this, null, Color.WHITE.brighter(),
-                Color.BLUE, Color.RED, 1.0f) {
-                    @Override
-                    boolean wordTyped(String typedWord) {
-                        Set<String> dict = new HashSet<>();
-                        for (Patient patient : patientListValues) {
-                            dict.add(patient.getStreet());
-                        }
-                        setDictionary(new ArrayList<>(dict));
-                        return super.wordTyped(typedWord);
-                    }
-                };
-
-        AutoSuggest cityAutoSuggest = new AutoSuggest(cityTxtFld, this,
-                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
-                    @Override
-                    boolean wordTyped(String typedWord) {
-                        Set<String> dict = new HashSet<>();
-                        for (Patient patient : patientListValues) {
-                            dict.add(patient.getCity());
-                        }
-                        setDictionary(new ArrayList<>(dict));
-                        return super.wordTyped(typedWord);
-                    }
-                };
-
-        AutoSuggest postCodeAutoSuggest = new AutoSuggest(postCodeTxtFld, this,
-                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
-                    @Override
-                    boolean wordTyped(String typedWord) {
-                        Set<String> dict = new HashSet<>();
-                        for (Patient patient : patientListValues) {
-                            dict.add(patient.getPostCode());
-                        }
-                        setDictionary(new ArrayList<>(dict));
-                        return super.wordTyped(typedWord);
-                    }
-                };
+//        AutoSuggest surnameTxtFldAutoSuggest = new AutoSuggest(surnameTxtFld, this, null,
+//                Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
+//                    @Override
+//                    boolean wordTyped(String typedWord) {
+//                        Set<String> dict = new HashSet<>();
+//                        for (Patient patient : patientListValues) {
+//                            dict.add(patient.getSurname());
+//                        }
+//                        setDictionary(new ArrayList<>(dict));
+//                        return super.wordTyped(typedWord);
+//                    }
+//                };
+//        AutoSuggest streetTxtFldAutoSuggest = new AutoSuggest(streetTxtFld, this, null, Color.WHITE.brighter(),
+//                Color.BLUE, Color.RED, 1.0f) {
+//                    @Override
+//                    boolean wordTyped(String typedWord) {
+//                        Set<String> dict = new HashSet<>();
+//                        for (Patient patient : patientListValues) {
+//                            dict.add(patient.getStreet());
+//                        }
+//                        setDictionary(new ArrayList<>(dict));
+//                        return super.wordTyped(typedWord);
+//                    }
+//                };
+//
+//        AutoSuggest cityAutoSuggest = new AutoSuggest(cityTxtFld, this,
+//                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
+//                    @Override
+//                    boolean wordTyped(String typedWord) {
+//                        Set<String> dict = new HashSet<>();
+//                        for (Patient patient : patientListValues) {
+//                            dict.add(patient.getCity());
+//                        }
+//                        setDictionary(new ArrayList<>(dict));
+//                        return super.wordTyped(typedWord);
+//                    }
+//                };
+//
+//        AutoSuggest postCodeAutoSuggest = new AutoSuggest(postCodeTxtFld, this,
+//                null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 1.0f) {
+//                    @Override
+//                    boolean wordTyped(String typedWord) {
+//                        Set<String> dict = new HashSet<>();
+//                        for (Patient patient : patientListValues) {
+//                            dict.add(patient.getPostCode());
+//                        }
+//                        setDictionary(new ArrayList<>(dict));
+//                        return super.wordTyped(typedWord);
+//                    }
+//                };
 
         openBtn.setEnabled(false);
 
@@ -654,7 +653,7 @@ public class SearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void addNewPatientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewPatientBtnActionPerformed
-        PatientPanel plp = new PatientPanel();
+        PatientPanel plp = new PatientPanel(true);
         plp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addNewPatientBtnActionPerformed

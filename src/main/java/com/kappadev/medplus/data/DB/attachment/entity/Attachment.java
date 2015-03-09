@@ -7,9 +7,11 @@ package com.kappadev.medplus.data.DB.attachment.entity;
 
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.Patient.entity.Patient;
+import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,7 @@ import javax.persistence.Table;
  * @author Tomasz
  */
 @Entity
-@Table(name = "Attachment")
+@Table(name = "ATTACHMENT")
 public class Attachment implements Serializable {
 
     private boolean selected;
@@ -33,13 +35,9 @@ public class Attachment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "patient", referencedColumnName = "Id")
-    private Patient patient;
-
-    @ManyToOne
-    @JoinColumn(name = "disease", referencedColumnName = "Id")
-    private Disease disease;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "patientLogId")
+    private PatientLog patientLog;
 
     @Column(name = "contentType", nullable = true, length = 50)
     private String contentType;
@@ -63,28 +61,6 @@ public class Attachment implements Serializable {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the patient
-     */
-    public Patient getPatient() {
-        return patient;
-    }
-
-    /**
-     * @param patient
-     */
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public void setDisease(Disease disease) {
-        this.disease = disease;
-    }
-
-    public Disease getDisease() {
-        return disease;
     }
 
     /**
@@ -148,5 +124,19 @@ public class Attachment implements Serializable {
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    /**
+     * @return the patientLog
+     */
+    public PatientLog getPatientLog() {
+        return patientLog;
+    }
+
+    /**
+     * @param patientLog the patientLog to set
+     */
+    public void setPatientLog(PatientLog patientLog) {
+        this.patientLog = patientLog;
     }
 }

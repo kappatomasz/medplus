@@ -7,19 +7,19 @@ package com.kappadev.medplus.data.DB.attachment.repository;
 
 import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author tburzynski
  */
-public interface AttachmentRepository extends CrudRepository<Attachment, Long>{
+public interface AttachmentRepository extends JpaRepository<Attachment, Long>{
 
     /**
      *
      * @param id
      * @return
      */
-    public List<Attachment> findAllAttachmentsByPatientId(Long id);
+    public List<Attachment> findAllAttachmentsByPatientLogId(Long id);
      
 }

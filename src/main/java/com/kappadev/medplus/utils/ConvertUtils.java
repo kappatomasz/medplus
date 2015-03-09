@@ -38,6 +38,14 @@ public class ConvertUtils {
         return map;
     }
     
+     public static Map<Integer,States> convertStatesListToMap(Iterable<States> statesList){
+        Map<Integer, States> map = new HashMap<Integer, States>();
+        for(States states : statesList){
+           map.put(states.getId(), states); 
+        }
+        return map;
+    }
+    
     public static Map<Long,Disease> convertDiseasesListToMap(List<Disease> diseaseList){
         Map<Long, Disease> map = new HashMap<>();
         for(Disease disease : diseaseList){

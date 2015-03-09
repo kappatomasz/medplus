@@ -56,10 +56,14 @@ public class PatientPanel extends javax.swing.JFrame {
     @Autowired
     private PatientLogService patientLogService;
 
+    public PatientPanel(){
+        
+    }
+    
     /**
      * Creates new form PatientPanel
      */
-    public PatientPanel() {
+    public PatientPanel(boolean init) {
         initComponents();
         clearFields();
         infoLbl.setText("");
