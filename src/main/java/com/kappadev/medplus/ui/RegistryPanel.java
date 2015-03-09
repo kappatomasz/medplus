@@ -3,17 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.kappadev.medplus.ui;
 
 import com.kappadev.medplus.ui.disease.DiseasesPanel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
+@Component
 public class RegistryPanel extends javax.swing.JFrame {
+
+    @Autowired
+    private MainPanel mainPanel;
+    @Autowired
+    private SearchPanel searchPanel;
+    @Autowired
+    private PatientPanel patientPanel;
+    @Autowired
+    private DiseasesPanel diseasesPanel;
 
     /**
      * Creates new form RegistryPanel
@@ -168,20 +179,20 @@ public class RegistryPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        SearchPanel sPanel = new SearchPanel(true);
-        sPanel.setVisible(true);
+        searchPanel.initializeSearchPanel();
+        searchPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        MainPanel mPanel = new MainPanel();
-        mPanel.setVisible(true);
+
+        mainPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void addNewBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewBtnActionPerformed
-        PatientPanel pp = new PatientPanel(true);
-        pp.setVisible(true);
+        patientPanel.initPatientPanel();
+        patientPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addNewBtnActionPerformed
 
@@ -210,8 +221,7 @@ public class RegistryPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtnMouseExited
 
     private void disButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disButtonActionPerformed
-        DiseasesPanel dis = new DiseasesPanel();
-        dis.setVisible(true);
+        diseasesPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_disButtonActionPerformed
 

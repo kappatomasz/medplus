@@ -55,15 +55,12 @@ public class PatientPanel extends javax.swing.JFrame {
     
     @Autowired
     private PatientLogService patientLogService;
-
+    
     public PatientPanel(){
         
     }
-    
-    /**
-     * Creates new form PatientPanel
-     */
-    public PatientPanel(boolean init) {
+
+    public void initPatientPanel(){
         initComponents();
         clearFields();
         infoLbl.setText("");
@@ -86,8 +83,10 @@ public class PatientPanel extends javax.swing.JFrame {
             diseaseComboBoxModel.addElement(disease);
         }
     }
+    
+    
 
-    public PatientPanel(Patient patient) {
+    public void initPatientPanel(Patient patient) {
         initComponents();
         clearFields();
         patientEdit = new MessagePopUp();

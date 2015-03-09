@@ -10,15 +10,20 @@ import com.kappadev.medplus.ui.RegistryPanel;
 import com.kappadev.medplus.data.DB.disease.entity.Disease;
 import com.kappadev.medplus.data.DB.disease.repository.DiseaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Tomasz
  */
+@Component
 public class DiseasesPanel extends javax.swing.JFrame {
 
     @Autowired
     private DiseaseRepository diseaseRepository;
+    
+    @Autowired
+    private RegistryPanel registryPanel;
 
     /**
      * Creates new form DiseasesPanel
@@ -162,8 +167,8 @@ public class DiseasesPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cleanBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        RegistryPanel rp = new RegistryPanel();
-        rp.setVisible(true);
+       
+        registryPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.kappadev.medplus.data.preparation.Installation;
 import com.kappadev.medplus.utils.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MainPanel extends javax.swing.JFrame {
+    
+    @Autowired
+    private RegistryPanel registryPanel;
 
     /**
      * Creates new form MainPanel
@@ -175,8 +179,8 @@ public class MainPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseRegistryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseRegistryActionPerformed
-       RegistryPanel rPanel = new RegistryPanel();
-       rPanel.setVisible(true);
+       
+       registryPanel.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_browseRegistryActionPerformed
 

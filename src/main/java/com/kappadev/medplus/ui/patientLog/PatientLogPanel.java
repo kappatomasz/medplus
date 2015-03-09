@@ -80,12 +80,12 @@ public class PatientLogPanel extends javax.swing.JFrame {
     private static final String DELETE_ATTACHMENT = "Czy aby napewno chcesz usunąć ten załącznik ?";
     private static final int CANCEL_NOT_VISIBLE = 63;
     private static final String TMP_DIR = "tmp";
-    
-    public PatientLogPanel(){
-        
+
+    public PatientLogPanel() {
+
     }
-    
-    public PatientLogPanel(Patient patient) {
+
+    public void initPatientLogPanel(Patient patient) {
         initComponents();
         tmpDir = new File(FileUtils.getCurrentWorkingPath() + File.separatorChar + "tmp");
         if (!tmpDir.exists()) {
@@ -108,6 +108,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
         }
         attachmentList = new ArrayList<>();
         attachmentList = attachmentService.getAttachmentListByPatientLogId(patient.getId());
+        //TODO fix this
 //        disease = patientLog.getDisease();
 //        patientLog = patientLogService.(new Long(patient.getId()));
 

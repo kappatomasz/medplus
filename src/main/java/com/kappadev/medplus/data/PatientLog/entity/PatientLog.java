@@ -28,7 +28,7 @@ import javax.persistence.Table;
  * @author Tomasz
  */
 @Entity
-@Table(name = "PatientLog")
+@Table(name = "PATIENT_LOG")
 public class PatientLog implements Serializable {
     
     @Id

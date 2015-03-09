@@ -21,6 +21,7 @@
     <properties>
         <spring.boot.version>1.2.0.RELEASE</spring.boot.version>
         <spring.version>4.1.3.RELEASE</spring.version>
+        <basedir>${project.basedir}</basedir>
     </properties>
 
     <build>
@@ -31,6 +32,7 @@
         <sourceDirectory>src/main/java</sourceDirectory>
         <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -69,6 +71,48 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Displaying value of pom.xml element</echo>
+                                <echo>[project.artifactId] ${project.artifactId}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate4-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2ddl</name>
+                            <implementation>jpaconfiguration</implementation>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <persistenceunit>Default</persistenceunit>
+                        <outputfilename>schema.ddl</outputfilename>
+                        <drop>false</drop>
+                        <create>true</create>
+                        <export>false</export>
+                        <format>true</format>
+                    </componentProperties>
+                </configuration>
+            </plugin>
+            <!-- other plugin configurations ... -->
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>sql-maven-plugin</artifactId>
                 <version>1.5</version>
@@ -96,8 +140,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>create-data</id>
-                        <phase>process-test-resources</phase>
+                        <id>default-cli</id>
                         <goals>
                             <goal>execute</goal>
                         </goals>

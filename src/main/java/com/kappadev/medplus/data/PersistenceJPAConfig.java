@@ -40,15 +40,7 @@ public class PersistenceJPAConfig {
 //        return em;
 //    }
 //    
-//    @Bean
-//    public DataSource dataSource(){
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("org.h2.Driver");
-//        dataSource.setUsername("admin");
-//        dataSource.setPassword("mysuperpassword");
-//        dataSource.setUrl("jdbc:h2:~/medRegistryDB;AUTO_SERVER=TRUE");
-//        return dataSource;
-//    }
+    
 //    
 //    @Bean
 //    public PlatformTransactionManager transactionManager(EntityManagerFactory emf){
