@@ -68,6 +68,9 @@ public class PatientLogPanel extends javax.swing.JFrame {
     private File tmpDir;
 
     @Autowired
+    private SearchPanel searchPanel;
+    
+    @Autowired
     private AttachmentService attachmentService;
 
     @Autowired
@@ -537,8 +540,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addNewBtnActionPerformed
 
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
-        SearchPanel sp = new SearchPanel();
-        sp.setVisible(true);
+        searchPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 

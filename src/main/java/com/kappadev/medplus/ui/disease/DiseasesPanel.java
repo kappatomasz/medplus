@@ -24,11 +24,18 @@ public class DiseasesPanel extends javax.swing.JFrame {
     
     @Autowired
     private RegistryPanel registryPanel;
+    
+    private Disease disease;
 
     /**
      * Creates new form DiseasesPanel
      */
     public DiseasesPanel() {
+        initComponents();
+    }
+    
+    public void editDisease(Disease disease){
+        this.disease = disease;
         initComponents();
     }
 
@@ -56,11 +63,12 @@ public class DiseasesPanel extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusTraversalPolicyProvider(true);
 
-        jLabel2.setFont(new java.awt.Font("Cantarell", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 15)); // NOI18N
         jLabel2.setText("Zdefiniuj nową chorobę");
 
-        jLabel1.setText("Med Plus v0.3");
+        jLabel1.setText("Med Plus v0.4");
 
+        backBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         backBtn.setText("Powrót");
         backBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,6 +76,7 @@ public class DiseasesPanel extends javax.swing.JFrame {
             }
         });
 
+        cleanBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         cleanBtn.setText("Wyczysc");
         cleanBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,6 +84,7 @@ public class DiseasesPanel extends javax.swing.JFrame {
             }
         });
 
+        saveBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         saveBtn.setText("Zapisz");
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,14 +92,16 @@ public class DiseasesPanel extends javax.swing.JFrame {
             }
         });
 
+        disDescription.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         jScrollPane1.setViewportView(disDescription);
 
+        disName.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         disName.setText("jTextField1");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 15)); // NOI18N
         jLabel3.setText("Nazwa");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 1, 15)); // NOI18N
         jLabel4.setText("Opis");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

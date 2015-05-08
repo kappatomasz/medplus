@@ -70,47 +70,6 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <echo>Displaying value of pom.xml element</echo>
-                                <echo>[project.artifactId] ${project.artifactId}</echo>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>hibernate4-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <components>
-                        <component>
-                            <name>hbm2ddl</name>
-                            <implementation>jpaconfiguration</implementation>
-                        </component>
-                    </components>
-                    <componentProperties>
-                        <persistenceunit>Default</persistenceunit>
-                        <outputfilename>schema.ddl</outputfilename>
-                        <drop>false</drop>
-                        <create>true</create>
-                        <export>false</export>
-                        <format>true</format>
-                    </componentProperties>
-                </configuration>
-            </plugin>
             <!-- other plugin configurations ... -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -141,6 +100,7 @@
                 <executions>
                     <execution>
                         <id>default-cli</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>execute</goal>
                         </goals>
@@ -155,6 +115,25 @@
                         </configuration>
                     </execution>
                 </executions> 
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+								
+                                <echo>basedir ${basedir}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -205,12 +184,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.3.7.Final</version>
+            <version>4.3.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.7.Final</version>
+            <version>4.3.7-SNAPSHOT</version>
         </dependency> 
         <dependency>
             <groupId>javassist</groupId>

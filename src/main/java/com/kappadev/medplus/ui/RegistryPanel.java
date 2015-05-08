@@ -185,7 +185,6 @@ public class RegistryPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-
         mainPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed

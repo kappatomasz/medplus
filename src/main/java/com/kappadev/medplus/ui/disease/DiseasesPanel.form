@@ -53,14 +53,14 @@
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Cantarell" size="18" style="1"/>
+          <Font name="DejaVu Sans" size="15" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Zdefiniuj now&#x105; chorob&#x119;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Med Plus v0.3"/>
+        <Property name="text" type="java.lang.String" value="Med Plus v0.4"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -111,6 +111,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="backBtn">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="DejaVu Sans" size="15" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Powr&#xf3;t"/>
           </Properties>
           <Events>
@@ -119,6 +122,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="cleanBtn">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="DejaVu Sans" size="15" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Wyczysc"/>
           </Properties>
           <Events>
@@ -127,6 +133,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="saveBtn">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="DejaVu Sans" size="15" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Zapisz"/>
           </Properties>
           <Events>
@@ -141,18 +150,26 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="javax.swing.JTextPane" name="disDescription">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="DejaVu Sans" size="15" style="0"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="disName">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="DejaVu Sans" size="15" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="jTextField1"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="16" style="1"/>
+              <Font name="DejaVu Sans" size="15" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nazwa"/>
           </Properties>
@@ -160,7 +177,7 @@
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="16" style="1"/>
+              <Font name="DejaVu Sans" size="15" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Opis"/>
           </Properties>

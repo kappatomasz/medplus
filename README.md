@@ -1,3 +1,4 @@
 compiling
-you need to combine jars with dependencies
-mvn clean compile assembly:single
+mvn clean install
+loading sql
+mvn sql:execute default-cli

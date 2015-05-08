@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.ui.patient;
 
+import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -35,7 +36,6 @@ public class PatientPanel extends javax.swing.JFrame {
     List<States> states;
     Database db;
     Patient patient;
-    List<Disease> diseases;
     MessagePopUp peselError;
     MessagePopUp patientAdded;
     MessagePopUp patientEdit;
@@ -48,19 +48,21 @@ public class PatientPanel extends javax.swing.JFrame {
     private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
 
     @Autowired
+    private RegistryPanel registryPanel;
+    
+    @Autowired
     private StatesService statesService;
 
     @Autowired
     private PatientService patientService;
-    
+
     @Autowired
     private PatientLogService patientLogService;
-    
-    public PatientPanel(){
-        
+
+    public PatientPanel() {
     }
 
-    public void initPatientPanel(){
+    public final void initPatientPanel() {
         initComponents();
         clearFields();
         infoLbl.setText("");
@@ -69,7 +71,6 @@ public class PatientPanel extends javax.swing.JFrame {
         otherError = new MessagePopUp();
         patientAdded = new MessagePopUp();
         patientEdit = new MessagePopUp();
-        //TODO nullpointer ??
         states = statesService.getAllStates();
 
         stateComboBox.removeAllItems();
@@ -78,13 +79,8 @@ public class PatientPanel extends javax.swing.JFrame {
             comboBoxModel.addElement(state);
         }
         stateComboBox.setModel(comboBoxModel);
-        DefaultComboBoxModel<Disease> diseaseComboBoxModel = new DefaultComboBoxModel<>();
-        for (Disease disease : diseases) {
-            diseaseComboBoxModel.addElement(disease);
-        }
+
     }
-    
-    
 
     public void initPatientPanel(Patient patient) {
         initComponents();
@@ -101,7 +97,6 @@ public class PatientPanel extends javax.swing.JFrame {
         }
         stateComboBox.setModel(comboBoxModel);
         fillPatientFields(patient);
-       
 
     }
 
@@ -462,8 +457,7 @@ public class PatientPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        RegistryPanel rp = new RegistryPanel();
-        rp.setVisible(true);
+        registryPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
@@ -482,7 +476,6 @@ public class PatientPanel extends javax.swing.JFrame {
             peselId = Long.valueOf(peselIdTxtFld.getText());
         };
         States state = (States) stateComboBox.getSelectedItem();
-//        Disease disease = (Disease) diseaseComboBox.getSelectedItem();
         if (patient != null) {
             patient.setCity(city);
             patient.setFlat(flat);
@@ -497,7 +490,6 @@ public class PatientPanel extends javax.swing.JFrame {
             patient.setSurname(surname);
             patient.setPatientLog(patient.getPatientLog());
             patientService.savePatient(patient);
-            //TODO add this functionality correctly
             patientEdit.setText(PATIENT_SAVED + String.valueOf(peselId));
             patientEdit.setVisible(true);
             boolean result = patientEdit.getStateResult();
@@ -521,10 +513,9 @@ public class PatientPanel extends javax.swing.JFrame {
             newPatient.setState(state);
             newPatient.setStreet(street);
             newPatient.setSurname(surname);
-            
+
             PatientLog newPatientLog = new PatientLog();
             newPatientLog.setModificationDate(new Date());
-            
 
             if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
                 peselError.setText(PESEL_ERROR_TXT);
@@ -607,7 +598,7 @@ public class PatientPanel extends javax.swing.JFrame {
         phoneTxtFld.setText(patient.getPhone());
         peselIdTxtFld.setText(String.valueOf(patient.getId()));
         stateComboBox.setSelectedItem(ConvertUtils.convertStatesListToMap(states).get(patient.getState()));
-   }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
