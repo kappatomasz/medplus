@@ -5,7 +5,7 @@
  */
 package com.kappadev.medplus.data.DB.disease2patientLog;
 
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import com.kappadev.medplus.data.DB.disease.Disease;
 import java.io.Serializable;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

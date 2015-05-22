@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.states.entity.States;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.DB.states.States;
 
 /**
  *

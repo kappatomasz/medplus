@@ -5,8 +5,8 @@
  */
 package com.kappadev.medplus.data.DB.disease2patientLog;
 
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.PatientLog.PatientLog;
 import java.util.List;
 
 /**

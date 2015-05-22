@@ -5,9 +5,8 @@
  */
 package com.kappadev.medplus.data.Patient;
 
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.states.entity.States;
-import com.kappadev.medplus.data.Patient.entity.Patient;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.DB.states.States;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 

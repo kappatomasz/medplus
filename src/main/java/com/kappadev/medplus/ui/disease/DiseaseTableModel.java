@@ -5,8 +5,8 @@
  */
 package com.kappadev.medplus.ui.disease;
 
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import java.util.ArrayList;
+import com.kappadev.medplus.data.DB.attachment.Attachment;
+import com.kappadev.medplus.data.DB.disease.Disease;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,8 +17,8 @@ import javax.swing.table.AbstractTableModel;
 public class DiseaseTableModel extends AbstractTableModel {
 
     List<Disease> diseaseList;
-    
-    public DiseaseTableModel(List<Disease> diseaseList){
+
+    public DiseaseTableModel(List<Disease> diseaseList) {
         this.diseaseList = diseaseList;
     }
 
@@ -31,7 +31,7 @@ public class DiseaseTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return 1;
     }
-
+   
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object value = "??";
@@ -49,15 +49,7 @@ public class DiseaseTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int row, int col) {
-        boolean status = false;
-        switch (col) {
-            case 0:
-                status = true;
-                break;
-            default:
-                status = false;
-        }
-        return status;
+        return false;
     }
 
     @Override
@@ -77,7 +69,7 @@ public class DiseaseTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         String columnName = "";
-        switch (column) {     
+        switch (column) {
             case 0:
                 columnName = "Nazwa";
                 break;
@@ -87,18 +79,13 @@ public class DiseaseTableModel extends AbstractTableModel {
         }
         return columnName;
     }
-    
-    public Disease getSelectedDisease(int row){  
-        Disease disease = diseaseList.get(row);  
+
+    public Disease getSelectedDisease(int row) {
+        Disease disease = diseaseList.get(row);
         return disease;
     }
     
-    public List<Disease> getSelectedAttachmentList(int[] rows){
-        List<Disease> selectedDiseaseList = new ArrayList<>();
-        for(int i=0; i<rows.length; i++){
-            selectedDiseaseList.add(diseaseList.get(rows[i]));
-        }
-        return selectedDiseaseList;
+    public void removeDiseaseFromList(Disease disease){
+        diseaseList.remove(disease);
     }
-
 }

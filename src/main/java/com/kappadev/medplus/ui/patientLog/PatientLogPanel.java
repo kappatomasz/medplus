@@ -5,7 +5,7 @@
  */
 package com.kappadev.medplus.ui.patientLog;
 
-import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
+import com.kappadev.medplus.data.DB.disease.DiseaseService;
 import com.kappadev.medplus.ui.patientLog.models.AttachmentTableModel;
 import com.kappadev.medplus.ui.textTool.TextTools;
 import com.kappadev.medplus.ui.printer.PrinterSelection;
@@ -28,14 +28,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.swing.JFileChooser;
-import com.kappadev.medplus.ui.MessagePopUp;
-import com.kappadev.medplus.ui.SearchPanel;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
-import com.kappadev.medplus.data.DB.attachment.service.AttachmentService;
-import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
-import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
+import com.kappadev.medplus.ui.custom.MessagePopUp;
+import com.kappadev.medplus.ui.search.SearchPanel;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.DB.attachment.Attachment;
+import com.kappadev.medplus.data.DB.attachment.AttachmentService;
+import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.PatientLog.PatientLog;
+import com.kappadev.medplus.data.PatientLog.PatientLogService;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.data.printing.PrintingManager;
 import com.kappadev.medplus.data.printing.PrintingManagerImpl;

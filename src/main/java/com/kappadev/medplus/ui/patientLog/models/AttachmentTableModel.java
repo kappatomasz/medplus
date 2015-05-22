@@ -9,7 +9,7 @@ package com.kappadev.medplus.ui.patientLog.models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import com.kappadev.medplus.data.DB.attachment.entity.Attachment;
+import com.kappadev.medplus.data.DB.attachment.Attachment;
 import com.kappadev.medplus.data.Patient.PatientTableObject;
 
 /**
@@ -125,7 +125,7 @@ import com.kappadev.medplus.data.Patient.PatientTableObject;
     }
     
     public List<Attachment> getSelectedAttachmentList(int[] rows){
-        List<Attachment> selectedAttachmentList = new ArrayList<Attachment>();
+        List<Attachment> selectedAttachmentList = new ArrayList<>();
         for(int i=0; i<rows.length; i++){
             selectedAttachmentList.add(attachmentList.get(rows[i]));
         }
@@ -133,7 +133,7 @@ import com.kappadev.medplus.data.Patient.PatientTableObject;
     }
     
     public List<Long> getSelectedAttachmentIds(int[] rows){
-        List<Long> selectedAttachmentsIds = new ArrayList<Long>();
+        List<Long> selectedAttachmentsIds = new ArrayList<>();
         for(int i=0; i<rows.length; i++){
             selectedAttachmentsIds.add(attachmentList.get(rows[i]).getId());
         }

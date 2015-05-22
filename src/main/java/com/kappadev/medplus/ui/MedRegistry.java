@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.ui;
 
+import com.kappadev.medplus.ui.main.MainMenuPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class MedRegistry implements CommandLineRunner {
     
     @Autowired
-    private MainPanel main;
+    private MainMenuPanel main;
     
     @Override
     public void run(String... strings) throws Exception {

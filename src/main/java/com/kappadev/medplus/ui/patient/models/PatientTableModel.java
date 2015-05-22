@@ -8,9 +8,9 @@ package com.kappadev.medplus.ui.patient.models;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import com.kappadev.medplus.data.Patient.entity.Patient;
+import com.kappadev.medplus.data.Patient.Patient;
 import com.kappadev.medplus.data.Patient.PatientTableObject;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
+import com.kappadev.medplus.data.PatientLog.PatientLog;
 
 /**
  *

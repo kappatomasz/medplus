@@ -6,9 +6,12 @@
 package com.kappadev.medplus.ui.disease;
 
 import javax.swing.JEditorPane;
-import com.kappadev.medplus.ui.RegistryPanel;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
-import com.kappadev.medplus.data.DB.disease.repository.DiseaseRepository;
+import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.DB.disease.DiseaseRepository;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +24,10 @@ public class DiseasesPanel extends javax.swing.JFrame {
 
     @Autowired
     private DiseaseRepository diseaseRepository;
-    
+
     @Autowired
-    private RegistryPanel registryPanel;
-    
+    private AppMenuPanel registryPanel;
+
     private Disease disease;
 
     /**
@@ -33,9 +36,16 @@ public class DiseasesPanel extends javax.swing.JFrame {
     public DiseasesPanel() {
         initComponents();
     }
-    
-    public void editDisease(Disease disease){
+
+    public void editDisease(Disease disease) {
         this.disease = disease;
+
+        try {
+            disName.setText(disease.getName());
+            disDescription.setText(new String(disease.getDescription(), "UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DiseasesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
     }
 
@@ -179,7 +189,7 @@ public class DiseasesPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cleanBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-       
+
         registryPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
@@ -189,10 +199,20 @@ public class DiseasesPanel extends javax.swing.JFrame {
     }
 
     private void saveDisease(String diseaseDesc, String diseaseName) {
-        Disease disease = new Disease();
-        disease.setDescription(diseaseDesc.getBytes());
-        disease.setName(diseaseName);
-        diseaseRepository.save(disease);
+        if (disease == null) {
+            Disease newDisease = new Disease();
+            newDisease.setDescription(diseaseDesc.getBytes());
+            newDisease.setName(diseaseName);
+            diseaseRepository.save(newDisease);
+        } else {
+            try {
+                disease.setDescription(diseaseDesc.getBytes("UTF-8"));
+                disease.setName(diseaseName);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DiseasesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }
 
 

@@ -8,7 +8,7 @@ package com.kappadev.medplus.ui.tools;
 
 import java.io.File;
 import com.kappadev.medplus.ui.tools.dataMigration.DataMigrationWindow;
-import com.kappadev.medplus.ui.MainPanel;
+import com.kappadev.medplus.ui.main.MainMenuPanel;
 import com.kappadev.medplus.data.DiskDrive.DiskDrive;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.utils.CopyUtil;
@@ -177,7 +177,7 @@ public class ToolsPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_importBtnActionPerformed
    
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        MainPanel mp = new MainPanel();
+        MainMenuPanel mp = new MainMenuPanel();
         mp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed

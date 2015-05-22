@@ -5,8 +5,11 @@
  */
 package com.kappadev.medplus.ui.disease;
 
-import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
-import com.kappadev.medplus.ui.RegistryPanel;
+import com.kappadev.medplus.data.DB.disease.DiseaseService;
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
+import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,21 +19,28 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DiseaseSearchPanel extends javax.swing.JFrame {
-    
+
     @Autowired
     private DiseaseService diseaseService;
-    
+
     @Autowired
     private DiseasesPanel diseasesPanel;
-    
+
     @Autowired
-    private RegistryPanel registryPanel;
-    
+    private AppMenuPanel registryPanel;
+
+    private DiseaseTableModel diseaseTableModel;
+
     /**
      * Creates new form DiseaseSearchPanel
      */
     public DiseaseSearchPanel() {
         initComponents();
+    }
+    
+    public void initializeDiseaseSearchPanel(){
+        diseaseTableModel = new DiseaseTableModel(diseaseService.getAllDiseases());
+        diseasesTable.setModel(diseaseTableModel);
     }
 
     /**
@@ -198,11 +208,15 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-       
+        Disease disease = getSelectedDisease();
+        diseaseService.removeDisease(disease);
+        diseaseTableModel.removeDiseaseFromList(disease);
+        diseaseTableModel.fireTableDataChanged();
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        diseasesTable.getSelectedRow();
+        Disease disease = getSelectedDisease();
+        diseasesPanel.editDisease(disease);
         diseasesPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_editBtnActionPerformed
@@ -212,39 +226,12 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DiseaseSearchPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DiseaseSearchPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DiseaseSearchPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DiseaseSearchPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DiseaseSearchPanel().setVisible(true);
-            }
-        });
+    public Disease getSelectedDisease() {
+        DiseaseTableModel model = diseaseTableModel;
+        int selectedRow = diseasesTable.getSelectedRow();
+        int convertedRowIndex = diseasesTable.convertRowIndexToModel(selectedRow);
+        Disease selectedPatient = model.getSelectedDisease(convertedRowIndex);
+        return selectedPatient;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

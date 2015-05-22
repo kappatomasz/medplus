@@ -5,7 +5,6 @@
  */
 package com.kappadev.medplus.data.Patient;
 
-import com.kappadev.medplus.data.Patient.entity.Patient;
 import com.kappadev.medplus.utils.StringUtils;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

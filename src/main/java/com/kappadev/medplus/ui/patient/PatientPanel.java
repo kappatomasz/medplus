@@ -5,22 +5,22 @@
  */
 package com.kappadev.medplus.ui.patient;
 
-import com.kappadev.medplus.data.DB.DISEASE.service.DiseaseService;
+import com.kappadev.medplus.data.DB.disease.DiseaseService;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
-import com.kappadev.medplus.ui.MessagePopUp;
-import com.kappadev.medplus.ui.RegistryPanel;
-import com.kappadev.medplus.ui.SearchPanel;
-import com.kappadev.medplus.data.DB.disease.entity.Disease;
+import com.kappadev.medplus.ui.custom.MessagePopUp;
+import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
+import com.kappadev.medplus.ui.search.SearchPanel;
+import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
-import com.kappadev.medplus.data.DB.states.entity.States;
-import com.kappadev.medplus.data.DB.states.service.StatesService;
-import com.kappadev.medplus.data.Patient.entity.Patient;
-import com.kappadev.medplus.data.Patient.service.PatientService;
-import com.kappadev.medplus.data.PatientLog.entity.PatientLog;
-import com.kappadev.medplus.data.PatientLog.service.PatientLogService;
+import com.kappadev.medplus.data.DB.states.States;
+import com.kappadev.medplus.data.DB.states.StatesService;
+import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.PatientService;
+import com.kappadev.medplus.data.PatientLog.PatientLog;
+import com.kappadev.medplus.data.PatientLog.PatientLogService;
 import com.kappadev.medplus.utils.ConvertUtils;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class PatientPanel extends javax.swing.JFrame {
     private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
 
     @Autowired
-    private RegistryPanel registryPanel;
+    private AppMenuPanel registryPanel;
     
     @Autowired
     private StatesService statesService;
