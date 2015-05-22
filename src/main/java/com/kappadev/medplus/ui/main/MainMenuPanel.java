@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.ui.main;
 
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
@@ -19,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MainMenuPanel extends javax.swing.JFrame {
-    
+
     @Autowired
     private AppMenuPanel registryPanel;
 
@@ -166,18 +160,18 @@ public class MainMenuPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseRegistryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseRegistryActionPerformed
-       
-       registryPanel.setVisible(true);
-       this.dispose();
+
+        registryPanel.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_browseRegistryActionPerformed
 
     private void browseRegistryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browseRegistryMouseClicked
-      
+
     }//GEN-LAST:event_browseRegistryMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        File tmpDir = new File(FileUtils.getCurrentWorkingPath()+File.separatorChar+"tmp");
-        if(!tmpDir.exists()){
+        File tmpDir = new File(FileUtils.getCurrentWorkingPath() + File.separatorChar + "tmp");
+        if (!tmpDir.exists()) {
             tmpDir.delete();
         }
         System.exit(0);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.ui.meeting;
 
 import com.kappadev.medplus.ui.custom.DateLabelFormatter;
@@ -22,7 +17,7 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
     private UtilDateModel model;
     private JDatePanelImpl datePanel;
     private JDatePickerImpl datePicker;
-    
+
     @Autowired
     private NewMeetingPopUp newMeetingPopUp;
 
@@ -46,14 +41,6 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
 //        calendar.setTime(date);
 //        calendarTable.setModel(new MonthTableModel(calendar.get(Calendar.MONTH), date));
 //        dateBtn.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.forLanguageTag("pl")));
-    }
-
-    private void initWeekView() {
-
-    }
-
-    private void initDayView() {
-
     }
 
     /**

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.DB.disease;
 
 import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
@@ -36,10 +31,10 @@ public class Disease implements Serializable {
 
     @Column(name = "name", length = 500, nullable = false)
     private String name;
-    
+
     @OneToMany(mappedBy = "disease")
     private List<Disease2PatientLog> disease2PatientLog;
-    
+
     /**
      * @return the id
      */

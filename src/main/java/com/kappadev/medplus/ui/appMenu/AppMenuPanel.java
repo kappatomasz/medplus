@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.ui.appMenu;
 
 import com.kappadev.medplus.ui.meeting.MeetingSearchPanel;
 import com.kappadev.medplus.ui.main.MainMenuPanel;
 import com.kappadev.medplus.ui.search.SearchPanel;
 import com.kappadev.medplus.ui.disease.DiseaseSearchPanel;
-import com.kappadev.medplus.ui.disease.DiseasesPanel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +25,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
     private DiseaseSearchPanel diseaseSearchPanel;
     @Autowired
     private MeetingSearchPanel calendarPanel;
-    
 
     /**
      * Creates new form RegistryPanel

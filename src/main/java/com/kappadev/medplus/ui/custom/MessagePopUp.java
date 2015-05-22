@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.ui.custom;
 
 import java.awt.Dialog;
@@ -20,22 +14,23 @@ public class MessagePopUp extends javax.swing.JDialog {
      * Creates new form MessagePopUp
      */
     private boolean state = false;
+
     public MessagePopUp() {
         setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         initComponents();
         this.setPreferredSize(new Dimension(550, 300));
-        this.setMaximumSize(new Dimension(550,300));
-        this.setMinimumSize(new Dimension(550,300));
+        this.setMaximumSize(new Dimension(550, 300));
+        this.setMinimumSize(new Dimension(550, 300));
         this.pack();
     }
-      
-    public void setText(String text){
+
+    public void setText(String text) {
         text = String.format("<html><div style=\"width:300px;\">%s</div><html>", text);
         messageLabel.setLayout(new GridLayout());
         messageLabel.setText(text);
         this.pack();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -111,20 +106,19 @@ public class MessagePopUp extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
-    
-    public void setStateResult(boolean state){
+    public void setStateResult(boolean state) {
         this.state = state;
     }
-   
-    public boolean getStateResult(){
+
+    public boolean getStateResult() {
         return state;
     }
-    
-    public javax.swing.JButton getOk(){
+
+    public javax.swing.JButton getOk() {
         return okBtn;
     }
-    
-    public javax.swing.JButton getCancel(){
+
+    public javax.swing.JButton getCancel() {
         return cancelBtn;
     }
 
@@ -134,7 +128,7 @@ public class MessagePopUp extends javax.swing.JDialog {
     private javax.swing.JButton okBtn;
     // End of variables declaration//GEN-END:variables
 
-    public javax.swing.JLabel getMessageLabel(){
+    public javax.swing.JLabel getMessageLabel() {
         return messageLabel;
     }
 }

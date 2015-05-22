@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.ui.disease;
 
-import com.kappadev.medplus.data.DB.attachment.Attachment;
 import com.kappadev.medplus.data.DB.disease.Disease;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -31,7 +25,7 @@ public class DiseaseTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return 1;
     }
-   
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object value = "??";
@@ -84,8 +78,8 @@ public class DiseaseTableModel extends AbstractTableModel {
         Disease disease = diseaseList.get(row);
         return disease;
     }
-    
-    public void removeDiseaseFromList(Disease disease){
+
+    public void removeDiseaseFromList(Disease disease) {
         diseaseList.remove(disease);
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.Patient;
 
 import com.kappadev.medplus.data.DB.states.States;
@@ -59,8 +54,8 @@ public class Patient implements Serializable {
 
     @Column(name = "phone", length = 50, nullable = true)
     private String phone;
-    
-    @Column(name = "pesel", length=11, nullable = true)
+
+    @Column(name = "pesel", length = 11, nullable = true)
     private String pesel;
 
     private boolean selected;
@@ -68,11 +63,11 @@ public class Patient implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patientLogId")
     private PatientLog patientLog;
-    
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "meetingId")
     private Meeting meetingId;
- 
+
     /**
      * @return the name
      */
@@ -252,7 +247,7 @@ public class Patient implements Serializable {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     /**
      * @return the patientLog
      */

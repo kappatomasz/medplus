@@ -22,10 +22,10 @@ public class AttachmentServiceImpl implements AttachmentService {
     public void removeAttachment(Attachment attachment) {
         attachmentRepository.delete(attachment);
     }
-    
+
     @Transactional
     @Override
-    public void removeAttachmentList(List<Attachment> attachmentList){
+    public void removeAttachmentList(List<Attachment> attachmentList) {
         attachmentRepository.delete(attachmentList);
     }
 

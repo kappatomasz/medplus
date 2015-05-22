@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.DB.disease2patientLog;
 
 import com.kappadev.medplus.data.DB.disease.Disease;
@@ -17,8 +12,8 @@ import org.springframework.stereotype.Service;
  * @author tburzynski
  */
 @Service
-public class Disease2PatientLogServiceImpl implements Disease2PatientLogService{
-    
+public class Disease2PatientLogServiceImpl implements Disease2PatientLogService {
+
     @Autowired
     private Disease2PatientLogRepository disease2patientLogRepository;
 
@@ -38,12 +33,12 @@ public class Disease2PatientLogServiceImpl implements Disease2PatientLogService{
 
     @Override
     public void removeDiseaseToPatientLogMapping(Disease disease, PatientLog patientLog) {
-        
+
     }
 
     @Override
     public List<Disease> getDiseasesByPatientLog(PatientLog patientLog) {
         return disease2patientLogRepository.findAllDiseaseByPatientLogId(patientLog.getId());
     }
-    
+
 }

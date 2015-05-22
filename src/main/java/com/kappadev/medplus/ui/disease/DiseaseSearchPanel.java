@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.ui.disease;
 
 import com.kappadev.medplus.data.DB.disease.DiseaseService;
 import com.kappadev.medplus.data.DB.disease.Disease;
-import com.kappadev.medplus.data.Patient.Patient;
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
-import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +30,8 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
     public DiseaseSearchPanel() {
         initComponents();
     }
-    
-    public void initializeDiseaseSearchPanel(){
+
+    public void initializeDiseaseSearchPanel() {
         diseaseTableModel = new DiseaseTableModel(diseaseService.getAllDiseases());
         diseasesTable.setModel(diseaseTableModel);
     }

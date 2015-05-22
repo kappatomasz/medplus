@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.DB.states;
 
 import com.kappadev.medplus.data.Patient.Patient;
@@ -31,7 +26,7 @@ public class States implements Serializable {
 
     @Column(name = "name", unique = true, nullable = false, length = 255)
     private String name;
-    
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "state")
     private Patient patient;
 

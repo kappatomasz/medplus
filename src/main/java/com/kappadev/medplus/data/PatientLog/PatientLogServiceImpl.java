@@ -1,8 +1,5 @@
 package com.kappadev.medplus.data.PatientLog;
 
-import com.kappadev.medplus.data.DB.disease.Disease;
-import com.kappadev.medplus.data.PatientLog.PatientLog;
-import com.kappadev.medplus.data.PatientLog.PatientLogRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

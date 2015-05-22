@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.ui;
 
 import com.kappadev.medplus.ui.main.MainMenuPanel;
@@ -16,10 +11,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MedRegistry implements CommandLineRunner {
-    
+
     @Autowired
     private MainMenuPanel main;
-    
+
     @Override
     public void run(String... strings) throws Exception {
         main.setVisible(true);

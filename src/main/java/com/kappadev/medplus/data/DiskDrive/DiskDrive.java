@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.data.DiskDrive;
 
 import java.io.File;
@@ -13,6 +7,7 @@ import java.io.File;
  * @author chlast
  */
 public class DiskDrive {
+
     private String driveName;
     private String diskTypeDescription;
     private boolean writeable;
@@ -74,9 +69,9 @@ public class DiskDrive {
     public void setPath(File path) {
         this.path = path;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(driveName);
         return sb.toString();

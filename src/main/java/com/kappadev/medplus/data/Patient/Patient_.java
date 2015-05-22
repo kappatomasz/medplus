@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.Patient;
 
 import com.kappadev.medplus.data.DB.disease.Disease;
@@ -16,6 +11,7 @@ import javax.persistence.metamodel.StaticMetamodel;
  */
 @StaticMetamodel(Patient.class)
 public class Patient_ {
+
     public static volatile SingularAttribute<Patient, String> name;
     public static volatile SingularAttribute<Patient, String> secondName;
     public static volatile SingularAttribute<Patient, String> surname;

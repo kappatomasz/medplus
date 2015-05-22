@@ -1,13 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.Patient;
 
-import com.kappadev.medplus.data.Patient.Patient;
-import com.kappadev.medplus.data.Patient.PatientRepository;
-import com.kappadev.medplus.data.Patient.PatientService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<Patient> getFilteredPatients(Patient patient) {
         return patientRepository.findAll(where(cityIsLike(patient.getCity()))
-//TODO fix this                .or(diseaseIsLike(patient.getDisease().toString()))
+                //TODO fix this                .or(diseaseIsLike(patient.getDisease().toString()))
                 .or(flatNoIsLike(patient.getFlat()))
                 .or(houseNoIsLike(patient.getHouseNo()))
                 .or(idIsLike(Long.toString(patient.getId())))

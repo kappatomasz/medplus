@@ -1,6 +1,5 @@
 package com.kappadev.medplus.data.PatientLog;
 
-import com.kappadev.medplus.data.PatientLog.PatientLog;
 import java.util.List;
 
 public interface PatientLogService {

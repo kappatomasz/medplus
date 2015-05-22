@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.data.printing;
 
 import java.io.File;
@@ -26,27 +20,27 @@ import javax.print.event.PrintJobListener;
  *
  * @author Tomasz
  */
-public class PrintingManagerImpl implements PrintingManager{
-    
+public class PrintingManagerImpl implements PrintingManager {
+
     @Override
-    public boolean printDocument(File file, PrintService myPrinter) {        
+    public boolean printDocument(File file, PrintService myPrinter) {
         // this step is necessary because I have several printers configured  
-         FileInputStream psStream = null;  
-         try {  
-                psStream = new FileInputStream(file);
-            } catch (FileNotFoundException ffne) {  
-                ffne.printStackTrace();  
-            }  
-            if (psStream == null) {  
-                return false;  
-            }  
-           DocFlavor psInFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;  
-           Doc myDoc = new SimpleDoc(psStream, psInFormat, null);   
-           PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-           aset.add(new Copies(1));      
-           aset.add(Sides.ONE_SIDED);  
-           
-        if (myPrinter != null) {              
+        FileInputStream psStream = null;
+        try {
+            psStream = new FileInputStream(file);
+        } catch (FileNotFoundException ffne) {
+            ffne.printStackTrace();
+        }
+        if (psStream == null) {
+            return false;
+        }
+        DocFlavor psInFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc myDoc = new SimpleDoc(psStream, psInFormat, null);
+        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+        aset.add(new Copies(1));
+        aset.add(Sides.ONE_SIDED);
+
+        if (myPrinter != null) {
             DocPrintJob job = myPrinter.createPrintJob();
             job.addPrintJobListener(new PrintJobListener() {
 
@@ -80,21 +74,21 @@ public class PrintingManagerImpl implements PrintingManager{
                     System.out.println("print job requires attention");
                 }
             });
-            try {  
-                job.print(myDoc, aset); 
+            try {
+                job.print(myDoc, aset);
                 psStream.close();
             } catch (Exception pe) {
                 pe.printStackTrace();
-            }  
-        } else {  
-            System.out.println("no printer services found");  
-        }   
+            }
+        } else {
+            System.out.println("no printer services found");
+        }
         return true;
-    }  
+    }
 
     @Override
-    public PrintService[] getPrintServices(){
-        DocFlavor psInFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;  
-        return PrintServiceLookup.lookupPrintServices(psInFormat, new HashPrintRequestAttributeSet()); 
+    public PrintService[] getPrintServices() {
+        DocFlavor psInFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        return PrintServiceLookup.lookupPrintServices(psInFormat, new HashPrintRequestAttributeSet());
     }
 }

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.ui.custom;
 
 import java.awt.Color;
@@ -27,9 +21,9 @@ import javax.swing.event.DocumentListener;
  *
  * @author Tomasz
  */
-
 //TODO make as factory
 public class AutoSuggest {
+
     private final JTextField textField;
     private final Window container;
     private JPanel suggestionsPanel;
@@ -56,31 +50,31 @@ public class AutoSuggest {
     };
     private final Color suggestionsTextColor;
     private final Color suggestionFocusedColor;
-    
+
     public AutoSuggest(JTextField textField, Window mainWindow, ArrayList<String> words,
-            Color popUpBackground, Color textColor, Color suggestionFocusedColor, float opacity){
+            Color popUpBackground, Color textColor, Color suggestionFocusedColor, float opacity) {
         this.textField = textField;
         this.suggestionsTextColor = textColor;
         this.container = mainWindow;
         this.suggestionFocusedColor = suggestionFocusedColor;
         this.textField.getDocument().addDocumentListener(documentListener);
-        
+
         setDictionary(words);
         typedWord = "";
-        currentIndexOfSpace=0;
-        tW=0;
-        tH=0;
-        
+        currentIndexOfSpace = 0;
+        tW = 0;
+        tH = 0;
+
         autoSuggestionPopUpWindow = new JWindow(mainWindow);
         autoSuggestionPopUpWindow.setOpacity(opacity);
-        
+
         suggestionsPanel = new JPanel();
-        suggestionsPanel.setLayout(new GridLayout(0,1));
+        suggestionsPanel.setLayout(new GridLayout(0, 1));
         suggestionsPanel.setBackground(popUpBackground);
-        
+
         addKeyBindingToRequestFocusInPopUpWindow();
     }
-    
+
     private void addKeyBindingToRequestFocusInPopUpWindow() {
         textField.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "Down released");
         textField.getActionMap().put("Down released", new AbstractAction() {
@@ -143,14 +137,14 @@ public class AutoSuggest {
             }
         });
     }
-    
+
     private void setFocusToTextField() {
         container.toFront();
         container.requestFocusInWindow();
         textField.requestFocusInWindow();
     }
 
-     public ArrayList<SuggestionLabel> getAddedSuggestionLabels() {
+    public ArrayList<SuggestionLabel> getAddedSuggestionLabels() {
         ArrayList<SuggestionLabel> sls = new ArrayList<>();
         for (int i = 0; i < suggestionsPanel.getComponentCount(); i++) {
             if (suggestionsPanel.getComponent(i) instanceof SuggestionLabel) {
@@ -160,8 +154,8 @@ public class AutoSuggest {
         }
         return sls;
     }
-     
-     private void checkForAndShowSuggestions() {
+
+    private void checkForAndShowSuggestions() {
         typedWord = getCurrentlyTypedWord();
 
         suggestionsPanel.removeAll();//remove previos words/jlabels that were added
@@ -212,13 +206,13 @@ public class AutoSuggest {
         }
         tH += label.getPreferredSize().height;
     }
-     
-    private void showPopUpWindow(){
+
+    private void showPopUpWindow() {
         autoSuggestionPopUpWindow.getContentPane().add(suggestionsPanel);
         autoSuggestionPopUpWindow.setMinimumSize(new Dimension(textField.getWidth(), 25));
         autoSuggestionPopUpWindow.setSize(tW, tH);
         autoSuggestionPopUpWindow.setVisible(true);
-        
+
         int windowX = 0;
         int windowY = 0;
 
@@ -234,25 +228,24 @@ public class AutoSuggest {
         autoSuggestionPopUpWindow.revalidate();
         autoSuggestionPopUpWindow.repaint();
 
+    }
 
-    } 
-     
-    public JWindow getAutoSuggestionPopUpWindow(){
+    public JWindow getAutoSuggestionPopUpWindow() {
         return autoSuggestionPopUpWindow;
-    } 
-     
-    public Window getContainer(){
-        return container;
-    } 
-     
-    public JTextField getTextField(){
-        return textField;
-    } 
+    }
 
-    public void addToDictionary(String word){
+    public Window getContainer() {
+        return container;
+    }
+
+    public JTextField getTextField() {
+        return textField;
+    }
+
+    public void addToDictionary(String word) {
         dictionary.add(word);
-    } 
-    
+    }
+
     public void setDictionary(ArrayList<String> words) {
         dictionary.clear();
         if (words == null) {
@@ -262,22 +255,22 @@ public class AutoSuggest {
             dictionary.add(word);
         }
     }
-    
-    public boolean wordTyped(String typedWord){
-        if(typedWord.isEmpty()){
+
+    public boolean wordTyped(String typedWord) {
+        if (typedWord.isEmpty()) {
             return false;
         }
-        
+
         boolean suggestionAdded = false;
-        for(String word : dictionary){
+        for (String word : dictionary) {
             boolean fullymatches = true;
-            for( int i=0; i<typedWord.length(); i++){
-                if(!typedWord.toLowerCase().startsWith(String.valueOf(word.toLowerCase().charAt(i)),i)){
+            for (int i = 0; i < typedWord.length(); i++) {
+                if (!typedWord.toLowerCase().startsWith(String.valueOf(word.toLowerCase().charAt(i)), i)) {
                     fullymatches = false;
                     break;
                 }
             }
-            if(fullymatches){
+            if (fullymatches) {
                 addWordToSuggestions(word);
                 suggestionAdded = true;
             }

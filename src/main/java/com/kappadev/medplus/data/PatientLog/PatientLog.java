@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.data.PatientLog;
 
 import com.kappadev.medplus.data.DB.attachment.Attachment;
-import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
 import com.kappadev.medplus.data.Patient.Patient;
 import java.io.Serializable;
@@ -30,52 +23,52 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PATIENT_LOG")
 public class PatientLog implements Serializable {
-    
+
     @Id
     @Column(name = "Id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @OneToMany(mappedBy = "patientLog")
     private List<Disease2PatientLog> disease2PatientLogList;
-    
+
     @Column(name = "note", nullable = true)
     private String note;
-    
+
     @Column(name = "modificationDate", nullable = false)
-    private Date modificationDate; 
-    
+    private Date modificationDate;
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "patientLog")
     private Patient patient;
-    
+
     @OneToMany(mappedBy = "patientLog")
     private List<Attachment> attachmentList;
-    
-    public PatientLog(){
-        
+
+    public PatientLog() {
+
     }
-    
-    public void setId(Long id){
+
+    public void setId(Long id) {
         this.id = id;
     }
-    
-    public Long getId(){
+
+    public Long getId() {
         return id;
     }
-    
-    public void setNote(String note){
+
+    public void setNote(String note) {
         this.note = note;
     }
-    
-    public String getNote(){
+
+    public String getNote() {
         return note;
     }
-    
-    public void setModificationDate(Date modificationDate){
+
+    public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
     }
-    
-    public Date getModificationDate(){
+
+    public Date getModificationDate() {
         return modificationDate;
     }
 

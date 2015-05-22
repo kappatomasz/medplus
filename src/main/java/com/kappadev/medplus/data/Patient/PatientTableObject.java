@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.data.Patient;
 
 import java.util.List;
@@ -13,9 +7,11 @@ import java.util.List;
  * @author Tomasz
  */
 public class PatientTableObject {
+
     private List<Patient> patientList;
     private boolean isSelected;
-    public PatientTableObject(List<Patient> patientList){
+
+    public PatientTableObject(List<Patient> patientList) {
         this.patientList = patientList;
     }
 
@@ -32,9 +28,9 @@ public class PatientTableObject {
     public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
-    
-    public List<Patient> getPatientList(){
+
+    public List<Patient> getPatientList() {
         return patientList;
     }
-    
+
 }

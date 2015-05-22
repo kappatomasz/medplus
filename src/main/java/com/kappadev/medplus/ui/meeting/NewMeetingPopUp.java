@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.kappadev.medplus.ui.meeting;
 
 import com.kappadev.medplus.data.meeting.Meeting;
@@ -22,17 +16,18 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
 
     @Autowired
     private MeetingService meetingService;
-    
+
     /**
      * Creates new form MessagePopUp
      */
     private boolean state = false;
+
     public NewMeetingPopUp() {
         setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         initComponents();
         this.pack();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -200,20 +195,19 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         meeting.setDescription(noteTextArea.getText().toString().getBytes());
     }//GEN-LAST:event_saveBtnActionPerformed
 
-    
-    public void setStateResult(boolean state){
+    public void setStateResult(boolean state) {
         this.state = state;
     }
-   
-    public boolean getStateResult(){
+
+    public boolean getStateResult() {
         return state;
     }
-    
-    public javax.swing.JButton getSaveBtn(){
+
+    public javax.swing.JButton getSaveBtn() {
         return saveBtn;
     }
-    
-    public javax.swing.JButton getCancel(){
+
+    public javax.swing.JButton getCancel() {
         return cancelBtn;
     }
 

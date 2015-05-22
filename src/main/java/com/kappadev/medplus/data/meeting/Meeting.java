@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kappadev.medplus.data.meeting;
 
 import com.kappadev.medplus.data.Patient.Patient;
@@ -25,25 +20,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "MEETING")
 public class Meeting implements Serializable {
-    
+
     @Id
     @Column(name = "Id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(name = "title", nullable = false, length = 255)
     private String title;
-    
+
     @Column(name = "description", nullable = true)
     @Lob
     private byte[] description;
-    
+
     @Column(name = "date", nullable = false)
     private Date date;
-    
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "meetingId")
     private Patient patient;
-    
+
     private boolean selected;
 
     /**
@@ -129,6 +124,5 @@ public class Meeting implements Serializable {
     public void setIsSelected(boolean isSelected) {
         this.selected = isSelected;
     }
-    
-    
+
 }
