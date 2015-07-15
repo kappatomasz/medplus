@@ -1,5 +1,6 @@
 package com.kappadev.medplus.ui.meeting;
 
+import com.kappadev.medplus.data.meeting.MeetingService;
 import com.kappadev.medplus.ui.custom.DateLabelFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -16,10 +17,12 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
 
     private UtilDateModel model;
     private JDatePanelImpl datePanel;
-    private JDatePickerImpl datePicker;
 
     @Autowired
     private NewMeetingPopUp newMeetingPopUp;
+
+    @Autowired
+    private MeetingService meetingService;
 
     /**
      * Creates new form CalendarPanel
@@ -31,16 +34,7 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
 
     private void initCalendar() {
         model = new UtilDateModel();
-        datePanel = new JDatePanelImpl(model);
-        datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-    }
 
-    private void initMonthView() {
-//        Date date = new Date();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date);
-//        calendarTable.setModel(new MonthTableModel(calendar.get(Calendar.MONTH), date));
-//        dateBtn.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.forLanguageTag("pl")));
     }
 
     /**
@@ -63,7 +57,6 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -73,6 +66,7 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        calendar = new org.jdesktop.swingx.JXDatePicker();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -169,8 +163,6 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-
-        jLabel4.setText("kalendarz");
 
         jTextField1.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         jTextField1.setText("Jan Kowalski");
@@ -271,16 +263,16 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(jLabel4)
+                .addGap(196, 196, 196)
+                .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
+                .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -342,11 +334,11 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
-        // TODO add your handling code here:
+        //TODO(tburzynski) here add functionalities with tablemodel
     }//GEN-LAST:event_removeBtnActionPerformed
 
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_modifyBtnActionPerformed
 
     private void SyncBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncBtnActionPerformed
@@ -372,11 +364,11 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SyncBtn;
     private javax.swing.JButton addBtn;
+    private org.jdesktop.swingx.JXDatePicker calendar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

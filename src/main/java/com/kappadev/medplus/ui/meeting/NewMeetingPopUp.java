@@ -41,13 +41,13 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         titleTxtFld = new javax.swing.JTextField();
-        calendar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         noteTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         patientTxtFld = new javax.swing.JTextField();
         patientLbl = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        calendar = new org.jdesktop.swingx.JXDatePicker();
         saveBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
 
@@ -60,8 +60,6 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
 
         titleTxtFld.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         titleTxtFld.setText("jTextField1");
-
-        calendar.setText("jLabel2");
 
         noteTextArea.setColumns(20);
         noteTextArea.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
@@ -95,8 +93,8 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(patientTxtFld)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                    .addComponent(calendar)
-                    .addComponent(titleTxtFld))
+                    .addComponent(titleTxtFld)
+                    .addComponent(calendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -104,9 +102,9 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calendar)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel5)
+                    .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titleTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -190,9 +188,11 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         Meeting meeting = new Meeting();
-//        meeting.setDate(null);
+        meeting.setDate(calendar.getDate());
         meeting.setTitle(titleTxtFld.getText());
         meeting.setDescription(noteTextArea.getText().toString().getBytes());
+        meetingService.addNewMeeting(meeting);
+        this.dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     public void setStateResult(boolean state) {
@@ -212,7 +212,7 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel calendar;
+    private org.jdesktop.swingx.JXDatePicker calendar;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

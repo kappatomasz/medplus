@@ -5,6 +5,8 @@
  */
 package com.kappadev.medplus.data.meeting;
 
+import java.util.Date;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +16,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
     public Meeting findMeetingByPatientId(Long patientId);
+    
+    public List<Meeting> findMeetingsByDate(Date date);
+    
+    public Meeting findMeeting(Meeting meeting);
 }

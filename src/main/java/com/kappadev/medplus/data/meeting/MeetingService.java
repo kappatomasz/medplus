@@ -5,25 +5,22 @@
  */
 package com.kappadev.medplus.data.meeting;
 
+import java.util.Date;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author tburzynski
  */
-@Service
-public class MeetingService {
+public interface MeetingService {
+
+    public void addNewMeeting(Meeting meeting);
+
+    public List<Meeting> getAllMeetings();
     
-    @Autowired
-    private MeetingRepository meetingRepository;
+    public void removeMeetings(List<Meeting> meeting);
     
-    public List<Meeting> getAllMeetings(){
-        return meetingRepository.findAll();
-    }
+    public Meeting getMeeting(Meeting meeting);
     
-    public void addNewMeeting(Meeting meeting){
-        meetingRepository.save(meeting);
-    }
+    public List<Meeting> getMeetingByDate(Date date);
 }
