@@ -195,15 +195,13 @@ public class Patient implements Serializable {
     }
 
     /**
-     * @return the pesel
+     * @return the id
      */
     public Long getId() {
         return id;
     }
 
-    /**
-     * @param pesel the pesel to set
-     */
+    
     public void setId(Long id) {
         this.id = id;
     }

@@ -22,10 +22,23 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
      */
     private boolean state = false;
 
+    private Meeting meeting = null;
+
     public NewMeetingPopUp() {
         setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         initComponents();
         this.pack();
+    }
+
+    public void setMeeting(Meeting meeting) {
+        this.meeting = meeting;
+    }
+
+    public void initMeeting(Meeting meeting) {
+        calendar.setDate(meeting.getDate());
+        titleTxtFld.setText(meeting.getTitle());
+        noteTextArea.setText(new String(meeting.getDescription()));
+
     }
 
     /**
@@ -187,11 +200,22 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        Meeting meeting = new Meeting();
-        meeting.setDate(calendar.getDate());
-        meeting.setTitle(titleTxtFld.getText());
-        meeting.setDescription(noteTextArea.getText().toString().getBytes());
-        meetingService.addNewMeeting(meeting);
+        if (meeting == null) {
+            Meeting newMeeting = new Meeting();
+            newMeeting.setDate(calendar.getDate());
+            newMeeting.setTitle(titleTxtFld.getText());
+            newMeeting.setDescription(noteTextArea.getText().getBytes());
+            meetingService.addNewMeeting(newMeeting);
+        } else {
+            Meeting modifyMeeting = meetingService.getMeeting(meeting);
+            if (modifyMeeting != null) {
+                modifyMeeting.setDate(calendar.getDate());
+                modifyMeeting.setTitle(titleTxtFld.getText());
+                modifyMeeting.setDescription(noteTextArea.getText().getBytes());
+                meetingService.saveMeeting(modifyMeeting);
+            }
+        }
+
         this.dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 

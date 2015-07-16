@@ -23,4 +23,6 @@ public interface MeetingService {
     public Meeting getMeeting(Meeting meeting);
     
     public List<Meeting> getMeetingByDate(Date date);
+    
+    public void saveMeeting(Meeting meeting);
 }

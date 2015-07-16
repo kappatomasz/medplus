@@ -1,15 +1,19 @@
 package com.kappadev.medplus.data.DB.disease;
 
 import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
+import static com.kappadev.medplus.data.DB.disease2patientLog.QDisease2PatientLog.disease2PatientLog;
+import com.kappadev.medplus.data.PatientLog.PatientLog;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,8 +36,9 @@ public class Disease implements Serializable {
     @Column(name = "name", length = 500, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "disease")
-    private List<Disease2PatientLog> disease2PatientLog;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "patientLogId")
+    private PatientLog patientLog;
 
     /**
      * @return the id
@@ -77,16 +82,18 @@ public class Disease implements Serializable {
     }
 
     /**
-     * @return the disease2PatientLog
+     * @return the patientLog
      */
-    public List<Disease2PatientLog> getDisease2PatientLogList() {
-        return disease2PatientLog;
+    public PatientLog getPatientLog() {
+        return patientLog;
     }
 
     /**
-     * @param disease2PatientLog the disease2PatientLog to set
+     * @param patientLog the patientLog to set
      */
-    public void setDisease2PatientLogList(List<Disease2PatientLog> disease2PatientLog) {
-        this.disease2PatientLog = disease2PatientLog;
+    public void setPatientLog(PatientLog patientLog) {
+        this.patientLog = patientLog;
     }
+
+   
 }

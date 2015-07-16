@@ -8,12 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.cityIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.flatNoIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.houseNoIsLike;
-import static com.kappadev.medplus.data.Patient.PatientSpecifications.idIsLike;
+import static com.kappadev.medplus.data.Patient.PatientSpecifications.peselIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.nameIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.phoneIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.postCodeIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.secondNameIsLike;
-import static com.kappadev.medplus.data.Patient.PatientSpecifications.stateIsLike;
+import static com.kappadev.medplus.data.Patient.PatientSpecifications.stateEq;
+import static com.kappadev.medplus.data.Patient.PatientSpecifications.diseaseIn;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.streetIsLike;
 import static com.kappadev.medplus.data.Patient.PatientSpecifications.surnameIsLike;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
@@ -63,14 +64,15 @@ public class PatientServiceImpl implements PatientService {
                 //TODO fix this                .or(diseaseIsLike(patient.getDisease().toString()))
                 .or(flatNoIsLike(patient.getFlat()))
                 .or(houseNoIsLike(patient.getHouseNo()))
-                .or(idIsLike(Long.toString(patient.getId())))
+                .or(peselIsLike(Long.toString(patient.getId())))
                 .or(nameIsLike(patient.getName()))
                 .or(phoneIsLike(patient.getPhone()))
                 .or(postCodeIsLike(patient.getPostCode()))
                 .or(secondNameIsLike(patient.getSecondName()))
-                .or(stateIsLike(patient.getState().toString()))
+                .or(stateEq(patient.getState()))
                 .or(streetIsLike(patient.getStreet()))
                 .or(surnameIsLike(patient.getSurname()))
+                .or(diseaseIn(patient.getPatientLog().getDiseases()))
         );
     }
 

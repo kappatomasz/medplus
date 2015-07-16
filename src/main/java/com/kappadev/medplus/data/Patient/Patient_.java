@@ -19,7 +19,7 @@ public class Patient_ {
     public static volatile SingularAttribute<Patient, String> flatNo;
     public static volatile SingularAttribute<Patient, String> city;
     public static volatile SingularAttribute<Patient, String> postCode;
-    public static volatile SingularAttribute<Patient, Long> id;
+    public static volatile SingularAttribute<Patient, Long> pesel;
     public static volatile SingularAttribute<Patient, String> phone;
     public static volatile SingularAttribute<Patient, States> state;
     public static volatile SingularAttribute<Patient, String> street;

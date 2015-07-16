@@ -1,8 +1,13 @@
 package com.kappadev.medplus.data.Patient;
 
+import com.kappadev.medplus.data.DB.disease.Disease;
+import com.kappadev.medplus.data.DB.states.States;
 import com.kappadev.medplus.utils.StringUtils;
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -68,10 +73,10 @@ public class PatientSpecifications {
         };
     }
 
-    public static Specification<Patient> idIsLike(final String searchTerm) {
+    public static Specification<Patient> peselIsLike(final String searchTerm) {
         return (Root<Patient> patientRoot, CriteriaQuery<?> cq, CriteriaBuilder cb) -> {
             String likePattern = StringUtils.getLikePattern(searchTerm);
-            return cb.like(cb.lower(patientRoot.<String>get(Patient_.id.toString())), likePattern);
+            return cb.like(cb.lower(patientRoot.<String>get(Patient_.pesel.toString())), likePattern);
         };
     }
 
@@ -82,19 +87,20 @@ public class PatientSpecifications {
         };
     }
 
-    //TODO(tburzynski) debug check is it works ?
-    public static Specification<Patient> stateIsLike(final String searchTerm) {
+    public static Specification<Patient> stateEq(final States states) {
         return (Root<Patient> patientRoot, CriteriaQuery<?> cq, CriteriaBuilder cb) -> {
-            String likePattern = StringUtils.getLikePattern(searchTerm);
-            return cb.like(cb.lower(patientRoot.<String>get(Patient_.state.toString())), likePattern);
+            return cb.equal(patientRoot.get(Patient_.state), states);
         };
     }
 
-    //TODO(tburzynski) debug check is it works ?
-    public static Specification<Patient> diseaseIsLike(final String searchTerm) {
-        return (Root<Patient> patientRoot, CriteriaQuery<?> cq, CriteriaBuilder cb) -> {
-            String likePattern = StringUtils.getLikePattern(searchTerm);
-            return cb.like(cb.lower(patientRoot.<String>get(Patient_.disease.toString())), likePattern);
+    public static Specification<Patient> diseaseIn(final List<Disease> disease) {
+        return new Specification<Patient>() {
+
+            @Override
+            public Predicate toPredicate(Root<Patient> patientRoot, CriteriaQuery<?> cq, CriteriaBuilder cb) {   
+                Expression<Disease> exp = patientRoot.get("patientLog").<Disease>get("diseases");
+                return cb.in(exp.in(disease));
+            }
         };
     }
 }

@@ -1,10 +1,8 @@
 package com.kappadev.medplus.ui.meeting;
 
+import com.kappadev.medplus.data.meeting.Meeting;
 import com.kappadev.medplus.data.meeting.MeetingService;
-import com.kappadev.medplus.ui.custom.DateLabelFormatter;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MeetingSearchPanel extends javax.swing.JFrame {
-
-    private UtilDateModel model;
-    private JDatePanelImpl datePanel;
 
     @Autowired
     private NewMeetingPopUp newMeetingPopUp;
@@ -29,12 +24,16 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
      */
     public MeetingSearchPanel() {
         initComponents();
-        initCalendar();
+        meetingTable.setModel(getNewMeetingTableModel(meetingService.getAllMeetings()));
+        modifyBtn.setEnabled(false);
     }
 
-    private void initCalendar() {
-        model = new UtilDateModel();
+    private MeetingTableModel getNewMeetingTableModel(List<Meeting> list) {
+        return new MeetingTableModel(list);
+    }
 
+    private MeetingTableModel getCurrentMeetingTableModel() {
+        return (MeetingTableModel) meetingTable.getModel();
     }
 
     /**
@@ -68,7 +67,7 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         calendar = new org.jdesktop.swingx.JXDatePicker();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        meetingTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -277,7 +276,7 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        meetingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -288,7 +287,12 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        meetingTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                meetingTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(meetingTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -334,11 +338,18 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
-        //TODO(tburzynski) here add functionalities with tablemodel
+        meetingService.removeMeetings(getSelectedMeetings());
+        MeetingTableModel meetingTableModel = getCurrentMeetingTableModel();
+        meetingTableModel.removeMeetingsFromList(getSelectedMeetings());
+        meetingTableModel.fireTableDataChanged();
     }//GEN-LAST:event_removeBtnActionPerformed
 
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
-        
+        if (!newMeetingPopUp.isVisible()) {
+            newMeetingPopUp.setMeeting(getSelectedMeetings().get(0));
+            newMeetingPopUp.setVisible(true);
+            newMeetingPopUp.setAlwaysOnTop(true);
+        }
     }//GEN-LAST:event_modifyBtnActionPerformed
 
     private void SyncBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SyncBtnActionPerformed
@@ -361,6 +372,19 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
+    private void meetingTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_meetingTableMouseClicked
+        if (meetingTable.getSelectedRowCount() == 1) {
+            modifyBtn.setEnabled(true);
+        } else {
+            modifyBtn.setEnabled(false);
+        }
+    }//GEN-LAST:event_meetingTableMouseClicked
+
+    public List<Meeting> getSelectedMeetings() {
+        MeetingTableModel model = (MeetingTableModel) meetingTable.getModel();
+        return model.getSelectedMeetingList(meetingTable.getSelectedRows());
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SyncBtn;
     private javax.swing.JButton addBtn;
@@ -376,13 +400,13 @@ public class MeetingSearchPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable meetingTable;
     private javax.swing.JButton modifyBtn;
     private javax.swing.JButton removeBtn;
     // End of variables declaration//GEN-END:variables

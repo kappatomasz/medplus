@@ -1,6 +1,7 @@
 package com.kappadev.medplus.data.PatientLog;
 
 import com.kappadev.medplus.data.DB.attachment.Attachment;
+import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
 import com.kappadev.medplus.data.Patient.Patient;
 import java.io.Serializable;
@@ -29,8 +30,8 @@ public class PatientLog implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "patientLog")
-    private List<Disease2PatientLog> disease2PatientLogList;
+    @OneToMany(mappedBy = "diseases")
+    private List<Disease> diseases;
 
     @Column(name = "note", nullable = true)
     private String note;
@@ -101,17 +102,17 @@ public class PatientLog implements Serializable {
     }
 
     /**
-     * @return the disease2PatientLogList
+     * @return the diseases
      */
-    public List<Disease2PatientLog> getDisease2PatientLogList() {
-        return disease2PatientLogList;
+    public List<Disease> getDiseases() {
+        return diseases;
     }
 
     /**
-     * @param disease2PatientLogList the disease2PatientLogList to set
+     * @param diseases the diseases to set
      */
-    public void setDisease2PatientLogList(List<Disease2PatientLog> disease2PatientLogList) {
-        this.disease2PatientLogList = disease2PatientLogList;
+    public void setDiseases(List<Disease> diseases) {
+        this.diseases = diseases;
     }
 
 }

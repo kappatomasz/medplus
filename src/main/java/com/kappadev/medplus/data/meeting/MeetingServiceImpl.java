@@ -47,4 +47,9 @@ public class MeetingServiceImpl implements MeetingService {
     public List <Meeting> getMeetingByDate(Date date) {
         return meetingRepository.findMeetingsByDate(date);
     }
+
+    @Override
+    public void saveMeeting(Meeting meeting) {
+        meetingRepository.save(meeting);
+    }
 }

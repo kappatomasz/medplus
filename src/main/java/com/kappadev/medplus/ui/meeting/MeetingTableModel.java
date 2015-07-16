@@ -1,6 +1,6 @@
 package com.kappadev.medplus.ui.meeting;
 
-import com.kappadev.medplus.data.Patient.PatientTableObject;
+import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.meeting.Meeting;
 import com.kappadev.medplus.utils.DateUtils;
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import javax.swing.table.AbstractTableModel;
 public class MeetingTableModel extends AbstractTableModel {
 
     private Object[][] data;
-    private PatientTableObject pto;
     private List<Meeting> meetingList;
 
     public MeetingTableModel(List<Meeting> meetingList) {
@@ -163,5 +162,8 @@ public class MeetingTableModel extends AbstractTableModel {
         }
         return selectedMeetingList;
     }
-
+    
+     public void removeMeetingsFromList(List<Meeting> meeting) {
+        meetingList.removeAll(meeting);
+    }
 }
