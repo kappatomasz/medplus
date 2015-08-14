@@ -57,7 +57,10 @@ public class Patient implements Serializable {
 
     @Column(name = "pesel", length = 11, nullable = true)
     private String pesel;
-
+    
+    @Column(name = "email", length = 255, nullable = true)
+    private String email;
+    
     private boolean selected;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -286,5 +289,19 @@ public class Patient implements Serializable {
      */
     public void setPesel(String pesel) {
         this.pesel = pesel;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

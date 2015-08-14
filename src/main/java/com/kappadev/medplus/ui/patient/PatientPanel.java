@@ -5,14 +5,12 @@
  */
 package com.kappadev.medplus.ui.patient;
 
-import com.kappadev.medplus.data.DB.disease.DiseaseService;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.ui.custom.MessagePopUp;
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
 import com.kappadev.medplus.ui.search.SearchPanel;
-import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.DB.Database;
 import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.States;
@@ -134,6 +132,8 @@ public class PatientPanel extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        emailTxtFld = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         saveBtn = new javax.swing.JButton();
         clearBtn = new javax.swing.JButton();
@@ -219,6 +219,16 @@ public class PatientPanel extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
         jLabel4.setText("drugie imię");
 
+        jLabel13.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        jLabel13.setText("e-mail");
+
+        emailTxtFld.setText("jTextField1");
+        emailTxtFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailTxtFldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -228,32 +238,43 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel12)
-                            .addComponent(peselIdLbl)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addComponent(peselIdLbl))
+                        .addGap(107, 107, 107)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(stateComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(peselIdTxtFld)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(156, 156, 156)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameTxtFld, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                    .addComponent(peselIdTxtFld)
-                    .addComponent(postCodeTxtFld)
-                    .addComponent(stateComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(flatTxtFld)
-                    .addComponent(houseNoTxtFld)
-                    .addComponent(streetTxtFld)
-                    .addComponent(secondNameTxtFld)
-                    .addComponent(surnameTxtFld)
-                    .addComponent(phoneTxtFld)
-                    .addComponent(cityTxtFld, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel4))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(156, 156, 156)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(171, 171, 171)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(emailTxtFld)
+                            .addComponent(nameTxtFld, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(postCodeTxtFld)
+                            .addComponent(flatTxtFld)
+                            .addComponent(houseNoTxtFld)
+                            .addComponent(streetTxtFld)
+                            .addComponent(secondNameTxtFld)
+                            .addComponent(surnameTxtFld)
+                            .addComponent(phoneTxtFld)
+                            .addComponent(cityTxtFld, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -295,7 +316,11 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(stateComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
@@ -303,7 +328,7 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(peselIdTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(peselIdLbl))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         saveBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
@@ -424,7 +449,7 @@ public class PatientPanel extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -462,35 +487,32 @@ public class PatientPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        String name = nameTxtFld.getText();
+        //TODO fix this 
+        
         String sName = secondNameTxtFld.getText();
         String surname = surnameTxtFld.getText();
         String street = streetTxtFld.getText();
-        String house = houseNoTxtFld.getText();
-        String flat = flatTxtFld.getText();
-        String city = cityTxtFld.getText();
+
         String postCode = postCodeTxtFld.getText().replace("-", "");
         String phone = phoneTxtFld.getText();
-        Long peselId = 0L;
-        if (!peselIdTxtFld.getText().equals("")) {
-            peselId = Long.valueOf(peselIdTxtFld.getText());
-        };
+        
         States state = (States) stateComboBox.getSelectedItem();
         if (patient != null) {
-            patient.setCity(city);
-            patient.setFlat(flat);
-            patient.setHouseNo(house);
-            patient.setName(name);
-            patient.setId(peselId);
-            patient.setPhone(phone);
-            patient.setPostCode(postCode);
-            patient.setSecondName(sName);
+            patient.setCity(cityTxtFld.getText());
+            patient.setFlat(flatTxtFld.getText());
+            patient.setHouseNo(houseNoTxtFld.getText());
+            patient.setName(nameTxtFld.getText());
+            patient.setPhone(phoneTxtFld.getText());
+            patient.setPostCode(postCodeTxtFld.getText());
+            patient.setSecondName(secondNameTxtFld.getText());
             patient.setState(state);
-            patient.setStreet(street);
-            patient.setSurname(surname);
+            patient.setStreet(streetTxtFld.getText());
+            patient.setSurname(surnameTxtFld.getText());
+            patient.setEmail(emailTxtFld.getText());
             patient.setPatientLog(patient.getPatientLog());
+            patient.setPesel(peselIdTxtFld.getText());
             patientService.savePatient(patient);
-            patientEdit.setText(PATIENT_SAVED + String.valueOf(peselId));
+            patientEdit.setText(PATIENT_SAVED + peselIdTxtFld.getText());
             patientEdit.setVisible(true);
             boolean result = patientEdit.getStateResult();
             if (result) {
@@ -502,29 +524,30 @@ public class PatientPanel extends javax.swing.JFrame {
         } else {
             Patient newPatient = new Patient();
 
-            newPatient.setCity(city);
-            newPatient.setFlat(flat);
-            newPatient.setHouseNo(house);
-            newPatient.setName(name);
-            newPatient.setId(peselId);
+            newPatient.setCity(cityTxtFld.getText());
+            newPatient.setFlat(flatTxtFld.getText());
+            newPatient.setHouseNo(houseNoTxtFld.getText());
+            newPatient.setName(nameTxtFld.getText());
             newPatient.setPhone(phone);
             newPatient.setPostCode(postCode);
             newPatient.setSecondName(sName);
             newPatient.setState(state);
             newPatient.setStreet(street);
             newPatient.setSurname(surname);
-
+            newPatient.setPesel(peselIdTxtFld.getText());
+            newPatient.setEmail(emailTxtFld.getText());
+            
             PatientLog newPatientLog = new PatientLog();
             newPatientLog.setModificationDate(new Date());
 
-            if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
-                peselError.setText(PESEL_ERROR_TXT);
-                peselError.setVisible(true);
-                peselIdTxtFld.setBackground(Color.red);
-            } else {
+//            if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
+//                peselError.setText(PESEL_ERROR_TXT);
+//                peselError.setVisible(true);
+//                peselIdTxtFld.setBackground(Color.red);
+//            } else {
                 patientService.savePatient(patient);
                 //TODO add this functionality correctly
-                patientAdded.setText(PATIENT_ADDED + String.valueOf(peselId));
+                patientAdded.setText(PATIENT_ADDED + peselIdTxtFld.getText());
                 patientAdded.setVisible(true);
                 boolean result = patientAdded.getStateResult();
                 if (result) {
@@ -533,7 +556,7 @@ public class PatientPanel extends javax.swing.JFrame {
                     this.dispose();
                 }
 
-            }
+//            }
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -573,6 +596,10 @@ public class PatientPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneTxtFldActionPerformed
 
+    private void emailTxtFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTxtFldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailTxtFldActionPerformed
+
     private void clearFields() {
         nameTxtFld.setText("");
         secondNameTxtFld.setText("");
@@ -605,6 +632,7 @@ public class PatientPanel extends javax.swing.JFrame {
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField cityTxtFld;
     private javax.swing.JButton clearBtn;
+    private javax.swing.JTextField emailTxtFld;
     private javax.swing.JTextField flatTxtFld;
     private javax.swing.JTextField houseNoTxtFld;
     private javax.swing.JLabel infoLbl;
@@ -612,6 +640,7 @@ public class PatientPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

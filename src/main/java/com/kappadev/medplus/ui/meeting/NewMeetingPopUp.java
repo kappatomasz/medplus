@@ -207,7 +207,7 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
             newMeeting.setDescription(noteTextArea.getText().getBytes());
             meetingService.addNewMeeting(newMeeting);
         } else {
-            Meeting modifyMeeting = meetingService.getMeeting(meeting);
+            Meeting modifyMeeting = meetingService.getMeetingById(meeting.getId());
             if (modifyMeeting != null) {
                 modifyMeeting.setDate(calendar.getDate());
                 modifyMeeting.setTitle(titleTxtFld.getText());

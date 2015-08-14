@@ -18,6 +18,5 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     public Meeting findMeetingByPatientId(Long patientId);
     
     public List<Meeting> findMeetingsByDate(Date date);
-    
-    public Meeting findMeeting(Meeting meeting);
+   
 }

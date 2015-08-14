@@ -20,9 +20,9 @@ public interface MeetingService {
     
     public void removeMeetings(List<Meeting> meeting);
     
-    public Meeting getMeeting(Meeting meeting);
-    
     public List<Meeting> getMeetingByDate(Date date);
     
     public void saveMeeting(Meeting meeting);
+    
+    public Meeting getMeetingById(Long id);
 }

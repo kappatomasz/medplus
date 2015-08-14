@@ -39,11 +39,6 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Meeting getMeeting(Meeting meeting) {
-        return meetingRepository.findMeeting(meeting);
-    }
-
-    @Override
     public List <Meeting> getMeetingByDate(Date date) {
         return meetingRepository.findMeetingsByDate(date);
     }
@@ -51,5 +46,10 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void saveMeeting(Meeting meeting) {
         meetingRepository.save(meeting);
+    }
+
+    @Override
+    public Meeting getMeetingById(Long id) {
+        return meetingRepository.findOne(id);
     }
 }

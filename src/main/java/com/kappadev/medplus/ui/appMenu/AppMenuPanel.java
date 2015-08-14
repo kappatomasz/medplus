@@ -232,6 +232,7 @@ public class AppMenuPanel extends javax.swing.JFrame {
 
     private void meetingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meetingBtnActionPerformed
         calendarPanel.setVisible(true);
+        calendarPanel.initSearchPanel();
         this.dispose();
     }//GEN-LAST:event_meetingBtnActionPerformed
 
