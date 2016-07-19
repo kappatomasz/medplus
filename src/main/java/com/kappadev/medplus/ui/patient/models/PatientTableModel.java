@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import com.kappadev.medplus.data.Patient.Patient;
-import com.kappadev.medplus.data.Patient.PatientTableObject;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
 
 /**
@@ -19,7 +18,6 @@ import com.kappadev.medplus.data.PatientLog.PatientLog;
 public class PatientTableModel extends AbstractTableModel {
 
     private Object[][] data;
-    private PatientTableObject pto;
 
     private final List<Patient> patientList;
 
@@ -46,7 +44,7 @@ public class PatientTableModel extends AbstractTableModel {
                 value = patient.isSelected();
                 break;
             case 1:
-                value = patient.getId();
+                value = patient.getPesel();
                 break;
             case 2:
                 value = patient.getName();
@@ -79,7 +77,8 @@ public class PatientTableModel extends AbstractTableModel {
                 value = patient.getPhone();
                 break;
             default:
-                throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
+                throw new IndexOutOfBoundsException("Column index out of bounds: "
+                        + // NOI18N
                         columnIndex);
         }
         return value;
@@ -146,7 +145,8 @@ public class PatientTableModel extends AbstractTableModel {
                 clazz = String.class;
                 break;
             default:
-                throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
+                throw new IndexOutOfBoundsException("Column index out of bounds: "
+                        + // NOI18N
                         c);
         }
         return clazz;
@@ -193,7 +193,8 @@ public class PatientTableModel extends AbstractTableModel {
                 columnName = "Telefon";
                 break;
             default:
-                throw new IndexOutOfBoundsException("Column index out of bounds: " + // NOI18N
+                throw new IndexOutOfBoundsException("Column index out of bounds: "
+                        + // NOI18N
                         column);
         }
         return columnName;

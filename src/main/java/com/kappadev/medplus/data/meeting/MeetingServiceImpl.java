@@ -17,18 +17,19 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class MeetingServiceImpl implements MeetingService {
-    
+
     @Autowired
     private MeetingRepository meetingRepository;
-    
-    @Override
-    public List<Meeting> getAllMeetings(){
-        return meetingRepository.findAll();
-    }
-    
+
     @Transactional
     @Override
-    public void addNewMeeting(Meeting meeting){
+    public List<Meeting> getAllMeetings() {
+        return meetingRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public void addNewMeeting(Meeting meeting) {
         meetingRepository.save(meeting);
     }
 
@@ -39,10 +40,11 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public List <Meeting> getMeetingByDate(Date date) {
+    public List<Meeting> getMeetingByDate(Date date) {
         return meetingRepository.findMeetingsByDate(date);
     }
 
+    @Transactional
     @Override
     public void saveMeeting(Meeting meeting) {
         meetingRepository.save(meeting);

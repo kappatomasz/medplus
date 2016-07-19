@@ -9,8 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,7 +37,8 @@ public class Meeting implements Serializable {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "meetingId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patientId")
     private Patient patient;
 
     private boolean selected;

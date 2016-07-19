@@ -1,7 +1,11 @@
 package com.kappadev.medplus.ui.meeting;
 
+import com.kappadev.medplus.data.Patient.Patient;
+import com.kappadev.medplus.data.Patient.PatientService;
 import com.kappadev.medplus.data.meeting.Meeting;
 import com.kappadev.medplus.data.meeting.MeetingService;
+import com.kappadev.medplus.ui.custom.MessagePopUp;
+import com.kappadev.medplus.ui.search.SearchPanel;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +20,19 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
 
     @Autowired
     private MeetingService meetingService;
+    @Autowired
+    private PatientService patientService;
+    @Autowired
+    private SearchPanel searchPanel;
 
     /**
      * Creates new form MessagePopUp
      */
-    private boolean state = false;
+    private boolean meetingSaved = false;
 
     private Meeting meeting = null;
+
+    private Patient patient;
 
     public NewMeetingPopUp() {
         setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
@@ -38,7 +48,13 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         calendar.setDate(meeting.getDate());
         titleTxtFld.setText(meeting.getTitle());
         noteTextArea.setText(new String(meeting.getDescription()));
-
+        if (patient == null) {
+            saveBtn.setEnabled(false);
+        }
+    }
+    
+    public void initNewMeetingPopUp(){
+        saveBtn.setEnabled(false);
     }
 
     /**
@@ -57,10 +73,11 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         noteTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        patientTxtFld = new javax.swing.JTextField();
         patientLbl = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         calendar = new org.jdesktop.swingx.JXDatePicker();
+        nameLabel = new javax.swing.JLabel();
+        searchBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
 
@@ -72,7 +89,6 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         jLabel1.setText("tytuł");
 
         titleTxtFld.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
-        titleTxtFld.setText("jTextField1");
 
         noteTextArea.setColumns(20);
         noteTextArea.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
@@ -82,14 +98,23 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         jLabel3.setText("notatka");
 
-        patientTxtFld.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
-        patientTxtFld.setText("jTextField2");
-
         patientLbl.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         patientLbl.setText("pacjent");
 
         jLabel5.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         jLabel5.setText("data");
+
+        nameLabel.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        nameLabel.setText("Imię i nazwisko");
+
+        searchBtn.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
+        searchBtn.setText("Wyszukaj");
+        searchBtn.setInheritsPopupMenu(true);
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -98,17 +123,22 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(patientLbl)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(patientTxtFld)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                    .addComponent(titleTxtFld)
-                    .addComponent(calendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(titleTxtFld)
+                            .addComponent(calendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(patientLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nameLabel)
+                        .addGap(126, 126, 126)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,11 +155,16 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(patientTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(patientLbl))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(patientLbl)
+                            .addComponent(nameLabel))
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         saveBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
@@ -152,37 +187,32 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26))))
+                .addContainerGap()
+                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveBtn)
-                    .addComponent(cancelBtn))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(cancelBtn)
+                    .addComponent(saveBtn))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,12 +230,18 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        if (meeting == null) {
+        if (meeting == null && patient != null) {
             Meeting newMeeting = new Meeting();
             newMeeting.setDate(calendar.getDate());
             newMeeting.setTitle(titleTxtFld.getText());
             newMeeting.setDescription(noteTextArea.getText().getBytes());
-            meetingService.addNewMeeting(newMeeting);
+            newMeeting.setPatient(patient);
+            meetingService.saveMeeting(newMeeting);
+            setMeetingSaved(true);
+        } else if ( patient == null ) {
+            MessagePopUp messagePopUp = new MessagePopUp();
+            messagePopUp.setText("Proszę wybrać pacjenta !");
+            messagePopUp.setVisible(true);
         } else {
             Meeting modifyMeeting = meetingService.getMeetingById(meeting.getId());
             if (modifyMeeting != null) {
@@ -213,27 +249,23 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
                 modifyMeeting.setTitle(titleTxtFld.getText());
                 modifyMeeting.setDescription(noteTextArea.getText().getBytes());
                 meetingService.saveMeeting(modifyMeeting);
+                setMeetingSaved(true);
             }
-        }
+        } 
 
         this.dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
-    public void setStateResult(boolean state) {
-        this.state = state;
-    }
-
-    public boolean getStateResult() {
-        return state;
-    }
-
-    public javax.swing.JButton getSaveBtn() {
-        return saveBtn;
-    }
-
-    public javax.swing.JButton getCancel() {
-        return cancelBtn;
-    }
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        searchPanel.initializeSearchPanel();
+        searchPanel.setVisible(true);
+        searchPanel.setAlwaysOnTop(true);
+        patient = searchPanel.getSelectedPatient();
+        if (null != patient) {
+            saveBtn.setEnabled(true);
+            nameLabel.setText(patient.getName() + " " + patient.getSurname());
+        }
+    }//GEN-LAST:event_searchBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXDatePicker calendar;
@@ -244,11 +276,26 @@ public class NewMeetingPopUp extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nameLabel;
     private javax.swing.JTextArea noteTextArea;
     private javax.swing.JLabel patientLbl;
-    private javax.swing.JTextField patientTxtFld;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JButton searchBtn;
     private javax.swing.JTextField titleTxtFld;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the meetingSaved
+     */
+    public boolean isMeetingSaved() {
+        return meetingSaved;
+    }
+
+    /**
+     * @param meetingSaved the meetingSaved to set
+     */
+    public void setMeetingSaved(boolean meetingSaved) {
+        this.meetingSaved = meetingSaved;
+    }
 
 }

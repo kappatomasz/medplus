@@ -1,6 +1,5 @@
 package com.kappadev.medplus.ui.meeting;
 
-import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.data.meeting.Meeting;
 import com.kappadev.medplus.utils.DateUtils;
 import java.util.ArrayList;
@@ -66,6 +65,9 @@ public class MeetingTableModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         boolean status = false;
         switch (col) {
+            case 0:
+                status = true;
+                break;
             default:
                 status = false;
         }
@@ -149,6 +151,13 @@ public class MeetingTableModel extends AbstractTableModel {
     public void setData(Object[][] data) {
         this.data = data;
     }
+    
+     @Override
+    public void setValueAt(Object value, int row, int col) {
+        Meeting meeting = meetingList.get(row);
+        meeting.setIsSelected((Boolean) value);
+        fireTableCellUpdated(row, col);
+    }
 
     public Meeting getSelectedMeeting(int row) {
         Meeting meeting = meetingList.get(row);
@@ -162,8 +171,9 @@ public class MeetingTableModel extends AbstractTableModel {
         }
         return selectedMeetingList;
     }
-    
-     public void removeMeetingsFromList(List<Meeting> meeting) {
+
+    public void removeMeetingsFromList(List<Meeting> meeting) {
         meetingList.removeAll(meeting);
     }
+
 }

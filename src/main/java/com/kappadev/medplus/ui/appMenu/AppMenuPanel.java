@@ -1,10 +1,12 @@
 package com.kappadev.medplus.ui.appMenu;
 
+import com.kappadev.medplus.data.Patient.Patient;
 import com.kappadev.medplus.ui.meeting.MeetingSearchPanel;
 import com.kappadev.medplus.ui.main.MainMenuPanel;
 import com.kappadev.medplus.ui.search.SearchPanel;
 import com.kappadev.medplus.ui.disease.DiseaseSearchPanel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
+import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +26,19 @@ public class AppMenuPanel extends javax.swing.JFrame {
     @Autowired
     private DiseaseSearchPanel diseaseSearchPanel;
     @Autowired
-    private MeetingSearchPanel calendarPanel;
+    private MeetingSearchPanel meetingSearchPanel;
+    @Autowired
+    private PatientLogPanel patientLogPanel;
 
     /**
      * Creates new form RegistryPanel
      */
     public AppMenuPanel() {
+        initComponents();
+        infoLbl.setText("");
+    }
+
+    public void initAppMenuPanel() {
         initComponents();
         infoLbl.setText("");
     }
@@ -48,13 +57,13 @@ public class AppMenuPanel extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         disButton = new javax.swing.JButton();
         addNewBtn = new javax.swing.JButton();
-        searchBtn = new javax.swing.JToggleButton();
         meetingBtn = new javax.swing.JButton();
         backBtn = new javax.swing.JButton();
+        patientLogBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        jLabel1.setText("Med Plus v0.3");
+        jLabel1.setText("Med Plus v0.4");
 
         infoLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         infoLbl.setText("jLabel2");
@@ -78,21 +87,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
         addNewBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addNewBtnActionPerformed(evt);
-            }
-        });
-
-        searchBtn.setText("wyszukaj pacjenta");
-        searchBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                searchBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                searchBtnMouseExited(evt);
-            }
-        });
-        searchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBtnActionPerformed(evt);
             }
         });
 
@@ -121,33 +115,42 @@ public class AppMenuPanel extends javax.swing.JFrame {
             }
         });
 
+        patientLogBtn.setText("historia choroby");
+        patientLogBtn.setMaximumSize(new java.awt.Dimension(107, 28));
+        patientLogBtn.setMinimumSize(new java.awt.Dimension(107, 28));
+        patientLogBtn.setPreferredSize(new java.awt.Dimension(107, 28));
+        patientLogBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientLogBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                    .addComponent(addNewBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addNewBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                     .addComponent(disButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(meetingBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(backBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(backBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(patientLogBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(addNewBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(disButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(meetingBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(patientLogBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,12 +186,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        searchPanel.initializeSearchPanel();
-        searchPanel.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_searchBtnActionPerformed
-
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         mainPanel.setVisible(true);
         this.dispose();
@@ -200,10 +197,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_addNewBtnActionPerformed
 
-    private void searchBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBtnMouseEntered
-        infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Przeglądanie istniejących historii pacjenta w bazie, edycja danych osobowych i usuwanie pacjentów"));
-    }//GEN-LAST:event_searchBtnMouseEntered
-
     private void addNewBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewBtnMouseEntered
         infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Dodaj nowego pacjenta do bazy danych"));
     }//GEN-LAST:event_addNewBtnMouseEntered
@@ -211,10 +204,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
     private void addNewBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewBtnMouseExited
         infoLbl.setText("");
     }//GEN-LAST:event_addNewBtnMouseExited
-
-    private void searchBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBtnMouseExited
-        infoLbl.setText("");
-    }//GEN-LAST:event_searchBtnMouseExited
 
     private void backBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseEntered
         infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Powrót do poprzedniego ekranu"));
@@ -231,10 +220,22 @@ public class AppMenuPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_disButtonActionPerformed
 
     private void meetingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meetingBtnActionPerformed
-        calendarPanel.setVisible(true);
-        calendarPanel.initSearchPanel();
+        meetingSearchPanel.initSearchPanel();
+        meetingSearchPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_meetingBtnActionPerformed
+
+    private void patientLogBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientLogBtnActionPerformed
+        searchPanel.initializeSearchPanel();
+        searchPanel.setVisible(true);
+        searchPanel.setAlwaysOnTop(true);
+        Patient patient = searchPanel.getSelectedPatient();
+        if (patient != null) {
+            patientLogPanel.initPatientLogPanel(patient);
+            patientLogPanel.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_patientLogBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -245,6 +246,6 @@ public class AppMenuPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton meetingBtn;
-    private javax.swing.JToggleButton searchBtn;
+    private javax.swing.JButton patientLogBtn;
     // End of variables declaration//GEN-END:variables
 }

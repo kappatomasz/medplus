@@ -11,7 +11,7 @@ public interface PatientService {
 
     public List<Patient> getAllPatients();
 
-    public void savePatient(Patient patient);
+    public Patient savePatient(Patient patient);
 
     public void removePatient(Patient patient);
 

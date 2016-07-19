@@ -4,11 +4,15 @@ import com.kappadev.medplus.data.DB.states.States;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
 import com.kappadev.medplus.data.meeting.Meeting;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,6 +25,7 @@ import javax.persistence.Table;
 public class Patient implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", precision = 11, scale = 0, unique = true, nullable = false)
     private Long id; //THIS IS ID IN DATABASE
 
@@ -57,19 +62,18 @@ public class Patient implements Serializable {
 
     @Column(name = "pesel", length = 11, nullable = true)
     private String pesel;
-    
+
     @Column(name = "email", length = 255, nullable = true)
     private String email;
-    
+
     private boolean selected;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patientLogId")
     private PatientLog patientLog;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "meetingId")
-    private Meeting meetingId;
+    @OneToMany(mappedBy = "patient")
+    private List<Meeting> meetingId;
 
     /**
      * @return the name
@@ -204,7 +208,6 @@ public class Patient implements Serializable {
         return id;
     }
 
-    
     public void setId(Long id) {
         this.id = id;
     }
@@ -266,14 +269,14 @@ public class Patient implements Serializable {
     /**
      * @return the meeting
      */
-    public Meeting getMeeting() {
+    public List<Meeting> getMeetingList() {
         return meetingId;
     }
 
     /**
      * @param meeting the meeting to set
      */
-    public void setMeeting(Meeting meeting) {
+    public void setMeetingList(List<Meeting> meeting) {
         this.meetingId = meeting;
     }
 

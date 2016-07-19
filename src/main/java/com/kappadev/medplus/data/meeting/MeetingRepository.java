@@ -13,10 +13,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author tburzynski
  */
-public interface MeetingRepository extends JpaRepository<Meeting, Long> {
+interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
-    public Meeting findMeetingByPatientId(Long patientId);
-    
-    public List<Meeting> findMeetingsByDate(Date date);
-   
+    Meeting findMeetingByPatientId(Long patientId);
+
+    List<Meeting> findMeetingsByDate(Date date);
+
 }

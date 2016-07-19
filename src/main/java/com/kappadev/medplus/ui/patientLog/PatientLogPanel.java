@@ -39,6 +39,7 @@ import com.kappadev.medplus.data.PatientLog.PatientLogService;
 import com.kappadev.medplus.data.migration.DataMigrationConstants;
 import com.kappadev.medplus.data.printing.PrintingManager;
 import com.kappadev.medplus.data.printing.PrintingManagerImpl;
+import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
 import com.kappadev.medplus.utils.FileCheckThread;
 import com.kappadev.medplus.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,9 @@ public class PatientLogPanel extends javax.swing.JFrame {
 
     @Autowired
     private PatientLogService patientLogService;
+    
+    @Autowired
+    private AppMenuPanel appMenuPanel;
 
     private static final String OPEN_FILE_DIALOG_COMPLETE = "Plik został zapisany w: ";
     private static final String DELETE_ATTACHMENT = "Czy aby napewno chcesz usunąć ten załącznik ?";
@@ -100,7 +104,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
         fileCheckThread = new FileCheckThread();
         nameLbl.setText(patient.getName());
         surnameLbl.setText(patient.getSurname());
-        peselLbl.setText(String.valueOf(patient.getId()));
+        peselLbl.setText(patient.getPesel());
         openBtn.setEnabled(false);
         printingManager = new PrintingManagerImpl();
         warning = new MessagePopUp();
@@ -287,7 +291,7 @@ public class PatientLogPanel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(infoLbl)
-                .addGap(138, 138, 138))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,11 +334,11 @@ public class PatientLogPanel extends javax.swing.JFrame {
 
         closeBtn.setText("Zamknij");
         closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                closeBtnMouseEntered(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 closeBtnMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeBtnMouseEntered(evt);
             }
         });
         closeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -393,13 +397,12 @@ public class PatientLogPanel extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel3)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -426,12 +429,11 @@ public class PatientLogPanel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,7 +542,8 @@ public class PatientLogPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_addNewBtnActionPerformed
 
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
-        searchPanel.setVisible(true);
+        appMenuPanel.initAppMenuPanel();
+        appMenuPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_closeBtnActionPerformed
 
@@ -602,19 +605,13 @@ public class PatientLogPanel extends javax.swing.JFrame {
     private void printDescriptionBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printDescriptionBtnActionPerformed
         byte[] descriptionData = descriptionTxtField.getText().getBytes();
         File filePrint = FileUtils.blobToFile(descriptionData, "opis.txt");
-        PrintService[] printServices = printingManager.getPrintServices();
-        PrinterSelection printerSelection = new PrinterSelection(printServices);
-        printerSelection.setVisible(true);
-        PrintService selectedPrintService = printerSelection.getSelectedPrinter();
+        PrintService selectedPrintService = selectPrinter();
         printingManager.printDocument(filePrint, selectedPrintService);
     }//GEN-LAST:event_printDescriptionBtnActionPerformed
 
     private void printAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printAllBtnActionPerformed
         byte[] descriptionData = descriptionTxtField.getText().getBytes();
-        PrintService[] printServices = printingManager.getPrintServices();
-        PrinterSelection printerSelection = new PrinterSelection(printServices);
-        printerSelection.setVisible(true);
-        PrintService selectedPrintService = printerSelection.getSelectedPrinter();
+        PrintService selectedPrintService = selectPrinter();
         for (Attachment attachment : attachmentList) {
             File file = FileUtils.blobToFile(attachment.getBlob(), tmpDir.getAbsolutePath() + File.separatorChar + attachment.getFileName());
             printingManager.printDocument(file, selectedPrintService);
@@ -623,6 +620,13 @@ public class PatientLogPanel extends javax.swing.JFrame {
         printingManager.printDocument(filePrint, selectedPrintService);
     }//GEN-LAST:event_printAllBtnActionPerformed
 
+    private PrintService selectPrinter(){
+        PrintService[] printServices = printingManager.getPrintServices();
+        PrinterSelection printerSelection = new PrinterSelection(printServices);
+        printerSelection.setVisible(true);
+        return printerSelection.getSelectedPrinter();
+    }
+    
     private void saveBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveBtnMouseEntered
         infoLbl.setText(String.format("<html><div style=\"width:150px;\">%s</div><html>", "Zapisz historię pacjenta"));
     }//GEN-LAST:event_saveBtnMouseEntered

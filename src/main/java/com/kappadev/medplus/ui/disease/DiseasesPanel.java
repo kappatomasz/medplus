@@ -82,7 +82,7 @@ public class DiseasesPanel extends javax.swing.JFrame {
         });
 
         cleanBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
-        cleanBtn.setText("Wyczysc");
+        cleanBtn.setText("Wyczyść");
         cleanBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cleanBtnActionPerformed(evt);
@@ -101,7 +101,7 @@ public class DiseasesPanel extends javax.swing.JFrame {
         jScrollPane1.setViewportView(disDescription);
 
         disName.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
-        disName.setText("jTextField1");
+        disName.setText("Wprowadź nazwę");
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 15)); // NOI18N
         jLabel3.setText("Nazwa");
@@ -114,11 +114,11 @@ public class DiseasesPanel extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cleanBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3)

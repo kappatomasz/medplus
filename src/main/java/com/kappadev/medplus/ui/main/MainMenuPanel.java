@@ -1,6 +1,7 @@
 package com.kappadev.medplus.ui.main;
 
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
+import com.kappadev.medplus.ui.settings.SettingsPanel;
 import com.kappadev.medplus.ui.tools.ToolsPanel;
 import java.io.File;
 import com.kappadev.medplus.utils.FileUtils;
@@ -16,11 +17,18 @@ public class MainMenuPanel extends javax.swing.JFrame {
 
     @Autowired
     private AppMenuPanel registryPanel;
+    @Autowired
+    private SettingsPanel settingsPanel;
 
     /**
      * Creates new form MainPanel
      */
     public MainMenuPanel() {
+        initComponents();
+        infoLbl.setText("");
+    }
+    
+    public void initMainMenuPanel(){
         initComponents();
         infoLbl.setText("");
     }
@@ -40,10 +48,11 @@ public class MainMenuPanel extends javax.swing.JFrame {
         toolsBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         infoLbl = new javax.swing.JLabel();
+        settingsBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        jLabel1.setText("Med Plus v0.3");
+        jLabel1.setText("Med Plus v0.4");
 
         browseRegistry.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         browseRegistry.setText("Przeglądaj rejestr");
@@ -124,20 +133,38 @@ public class MainMenuPanel extends javax.swing.JFrame {
 
         infoLbl.getAccessibleContext().setAccessibleName("infoLbl");
 
+        settingsBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        settingsBtn.setText("Ustawienia");
+        settingsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                settingsBtnMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                settingsBtnMouseEntered(evt);
+            }
+        });
+        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(browseRegistry, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(toolsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(settingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1)
+                        .addComponent(browseRegistry, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                        .addComponent(toolsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,15 +172,17 @@ public class MainMenuPanel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(browseRegistry, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(toolsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(252, Short.MAX_VALUE))
+                        .addComponent(toolsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(settingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(197, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,12 +244,27 @@ public class MainMenuPanel extends javax.swing.JFrame {
 
     }//GEN-LAST:event_infoLblMouseEntered
 
+    private void settingsBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsBtnMouseEntered
+        infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Ustawienia programu, powiadomień e-mail, sms"));
+    }//GEN-LAST:event_settingsBtnMouseEntered
+
+    private void settingsBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsBtnMouseExited
+        infoLbl.setText("");
+    }//GEN-LAST:event_settingsBtnMouseExited
+
+    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
+        settingsPanel.initSettingsPanel();
+        settingsPanel.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_settingsBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseRegistry;
     private javax.swing.JLabel infoLbl;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton settingsBtn;
     private javax.swing.JButton toolsBtn;
     // End of variables declaration//GEN-END:variables
 }

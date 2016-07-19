@@ -5,14 +5,11 @@
  */
 package com.kappadev.medplus.ui.patient;
 
-import java.awt.Color;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import com.kappadev.medplus.ui.custom.MessagePopUp;
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
 import com.kappadev.medplus.ui.search.SearchPanel;
-import com.kappadev.medplus.data.DB.Database;
-import com.kappadev.medplus.data.DB.DatabaseImpl;
 import com.kappadev.medplus.data.DB.states.States;
 import com.kappadev.medplus.data.DB.states.StatesService;
 import com.kappadev.medplus.data.Patient.Patient;
@@ -32,7 +29,6 @@ import org.springframework.stereotype.Component;
 public class PatientPanel extends javax.swing.JFrame {
 
     List<States> states;
-    Database db;
     Patient patient;
     MessagePopUp peselError;
     MessagePopUp patientAdded;
@@ -46,8 +42,8 @@ public class PatientPanel extends javax.swing.JFrame {
     private static final String OTHER_ERROR = "Wystąpił nieoczekiwany błąd ";
 
     @Autowired
-    private AppMenuPanel registryPanel;
-    
+    private AppMenuPanel appMenuPanel;
+
     @Autowired
     private StatesService statesService;
 
@@ -64,7 +60,6 @@ public class PatientPanel extends javax.swing.JFrame {
         initComponents();
         clearFields();
         infoLbl.setText("");
-        db = new DatabaseImpl();
         peselError = new MessagePopUp();
         otherError = new MessagePopUp();
         patientAdded = new MessagePopUp();
@@ -94,7 +89,7 @@ public class PatientPanel extends javax.swing.JFrame {
             comboBoxModel.addElement(state);
         }
         stateComboBox.setModel(comboBoxModel);
-        fillPatientFields(patient);
+        fillPatientTextBoxes(patient);
 
     }
 
@@ -136,9 +131,9 @@ public class PatientPanel extends javax.swing.JFrame {
         emailTxtFld = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         saveBtn = new javax.swing.JButton();
+        backBtn = new javax.swing.JButton();
         clearBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        backBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         infoLbl = new javax.swing.JLabel();
 
@@ -149,36 +144,21 @@ public class PatientPanel extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 15)); // NOI18N
         jLabel2.setText("Panel dodawania nowego pacjenta do bazy danych");
 
-        nameTxtFld.setText("jTextField1");
-
         jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
         jLabel3.setText("imię");
 
-        secondNameTxtFld.setText("jTextField2");
-
-        surnameTxtFld.setText("jTextField3");
-
-        streetTxtFld.setText("jTextField4");
-
-        houseNoTxtFld.setText("jTextField5");
         houseNoTxtFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 houseNoTxtFldActionPerformed(evt);
             }
         });
 
-        flatTxtFld.setText("jTextField6");
         flatTxtFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 flatTxtFldActionPerformed(evt);
             }
         });
 
-        cityTxtFld.setText("jTextField7");
-
-        postCodeTxtFld.setText("jTextField1");
-
-        phoneTxtFld.setText("jTextField1");
         phoneTxtFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 phoneTxtFldActionPerformed(evt);
@@ -186,8 +166,6 @@ public class PatientPanel extends javax.swing.JFrame {
         });
 
         stateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        peselIdTxtFld.setText("jTextField1");
 
         peselIdLbl.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
         peselIdLbl.setText("PESEL");
@@ -222,7 +200,6 @@ public class PatientPanel extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("DejaVu Sans", 1, 14)); // NOI18N
         jLabel13.setText("e-mail");
 
-        emailTxtFld.setText("jTextField1");
         emailTxtFld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailTxtFldActionPerformed(evt);
@@ -347,6 +324,22 @@ public class PatientPanel extends javax.swing.JFrame {
             }
         });
 
+        backBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        backBtn.setText("Powrót");
+        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backBtnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backBtnMouseExited(evt);
+            }
+        });
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
+            }
+        });
+
         clearBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         clearBtn.setText("Wyczyść");
         clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -371,6 +364,8 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -379,37 +374,19 @@ public class PatientPanel extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveBtn)
+                    .addComponent(backBtn)
                     .addComponent(clearBtn)))
         );
-
-        backBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        backBtn.setText("Powrót");
-        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                backBtnMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                backBtnMouseExited(evt);
-            }
-        });
-        backBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 131, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(backBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 51, Short.MAX_VALUE)
         );
 
         infoLbl.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -446,10 +423,12 @@ public class PatientPanel extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 9, Short.MAX_VALUE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -482,81 +461,38 @@ public class PatientPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        registryPanel.setVisible(true);
+        appMenuPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        //TODO fix this 
-        
-        String sName = secondNameTxtFld.getText();
-        String surname = surnameTxtFld.getText();
-        String street = streetTxtFld.getText();
 
-        String postCode = postCodeTxtFld.getText().replace("-", "");
-        String phone = phoneTxtFld.getText();
-        
-        States state = (States) stateComboBox.getSelectedItem();
         if (patient != null) {
-            patient.setCity(cityTxtFld.getText());
-            patient.setFlat(flatTxtFld.getText());
-            patient.setHouseNo(houseNoTxtFld.getText());
-            patient.setName(nameTxtFld.getText());
-            patient.setPhone(phoneTxtFld.getText());
-            patient.setPostCode(postCodeTxtFld.getText());
-            patient.setSecondName(secondNameTxtFld.getText());
-            patient.setState(state);
-            patient.setStreet(streetTxtFld.getText());
-            patient.setSurname(surnameTxtFld.getText());
-            patient.setEmail(emailTxtFld.getText());
-            patient.setPatientLog(patient.getPatientLog());
-            patient.setPesel(peselIdTxtFld.getText());
-            patientService.savePatient(patient);
+            updatePatient();
             patientEdit.setText(PATIENT_SAVED + peselIdTxtFld.getText());
             patientEdit.setVisible(true);
             boolean result = patientEdit.getStateResult();
             if (result) {
-                SearchPanel sp = new SearchPanel();
-                sp.setVisible(true);
+                appMenuPanel.initAppMenuPanel();
+                appMenuPanel.setVisible(true);
                 this.dispose();
             }
 
         } else {
-            Patient newPatient = new Patient();
-
-            newPatient.setCity(cityTxtFld.getText());
-            newPatient.setFlat(flatTxtFld.getText());
-            newPatient.setHouseNo(houseNoTxtFld.getText());
-            newPatient.setName(nameTxtFld.getText());
-            newPatient.setPhone(phone);
-            newPatient.setPostCode(postCode);
-            newPatient.setSecondName(sName);
-            newPatient.setState(state);
-            newPatient.setStreet(street);
-            newPatient.setSurname(surname);
-            newPatient.setPesel(peselIdTxtFld.getText());
-            newPatient.setEmail(emailTxtFld.getText());
-            
+            Patient newPatient = addNewPatient();
             PatientLog newPatientLog = new PatientLog();
+            newPatientLog.setPatient(newPatient);
             newPatientLog.setModificationDate(new Date());
+            patientLogService.savePatientLog(newPatientLog);
 
-//            if (!peselIdTxtFld.getText().matches(PESEL_REG_EXP) || "".equals(peselIdTxtFld.getText()) || null == peselIdTxtFld.getText()) {
-//                peselError.setText(PESEL_ERROR_TXT);
-//                peselError.setVisible(true);
-//                peselIdTxtFld.setBackground(Color.red);
-//            } else {
-                patientService.savePatient(patient);
-                //TODO add this functionality correctly
-                patientAdded.setText(PATIENT_ADDED + peselIdTxtFld.getText());
-                patientAdded.setVisible(true);
-                boolean result = patientAdded.getStateResult();
-                if (result) {
-                    SearchPanel sp = new SearchPanel();
-                    sp.setVisible(true);
-                    this.dispose();
-                }
-
-//            }
+            patientAdded.setText(PATIENT_ADDED + peselIdTxtFld.getText());
+            patientAdded.setVisible(true);
+            boolean result = patientAdded.getStateResult();
+            if (result) {
+                appMenuPanel.initAppMenuPanel();
+                appMenuPanel.setVisible(true);
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -611,9 +547,10 @@ public class PatientPanel extends javax.swing.JFrame {
         postCodeTxtFld.setText("");
         phoneTxtFld.setText("");
         peselIdTxtFld.setText("");
+
     }
 
-    private void fillPatientFields(Patient patient) {
+    private void fillPatientTextBoxes(Patient patient) {
         nameTxtFld.setText(patient.getName());
         secondNameTxtFld.setText(patient.getSecondName());
         surnameTxtFld.setText(patient.getSurname());
@@ -624,7 +561,35 @@ public class PatientPanel extends javax.swing.JFrame {
         postCodeTxtFld.setText(ConvertUtils.convertPostCode(patient.getPostCode()));
         phoneTxtFld.setText(patient.getPhone());
         peselIdTxtFld.setText(String.valueOf(patient.getId()));
+        emailTxtFld.setText(patient.getEmail());
         stateComboBox.setSelectedItem(ConvertUtils.convertStatesListToMap(states).get(patient.getState()));
+    }
+
+    private Patient fillPatientObjectFields(Patient patient) {
+        Patient newPatient = patient;
+        newPatient.setCity(cityTxtFld.getText());
+        newPatient.setFlat(flatTxtFld.getText());
+        newPatient.setHouseNo(houseNoTxtFld.getText());
+        newPatient.setName(nameTxtFld.getText());
+        newPatient.setPhone(phoneTxtFld.getText());
+        newPatient.setPostCode(postCodeTxtFld.getText());
+        newPatient.setSecondName(secondNameTxtFld.getText());
+        newPatient.setState(((States) stateComboBox.getSelectedItem()));
+        newPatient.setStreet(streetTxtFld.getText());
+        newPatient.setSurname(surnameTxtFld.getText());
+        newPatient.setPesel(peselIdTxtFld.getText());
+        newPatient.setEmail(emailTxtFld.getText());
+        return newPatient;
+    }
+
+    private Patient addNewPatient() {
+        return patientService.savePatient(fillPatientObjectFields(new Patient()));
+    }
+
+    private void updatePatient() {
+        patient = fillPatientObjectFields(patient);
+        patient.getPatientLog().setModificationDate(new Date());
+        patientService.savePatient(patient);
     }
 
 

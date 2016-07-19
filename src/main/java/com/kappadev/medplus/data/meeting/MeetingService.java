@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface MeetingService {
 
-    public void addNewMeeting(Meeting meeting);
+    void addNewMeeting(Meeting meeting);
 
-    public List<Meeting> getAllMeetings();
-    
-    public void removeMeetings(List<Meeting> meeting);
-    
-    public List<Meeting> getMeetingByDate(Date date);
-    
-    public void saveMeeting(Meeting meeting);
-    
-    public Meeting getMeetingById(Long id);
+    List<Meeting> getAllMeetings();
+
+    void removeMeetings(List<Meeting> meeting);
+
+    List<Meeting> getMeetingByDate(Date date);
+
+    void saveMeeting(Meeting meeting);
+
+    Meeting getMeetingById(Long id);
 }

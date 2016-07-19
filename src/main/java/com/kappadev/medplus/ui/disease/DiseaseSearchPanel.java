@@ -3,6 +3,8 @@ package com.kappadev.medplus.ui.disease;
 import com.kappadev.medplus.data.DB.disease.DiseaseService;
 import com.kappadev.medplus.data.DB.disease.Disease;
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
+import com.kappadev.medplus.ui.custom.AutoSuggest;
+import java.awt.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +56,7 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
         deleteBtn = new javax.swing.JButton();
         editBtn = new javax.swing.JButton();
         backBtn = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        diseaseSearchTextFld = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,8 +154,13 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
         addBtn.getAccessibleContext().setAccessibleName("addBtn");
         editBtn.getAccessibleContext().setAccessibleName("editBtn");
 
-        jTextField1.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
-        jTextField1.setText("jTextField1");
+        diseaseSearchTextFld.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
+        diseaseSearchTextFld.setText("Wpisz szukaną nazwę choroby");
+        diseaseSearchTextFld.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                diseaseSearchTextFldActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 0, 15)); // NOI18N
         jLabel1.setText("nazwa");
@@ -173,7 +180,7 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)))
+                        .addComponent(diseaseSearchTextFld)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -183,7 +190,7 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(diseaseSearchTextFld, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,6 +226,10 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
+    private void diseaseSearchTextFldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diseaseSearchTextFldActionPerformed
+       AutoSuggest autoSuggest = new AutoSuggest(diseaseSearchTextFld, this, null, Color.darkGray, Color.yellow, Color.yellow, TOP_ALIGNMENT);
+    }//GEN-LAST:event_diseaseSearchTextFldActionPerformed
+
     public Disease getSelectedDisease() {
         DiseaseTableModel model = diseaseTableModel;
         int selectedRow = diseasesTable.getSelectedRow();
@@ -231,6 +242,7 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
     private javax.swing.JButton addBtn;
     private javax.swing.JButton backBtn;
     private javax.swing.JButton deleteBtn;
+    private javax.swing.JTextField diseaseSearchTextFld;
     private javax.swing.JTable diseasesTable;
     private javax.swing.JButton editBtn;
     private javax.swing.JLabel jLabel1;
@@ -238,6 +250,5 @@ public class DiseaseSearchPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

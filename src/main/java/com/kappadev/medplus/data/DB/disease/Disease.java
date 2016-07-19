@@ -1,10 +1,7 @@
 package com.kappadev.medplus.data.DB.disease;
 
-import com.kappadev.medplus.data.DB.disease2patientLog.Disease2PatientLog;
-import static com.kappadev.medplus.data.DB.disease2patientLog.QDisease2PatientLog.disease2PatientLog;
 import com.kappadev.medplus.data.PatientLog.PatientLog;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -95,5 +92,4 @@ public class Disease implements Serializable {
         this.patientLog = patientLog;
     }
 
-   
 }

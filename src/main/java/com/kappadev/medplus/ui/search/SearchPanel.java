@@ -1,7 +1,6 @@
 package com.kappadev.medplus.ui.search;
 
 import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
-import com.kappadev.medplus.ui.patientLog.PatientLogPanel;
 import com.kappadev.medplus.ui.patient.models.PatientTableModel;
 import com.kappadev.medplus.ui.patient.PatientPanel;
 import java.util.List;
@@ -14,6 +13,7 @@ import com.kappadev.medplus.data.PatientLog.PatientLogService;
 import com.kappadev.medplus.ui.custom.AutoSuggest;
 import com.kappadev.medplus.ui.custom.MessagePopUp;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
  * @author Tomasz
  */
 @Component
-public class SearchPanel extends javax.swing.JFrame {
+public class SearchPanel extends javax.swing.JDialog {
 
     /**
      * Creates new form SearchPanel
@@ -41,6 +41,7 @@ public class SearchPanel extends javax.swing.JFrame {
     private List<Patient> selectedPatients;
     private List<PatientLog> selectedPatientLogs;
     private MessagePopUp popUp;
+    private Patient selectedPatient;
 
     @Autowired
     private StatesService statesService;
@@ -50,27 +51,25 @@ public class SearchPanel extends javax.swing.JFrame {
 
     @Autowired
     private PatientLogService patientLogService;
-    
+
     @Autowired
     private PatientPanel patientPanel;
-    
+
     @Autowired
-    private AppMenuPanel registryPanel;
-    
-    @Autowired
-    private PatientLogPanel patientLogPanel;
-    
-    public SearchPanel(){
-        
+    private AppMenuPanel appMenuPanel;
+
+    public SearchPanel() {
+
     }
-    
-    public void initializeSearchPanel(){
+
+    public void initializeSearchPanel() {
+        setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         initComponents();
         infoLbl.setText("");
         clearFields();
         states = statesService.getAllStates();
         patientListValues = patientService.getAllPatients();
-      
+
         stateComboBox.removeAllItems();
         DefaultComboBoxModel<States> comboBoxModel = new DefaultComboBoxModel<>();
         for (States state : states) {
@@ -133,10 +132,9 @@ public class SearchPanel extends javax.swing.JFrame {
                     }
                 };
 
-        openBtn.setEnabled(false);
+        selectBtn.setEnabled(false);
+        editButton.setEnabled(false);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -154,9 +152,8 @@ public class SearchPanel extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         infoLbl = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        clearBtn = new javax.swing.JButton();
         findBtn = new javax.swing.JButton();
-        addNewPatientBtn = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
         backBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -183,9 +180,9 @@ public class SearchPanel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        openBtn = new javax.swing.JButton();
-        editButton = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        selectBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -233,22 +230,6 @@ public class SearchPanel extends javax.swing.JFrame {
 
         infoLbl.getAccessibleContext().setAccessibleName("infoLbl");
 
-        clearBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        clearBtn.setText("Wyczyść");
-        clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clearBtnMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clearBtnMouseEntered(evt);
-            }
-        });
-        clearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearBtnActionPerformed(evt);
-            }
-        });
-
         findBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
         findBtn.setText("Wyszukaj");
         findBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -265,19 +246,19 @@ public class SearchPanel extends javax.swing.JFrame {
             }
         });
 
-        addNewPatientBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        addNewPatientBtn.setText("Dodaj");
-        addNewPatientBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        clearBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        clearBtn.setText("Wyczyść");
+        clearBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                addNewPatientBtnMouseExited(evt);
+                clearBtnMouseExited(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                addNewPatientBtnMouseEntered(evt);
+                clearBtnMouseEntered(evt);
             }
         });
-        addNewPatientBtn.addActionListener(new java.awt.event.ActionListener() {
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewPatientBtnActionPerformed(evt);
+                clearBtnActionPerformed(evt);
             }
         });
 
@@ -302,26 +283,23 @@ public class SearchPanel extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
-                .addComponent(findBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(addNewPatientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(findBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(findBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(findBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addNewPatientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(backBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jLabel10.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
@@ -512,40 +490,8 @@ public class SearchPanel extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
         );
 
-        openBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        openBtn.setText("Otwórz");
-        openBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                openBtnMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                openBtnMouseEntered(evt);
-            }
-        });
-        openBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openBtnActionPerformed(evt);
-            }
-        });
-
-        editButton.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        editButton.setText("Edytuj");
-        editButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                editButtonMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                editButtonMouseEntered(evt);
-            }
-        });
-        editButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
-            }
-        });
-
         deleteBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
-        deleteBtn.setText("Usuń");
+        deleteBtn.setText("Usuń pacjenta");
         deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 deleteBtnMouseExited(evt);
@@ -560,27 +506,52 @@ public class SearchPanel extends javax.swing.JFrame {
             }
         });
 
+        editButton.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        editButton.setText("Edytuj pacjenta");
+        editButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                editButtonMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                editButtonMouseEntered(evt);
+            }
+        });
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
+
+        selectBtn.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        selectBtn.setText("Wybierz");
+        selectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 170, Short.MAX_VALUE))
+                .addComponent(selectBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 204, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(openBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                    .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selectBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -635,13 +606,12 @@ public class SearchPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        registryPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         PatientTableModel model = (PatientTableModel) patientList.getModel();
-        
+
         int[] selectedRows = patientList.getSelectedRows();
 
         selectedPatients = model.getSelectedPatientList(selectedRows);
@@ -669,45 +639,24 @@ public class SearchPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void addNewPatientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewPatientBtnActionPerformed
-        
-        patientPanel.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_addNewPatientBtnActionPerformed
-
-    private void openBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBtnActionPerformed
-        Patient selectedPatient = getSelectedPatient();
-        patientLogPanel.initPatientLogPanel(selectedPatient);
-        patientLogPanel.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_openBtnActionPerformed
-
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
-        Patient selectedPatient = getSelectedPatient();
-        if (selectedPatient.isSelected()) {
-            openBtn.setEnabled(true);
+        if (getSelectedPatientFromTable().isSelected()) {
+            selectBtn.setEnabled(true);
+            editButton.setEnabled(true);
             deleteBtn.setEnabled(true);
         } else {
-            openBtn.setEnabled(false);
+            selectBtn.setEnabled(false);
+            editButton.setEnabled(false);
             deleteBtn.setEnabled(false);
         }
 
     }//GEN-LAST:event_patientListMouseClicked
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        Patient selectedPatient = getSelectedPatient();
-        patientPanel.initPatientPanel(selectedPatient);
+        patientPanel.initPatientPanel(getSelectedPatientFromTable());
         patientPanel.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_editButtonActionPerformed
-
-    private void addNewPatientBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewPatientBtnMouseEntered
-        infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Dodaj pacjenta do bazy"));
-    }//GEN-LAST:event_addNewPatientBtnMouseEntered
-
-    private void addNewPatientBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewPatientBtnMouseExited
-        infoLbl.setText("");
-    }//GEN-LAST:event_addNewPatientBtnMouseExited
 
     private void backBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseEntered
         infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Powrót do poprzedniego ekranu"));
@@ -716,14 +665,6 @@ public class SearchPanel extends javax.swing.JFrame {
     private void backBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseExited
         infoLbl.setText("");
     }//GEN-LAST:event_backBtnMouseExited
-
-    private void openBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openBtnMouseEntered
-        infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Otwórz historię zaznaczonego pacjenta"));
-    }//GEN-LAST:event_openBtnMouseEntered
-
-    private void openBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openBtnMouseExited
-        infoLbl.setText("");
-    }//GEN-LAST:event_openBtnMouseExited
 
     private void editButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editButtonMouseEntered
         infoLbl.setText(String.format("<html><div style=\"width:300px;\">%s</div><html>", "Edytuj dane osobowe pacjenta"));
@@ -792,7 +733,7 @@ public class SearchPanel extends javax.swing.JFrame {
         } else {
             patient.setPostCode("");
         }
-        
+
         patientListValues = patientService.getFilteredPatients(patient);
         patientList.removeAll();
         patientList.setModel(new PatientTableModel(patientListValues));
@@ -827,6 +768,11 @@ public class SearchPanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_houseNoTxtFldActionPerformed
 
+    private void selectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectBtnActionPerformed
+        setSelectedPatient(getSelectedPatientFromTable());
+        this.dispose();
+    }//GEN-LAST:event_selectBtnActionPerformed
+
     private void removeColumnsFromTable() {
         patientList.removeColumn(patientList.getColumnModel().getColumn(3));
         patientList.removeColumn(patientList.getColumnModel().getColumn(4));
@@ -851,16 +797,14 @@ public class SearchPanel extends javax.swing.JFrame {
         peselTxtFld.setText("");
     }
 
-    private Patient getSelectedPatient() {
+    private Patient getSelectedPatientFromTable() {
         PatientTableModel model = (PatientTableModel) patientList.getModel();
         int selectedRow = patientList.getSelectedRow();
         int convertedRowIndex = patientList.convertRowIndexToModel(selectedRow);
-        Patient selectedPatient = model.getSelectedPatient(convertedRowIndex);
-        return selectedPatient;
+        return model.getSelectedPatient(convertedRowIndex);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addNewPatientBtn;
     private javax.swing.JButton backBtn;
     private javax.swing.JTextField cityTxtFld;
     private javax.swing.JButton clearBtn;
@@ -889,15 +833,26 @@ public class SearchPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nameTxtFld;
-    private javax.swing.JButton openBtn;
     private javax.swing.JTable patientList;
     private javax.swing.JTextField peselTxtFld;
     private javax.swing.JLabel phoneLbl;
     private javax.swing.JTextField phoneTxtFld;
     private javax.swing.JTextField postCodeTxtFld;
     private javax.swing.JTextField secondNameTxtFld;
+    private javax.swing.JButton selectBtn;
     private javax.swing.JComboBox stateComboBox;
     private javax.swing.JTextField streetTxtFld;
     private javax.swing.JTextField surnameTxtFld;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @param selectedPatient the selectedPatient to set
+     */
+    public void setSelectedPatient(Patient selectedPatient) {
+        this.selectedPatient = selectedPatient;
+    }
+
+    public Patient getSelectedPatient() {
+        return selectedPatient;
+    }
 }

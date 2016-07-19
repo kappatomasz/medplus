@@ -10,8 +10,6 @@ import javax.sql.DataSource;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  *
@@ -25,15 +23,5 @@ public class DefaultConfiguration extends javax.swing.JFrame {
         String[] beans = context.getBeanDefinitionNames();
         MedRegistry appFrame = context.getBean(MedRegistry.class);
         DataSource dataSource = context.getBean(DataSource.class);
-    }
-    
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUsername("admin");
-        dataSource.setPassword("mysuperpassword");
-        dataSource.setUrl("jdbc:h2:~/medRegistryDB;AUTO_SERVER=TRUE");
-        return dataSource;
     }
 }
