@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author tburzynski
  */
 interface ProfileRepository extends JpaRepository<Profile, Long> {
-
+    Profile getProfileByName(String name);
 }

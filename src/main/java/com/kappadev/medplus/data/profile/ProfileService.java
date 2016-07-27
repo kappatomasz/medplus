@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface ProfileService {
 
+    Profile getProfileByName(String name);
+
     void saveProfile(Profile profile);
 
     List<Profile> getAllProfiles();

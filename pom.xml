@@ -11,27 +11,29 @@
     <packaging>jar</packaging>
     
     <properties>
-        <spring.boot.version>1.2.5.RELEASE</spring.boot.version>
-        <spring.version>4.1.7.RELEASE</spring.version>
+        <spring.boot.version>1.3.6.RELEASE</spring.boot.version>
+        <spring.version>4.2.3.RELEASE</spring.version>
         <basedir>${project.basedir}</basedir>
     </properties>
     
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.5.RELEASE</version>
+        <version>1.3.6.RELEASE</version>
     </parent>
     <dependencies>
         <!-- Add typical dependencies for a web application -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -41,7 +43,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -52,11 +53,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.182</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>1.7.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.swinglabs</groupId>

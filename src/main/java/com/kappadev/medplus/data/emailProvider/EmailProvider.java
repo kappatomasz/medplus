@@ -200,16 +200,6 @@ public class EmailProvider implements Serializable, Comparable<EmailProvider> {
         this.emailSetting = emailSetting;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public int compareTo(EmailProvider o) {
-        return this.getName().compareTo(o.getName());
-    }
-
     /**
      * @return the serverType
      */
@@ -236,5 +226,15 @@ public class EmailProvider implements Serializable, Comparable<EmailProvider> {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    @Override
+    public String toString(){
+        return description;
+    }
+    
+    @Override
+    public int compareTo(EmailProvider o) {
+        return this.getDescription().compareTo(o.getDescription());
     }
 }

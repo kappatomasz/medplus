@@ -10,7 +10,6 @@ import com.kappadev.medplus.data.emailProvider.EmailProviderNameEnum;
 import com.kappadev.medplus.data.emailProvider.EmailProviderService;
 import com.kappadev.medplus.data.emailProvider.IncomingMailServerTypeEnum;
 import com.kappadev.medplus.ui.settings.accounts.AccountsPanel;
-import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,24 +30,20 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
     @Autowired
     private AccountsPanel accountsPanel;
 
-    private List<EmailProvider> emailProviders;
-
     /**
      * Creates new form EmailSettingPopUp
      */
-    public EmailSettingPopUp() {
-        initComponents();
-    }
-
     public void initEmailSettingPopUp() {
         initComponents();
         DefaultComboBoxModel<EmailProvider> emailProvidersComboBoxModel = new DefaultComboBoxModel<>();
-        emailProviders = emailProviderService.getAllEmailProviders();
         emailProvidersComboBox.removeAllItems();
-        for (EmailProvider emailProvider : emailProviders) {
+        for (EmailProvider emailProvider : emailProviderService.getAllEmailProviders()) {
             emailProvidersComboBoxModel.addElement(emailProvider);
         }
         emailProvidersComboBox.setModel(emailProvidersComboBoxModel);
+        if (!mailNotificationsSwitcherCheckBox.isSelected()) {
+            enableAllComponents(false);
+        }
     }
 
     /**
@@ -68,7 +63,7 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         loginTxtFld = new javax.swing.JTextField();
-        emailProvidersComboBox = new javax.swing.JComboBox<>();
+        emailProvidersComboBox = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         passwordTextFld = new javax.swing.JTextField();
@@ -92,6 +87,7 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
         smtpAuthorizationCheckBox = new javax.swing.JCheckBox();
         sameOutAsInCheckBox = new javax.swing.JCheckBox();
         mailNotificationsSwitcherCheckBox = new javax.swing.JCheckBox();
+        accountFromProfileCheckBox = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -247,7 +243,7 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
                         .addComponent(pop3RadioBtn))
                     .addComponent(jLabel6)
                     .addComponent(jLabel8)
-                    .addComponent(incomingSSLcheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(incomingSSLcheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -310,12 +306,9 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
                     .addComponent(smtpSSLcheckBox)
                     .addComponent(smtpPortTxtFld, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel9))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(sameOutAsInCheckBox)
-                .addContainerGap())
+                    .addComponent(jLabel9)
+                    .addComponent(sameOutAsInCheckBox))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +333,18 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
         );
 
         mailNotificationsSwitcherCheckBox.setText(" włącz powiadomienia mailowe");
+        mailNotificationsSwitcherCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mailNotificationsSwitcherCheckBoxActionPerformed(evt);
+            }
+        });
+
+        accountFromProfileCheckBox.setText(" użyj konta podanego w profilu");
+        accountFromProfileCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accountFromProfileCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -356,13 +361,14 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(mailNotificationsSwitcherCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(accountFromProfileCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mailNotificationsSwitcherCheckBox)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,8 +379,10 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(accountFromProfileCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(mailNotificationsSwitcherCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -459,23 +467,53 @@ public class EmailSettingPopUp extends javax.swing.JFrame {
 
     }//GEN-LAST:event_emailProvidersComboBoxPropertyChange
 
+    private void mailNotificationsSwitcherCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mailNotificationsSwitcherCheckBoxActionPerformed
+        if (mailNotificationsSwitcherCheckBox.isSelected()) {
+            enableAllComponents(true);
+        } else {
+            enableAllComponents(false);
+        }
+    }//GEN-LAST:event_mailNotificationsSwitcherCheckBoxActionPerformed
+
+    private void accountFromProfileCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountFromProfileCheckBoxActionPerformed
+
+    }//GEN-LAST:event_accountFromProfileCheckBoxActionPerformed
+
     private void enableEmailProviderComponents(boolean enable) {
         smtpTxtFld.setEnabled(enable);
         smtpPortTxtFld.setEnabled(enable);
-        incomingPortTxtFld.setEnabled(false);
+        incomingPortTxtFld.setEnabled(enable);
         incomingTxtFld.setEnabled(enable);
+    }
+
+    private void enableAllComponents(boolean enable) {
+        accountFromProfileCheckBox.setEnabled(enable);
+        smtpTxtFld.setEnabled(enable);
+        smtpPortTxtFld.setEnabled(enable);
+        incomingPortTxtFld.setEnabled(enable);
+        incomingTxtFld.setEnabled(enable);
+        emailProvidersComboBox.setEnabled(enable);
+        imapRadioBtn.setEnabled(enable);
+        incomingSSLcheckBox.setEnabled(enable);
+        loginTxtFld.setEnabled(enable);
+        passwordTextFld.setEnabled(enable);
+        pop3RadioBtn.setEnabled(enable);
+        incomingSSLcheckBox.setEnabled(enable);
+        smtpSSLcheckBox.setEnabled(enable);
+        smtpAuthorizationCheckBox.setEnabled(enable);
+        sameOutAsInCheckBox.setEnabled(enable);
     }
 
     private void goToAccountsPanel() {
         this.dispose();
-        accountsPanel.initAccountsPanel();
         accountsPanel.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox accountFromProfileCheckBox;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JComboBox<EmailProvider> emailProvidersComboBox;
+    private javax.swing.JComboBox emailProvidersComboBox;
     private javax.swing.JRadioButton imapRadioBtn;
     private javax.swing.JTextField incomingPortTxtFld;
     private javax.swing.JCheckBox incomingSSLcheckBox;

@@ -35,4 +35,9 @@ class ProfileServiceImpl implements ProfileService {
     public void removeProfile(Profile profile) {
         profileRepository.delete(profile);
     }
+
+    @Override
+    public Profile getProfileByName(String name) {
+        return profileRepository.getProfileByName(name);
+    }
 }

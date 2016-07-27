@@ -5,7 +5,6 @@
  */
 package com.kappadev.medplus.ui.settings;
 
-import com.kappadev.medplus.ui.appMenu.AppMenuPanel;
 import com.kappadev.medplus.ui.main.MainMenuPanel;
 import com.kappadev.medplus.ui.settings.accounts.AccountsPanel;
 import com.kappadev.medplus.ui.settings.language.LanguagePanel;

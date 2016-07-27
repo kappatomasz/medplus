@@ -5,6 +5,7 @@
  */
 package com.kappadev.medplus.ui.settings.accounts;
 
+import com.kappadev.medplus.ui.settings.SettingsPanel;
 import com.kappadev.medplus.ui.settings.accounts.email.EmailSettingPopUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ public class AccountsPanel extends javax.swing.JFrame {
 
     @Autowired
     private EmailSettingPopUp emailSettingPopUp;
+    @Autowired
+    private SettingsPanel settingsPanel;
 
     /**
      * Creates new form AccountsPanel
@@ -271,7 +274,8 @@ public class AccountsPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_backBtnMouseEntered
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        settingsPanel.setVisible(true);
     }//GEN-LAST:event_backBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

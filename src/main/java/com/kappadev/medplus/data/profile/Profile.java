@@ -39,6 +39,9 @@ public class Profile implements Serializable {
 
     @Column(name = "email")
     private String email;
+    
+    @Column(name = "role", nullable = false)
+    private String role;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private EmailSetting emailSetting;
@@ -127,6 +130,20 @@ public class Profile implements Serializable {
     @Override
     public String toString() {
         return getName();
+    }
+
+    /**
+     * @return the role
+     */
+    public String getRole() {
+        return role;
+    }
+
+    /**
+     * @param role the role to set
+     */
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }

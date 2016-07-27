@@ -35,6 +35,10 @@ public class SelectProfilePopUp extends javax.swing.JFrame {
 
     public void initSelectProfilePopUp() {
         initComponents();
+        refreshUserComboBox();
+    }
+    
+    public void refreshUserComboBox(){
         profilesComboBox.removeAllItems();
         DefaultComboBoxModel<Profile> comboBoxModel = new DefaultComboBoxModel<>();
         profileList = profileService.getAllProfiles();

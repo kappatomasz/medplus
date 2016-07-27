@@ -211,6 +211,7 @@ public class AddOrUpdateProfilePanel extends javax.swing.JFrame {
             messagePopUp.setVisible(true);
             this.dispose();
             selectProfilePopUp.setVisible(true);
+            selectProfilePopUp.refreshUserComboBox();
         } else {
 
         }
